@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <description>
+FeatureSwitcher is little framework build to support you when you want to introduce feature switches/toggles in your code. @description@
+    </description>
+    <id>@project@</id>
+    <version>@build.number@</version>
+    <authors>@authors@</authors>
+    <owners>@authors@</owners>
+    <language>en-US</language>
+    <summary>A framework for feature toggles/switches. @summary@</summary>
+<!--    <iconUrl>http://github.com/mexx/FeatureSwitcher/raw/dev/FeatureSwitcher.png</iconUrl> -->
+    <projectUrl>http://github.com/mexx/FeatureSwitcher</projectUrl>
+    <licenseUrl>http://github.com/mexx/FeatureSwitcher/raw/dev/License.txt</licenseUrl>
+    <tags>feature toggle switch featureswitch featuretoggle fluent</tags>
+    @dependencies@
+  </metadata>
+</package>

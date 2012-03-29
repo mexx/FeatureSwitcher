@@ -1,0 +1,15 @@
+key.txt
+/Source/*/obj
+/Source/*/bin
+_ReSharper.*
+*.csproj.user
+*.[Rr]e[Ss]harper.user
+*.resharper
+*.suo
+*.cache
+*.user
+*.ncrunch*
+/Build
+/Release
+Source/GlobalAssemblyInfo.cs
+Source/packages
