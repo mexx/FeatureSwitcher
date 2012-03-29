@@ -6,9 +6,7 @@ namespace FeatureSwitcher.Specs
 {
     // ReSharper disable InconsistentNaming
     // ReSharper disable UnusedMember.Local
-    public class Sample : IFeature
-    {
-    }
+    public class Sample : IFeature { }
 
     public class When_no_behavior_configured_sample_feature
     {
