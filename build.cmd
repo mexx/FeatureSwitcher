@@ -7,7 +7,7 @@ SET TARGET="Default"
 
 IF NOT [%1]==[] (set TARGET="%~1")
 
-SET VERSION=""
+SET VERSION=
 
 IF NOT [%2]==[] (set VERSION="%~2")
 
