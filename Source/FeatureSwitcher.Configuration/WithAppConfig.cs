@@ -1,5 +1,4 @@
 using System;
-using System.Configuration;
 using FeatureSwitcher.Configuration;
 
 // ReSharper disable CheckNamespace
@@ -8,58 +7,63 @@ namespace FeatureSwitcher.Behaviors
 {
     public class WithAppConfig : IControlFeatures
     {
-        private readonly Section _configuration;
+        const string FeatureSwitcherConfigurationGroupName = "featureSwitcher";
+
+        private readonly DefaultSection _default;
+        private readonly FeaturesSection _features;
         private readonly bool _ignoreConfigurationErrors;
 
         public WithAppConfig()
-            : this(null, false)
+            : this(null, null, false)
         {
         }
 
         public WithAppConfig(bool ignoreConfigurationErrors)
-            : this(null, ignoreConfigurationErrors)
+            : this(null, null, ignoreConfigurationErrors)
         {
         }
 
-        internal WithAppConfig(Section configuration)
-            : this(configuration, false)
+        internal WithAppConfig(DefaultSection defaultSection, FeaturesSection featuresSection)
+            : this(defaultSection, featuresSection, false)
         {
         }
 
-        internal WithAppConfig(Section configuration, bool ignoreConfigurationErrors)
+        internal WithAppConfig(DefaultSection defaultSection, FeaturesSection featuresSection, bool ignoreConfigurationErrors)
         {
-            _configuration = configuration;
+            _default = defaultSection;
+            _features = featuresSection;
             _ignoreConfigurationErrors = ignoreConfigurationErrors;
         }
 
-        private Section Configuration
+        private DefaultSection DefaultSection
         {
-            get { return _configuration ?? ConfigurationManagerSection; }
+            get { return _default ?? ConfigurationManagerSection<DefaultSection>(SectionGroup.DefaultProperty); }
         }
 
-        private Section ConfigurationManagerSection
+        private FeaturesSection FeaturesSection
         {
-            get
+            get { return _features ?? ConfigurationManagerSection<FeaturesSection>(SectionGroup.FeaturesProperty); }
+        }
+
+        private T ConfigurationManagerSection<T>(string sectionName) where T : System.Configuration.ConfigurationElement, new ()
+        {
+            try
             {
-                Section configuration = null;
-                try
-                {
-                    configuration = ConfigurationManager.GetSection("featureSwitcher") as Section;
-                }
-                catch (ConfigurationErrorsException)
-                {
-                    if (!_ignoreConfigurationErrors)
-                        throw;
-                }
-                return configuration ?? new Section();
+                return (T)System.Configuration.ConfigurationManager.GetSection(string.Format("{0}/{1}", FeatureSwitcherConfigurationGroupName, sectionName)) ?? new T();
             }
+            catch (System.Configuration.ConfigurationErrorsException)
+            {
+                if (!_ignoreConfigurationErrors)
+                    throw;
+            }
+            return new T();
         }
 
         public bool IsEnabled(Type feature)
         {
-            var featureElement = Configuration.Features[feature.FullName];
+            var featureElement = FeaturesSection.Features[feature.FullName];
 
-            return featureElement != null ? featureElement.Enabled : Configuration.EnabledByDefault;
+            return featureElement != null ? featureElement.Enabled : DefaultSection.FeaturesEnabled;
         }
     }
 }

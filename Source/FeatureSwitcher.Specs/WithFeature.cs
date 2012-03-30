@@ -4,13 +4,18 @@ namespace FeatureSwitcher.Specs
 {
     // ReSharper disable InconsistentNaming
     // ReSharper disable UnusedMember.Local
-    public class Simple : IFeature { }
+    public class Simple : IFeature
+    {
+        public static string Name { get { return typeof(Simple).FullName; } }
+    }
 
-    public class Complex : IFeature { }
+    public class Complex : IFeature
+    {
+        public static string Name { get { return typeof(Complex).FullName; } }
+    }
 
     public class WithFeature<T> where T : IFeature
     {
-        protected static string FeatureName { get { return typeof (T).FullName; } }
         protected static bool FeatureEnabled { get; private set; }
 
         Cleanup clean = () => ControlFeatures.Behavior = null;
