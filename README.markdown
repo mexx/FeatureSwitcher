@@ -43,3 +43,7 @@ In the code where you need the switch simply ask FeatureSwitcher if this feature
 By default if no control feature behavior is provided all features are disabled. To provide a behavior simply assign it to ControlFeatures.Behavior.
 
 	ControlFeatures.Behavior = Use.AllFeatures.Enabled;
+	
+# Versioning
+
+For version numbers we follow the [Semantic Versioning Specification](http://semver.org/).
