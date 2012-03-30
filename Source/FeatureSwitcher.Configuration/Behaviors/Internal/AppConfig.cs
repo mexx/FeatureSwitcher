@@ -2,10 +2,10 @@ using System;
 using FeatureSwitcher.Configuration;
 
 // ReSharper disable CheckNamespace
-namespace FeatureSwitcher.Behaviors
+namespace FeatureSwitcher.Behaviors.Internal
 // ReSharper restore CheckNamespace
 {
-    public class WithAppConfig : IControlFeatures
+    class AppConfig : IControlFeatures
     {
         const string FeatureSwitcherConfigurationGroupName = "featureSwitcher";
 
@@ -13,22 +13,22 @@ namespace FeatureSwitcher.Behaviors
         private readonly FeaturesSection _features;
         private readonly bool _ignoreConfigurationErrors;
 
-        public WithAppConfig()
+        public AppConfig()
             : this(null, null, false)
         {
         }
 
-        public WithAppConfig(bool ignoreConfigurationErrors)
+        public AppConfig(bool ignoreConfigurationErrors)
             : this(null, null, ignoreConfigurationErrors)
         {
         }
 
-        internal WithAppConfig(DefaultSection defaultSection, FeaturesSection featuresSection)
+        internal AppConfig(DefaultSection defaultSection, FeaturesSection featuresSection)
             : this(defaultSection, featuresSection, false)
         {
         }
 
-        internal WithAppConfig(DefaultSection defaultSection, FeaturesSection featuresSection, bool ignoreConfigurationErrors)
+        internal AppConfig(DefaultSection defaultSection, FeaturesSection featuresSection, bool ignoreConfigurationErrors)
         {
             _default = defaultSection;
             _features = featuresSection;
@@ -49,7 +49,14 @@ namespace FeatureSwitcher.Behaviors
         {
             try
             {
-                return (T)System.Configuration.ConfigurationManager.GetSection(string.Format("{0}/{1}", FeatureSwitcherConfigurationGroupName, sectionName)) ?? new T();
+                var sectionPath = string.Format("{0}/{1}", FeatureSwitcherConfigurationGroupName, sectionName);
+                var section = (T)System.Configuration.ConfigurationManager.GetSection(sectionPath);
+                if (section != null)
+                    return section;
+                if (_ignoreConfigurationErrors)
+                    return new T();
+
+                throw new System.Configuration.ConfigurationErrorsException(string.Format("Section {0} not found.", sectionPath));
             }
             catch (System.Configuration.ConfigurationErrorsException)
             {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using FeatureSwitcher.Behaviors;
 
 namespace FeatureSwitcher.Examples
 {
@@ -12,7 +11,7 @@ namespace FeatureSwitcher.Examples
     {
         static void Main(string[] args)
         {
-            ControlFeatures.Behavior = new WithAppConfig(true);
+            ControlFeatures.Behavior = Use.SettingsFrom.AppConfig().IgnoreConfigurationErrors();
 
             if (Feature<BlueBackground>.IsEnabled)
                 Console.BackgroundColor = ConsoleColor.Blue;

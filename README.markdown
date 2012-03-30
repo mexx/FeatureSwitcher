@@ -18,11 +18,17 @@ Just download the repository from github and run the build.cmd (or build.NoGit.c
 
 ## Getting FeatureSwitcher via the NuGet package manager
 
-If you've got NuGet installed on your machine it gets even easier. Currently there are 2 packages available on NuGet. These are the framework and the [Bootstraper](http://bootstrapper.codeplex.com/) extension. If you want to use FeatureSwitcher just go ahead and type
+If you've got NuGet installed on your machine it gets even easier. Currently there are two packages available on NuGet. These are the framework and the configuration behavior. If you want to use FeatureSwitcher just go ahead and type
 
     install-package FeatureSwitcher
 
+or for configuration behavior type
+
+    install-package FeatureSwitcher.Configuration
+	
 into the package management console.
+
+It is planned to provide a [Bootstraper](http://bootstrapper.codeplex.com/) extension as NuGet package.
 
 ## How to use it
 
@@ -34,6 +40,6 @@ In the code where you need the switch simply ask FeatureSwitcher if this feature
 
 	Feature<Sample>.IsEnabled
 	
-By default if no control feature behaviour is provided all features are disabled. To provided an behaviour simply assign it to ControlFeatures.Behaviour.
+By default if no control feature behavior is provided all features are disabled. To provide a behavior simply assign it to ControlFeatures.Behavior.
 
-	ControlFeatures.Behaviour = new AllFeaturesEnabledBehaviour();
+	ControlFeatures.Behavior = Use.AllFeatures.Enabled;

@@ -1,4 +1,3 @@
-using FeatureSwitcher.Behaviors;
 using Machine.Specifications;
 
 namespace FeatureSwitcher.Specs
@@ -7,7 +6,7 @@ namespace FeatureSwitcher.Specs
     // ReSharper disable UnusedMember.Local
     public class WithAllFeaturesEnabledBehavior<T> : WithFeature<T> where T : IFeature
     {
-        Establish ctx = () => ControlFeatures.Behavior = new AllFeaturesEnabled(true);
+        Establish ctx = () => ControlFeatures.Behavior = Use.AllFeatures.Enabled;
     }
 
     public class With_all_features_enabled_behavior_simple_feature : WithAllFeaturesEnabledBehavior<Simple>
@@ -22,7 +21,7 @@ namespace FeatureSwitcher.Specs
 
     public class WithAllFeaturesDisabledBehavior<T> : WithFeature<T> where T : IFeature
     {
-        Establish ctx = () => ControlFeatures.Behavior = new AllFeaturesEnabled(false);
+        Establish ctx = () => ControlFeatures.Behavior = Use.AllFeatures.Disabled;
     }
 
     public class With_all_features_disabled_behavior_simple_feature : WithAllFeaturesDisabledBehavior<Simple>

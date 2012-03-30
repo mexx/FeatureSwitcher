@@ -1,4 +1,5 @@
-﻿using FeatureSwitcher.Behaviors;
+﻿using System;
+using FeatureSwitcher.Behaviors.Internal;
 using FeatureSwitcher.Configuration;
 using Machine.Specifications;
 
@@ -6,9 +7,22 @@ namespace FeatureSwitcher.Specs
 {
     // ReSharper disable InconsistentNaming
     // ReSharper disable UnusedMember.Local
+    public class Without_configuration
+    {
+        Establish ctx = () => ControlFeatures.Behavior = Use.SettingsFrom.AppConfig();
+
+        Cleanup clean = () => ControlFeatures.Behavior = null;
+
+        Because of = () => _exception = Catch.Exception(() => { var isEnabled=Feature<Simple>.IsEnabled; });
+
+        It should_throw_a_configuration_errors_exception = () => _exception.ShouldBeOfType<System.Configuration.ConfigurationErrorsException>();
+
+        private static Exception _exception;
+    }
+
     public class Without_configuration_feature : WithFeature<Simple>
     {
-        Establish ctx = () => ControlFeatures.Behavior = new WithAppConfig(true);
+        Establish ctx = () => ControlFeatures.Behavior = Use.SettingsFrom.AppConfig().IgnoreConfigurationErrors();
 
         It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
     }
@@ -22,7 +36,7 @@ namespace FeatureSwitcher.Specs
         {
             DefaultSection = new DefaultSection();
             FeaturesSection = new FeaturesSection();
-            ControlFeatures.Behavior = new WithAppConfig(DefaultSection, FeaturesSection);
+            ControlFeatures.Behavior = new AppConfig(DefaultSection, FeaturesSection);
         };
     }
 
@@ -65,16 +79,16 @@ namespace FeatureSwitcher.Specs
         It should_be_enabled = () => FeatureEnabled.ShouldBeTrue();
     }
 
-    public class When_enabled_by_default_and_feature_not_explicitly_disabled_in_configuration_feature : WithEnabledByDefaultConfiguration<Complex>
+    public class When_enabled_by_default_and_feature_not_explicitly_disabled_in_configuration_feature : WithEnabledByDefaultConfiguration<Simple>
     {
-        Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Simple.Name, Enabled = false });
+        Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Complex.Name, Enabled = false });
 
         It should_be_enabled = () => FeatureEnabled.ShouldBeTrue();
     }
 
-    public class When_disabled_by_default_and_feature_not_explicitly_enabled_in_configuration_feature : WithDisabledByDefaultConfiguration<Complex>
+    public class When_disabled_by_default_and_feature_not_explicitly_enabled_in_configuration_feature : WithDisabledByDefaultConfiguration<Simple>
     {
-        Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Simple.Name, Enabled = true });
+        Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Complex.Name, Enabled = true });
 
         It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
     }

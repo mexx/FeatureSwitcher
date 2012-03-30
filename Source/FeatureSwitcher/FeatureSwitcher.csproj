@@ -40,7 +40,11 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Behaviors\AllFeaturesEnabled.cs" />
+    <Compile Include="Behaviors\Internal\AllFeatures.cs" />
+    <Compile Include="Behaviors\IAllFeaturesBehavior.cs" />
+    <Compile Include="Behaviors\IConfigurableBehavior.cs" />
+    <Compile Include="Use.cs" />
+    <Compile Include="Behaviors\Internal\AllFeaturesBehavior.cs" />
     <Compile Include="ControlFeatures.cs" />
     <Compile Include="IControlFeatures.cs" />
     <Compile Include="IFeature.cs" />

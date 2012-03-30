@@ -48,8 +48,8 @@ let nugetPath = @".\Source\.nuget\NuGet.exe"
 let MSpecVersion = lazy ( GetPackageVersion packagesDir "Machine.Specifications" )
 let mspecTool = lazy( sprintf @".\Source\packages\Machine.Specifications.%s\tools\mspec-clr4.exe" (MSpecVersion.Force()) )
 
-(* flavours *)
-//let FeatureSwitcherVersion = GetPackageVersion packagesDir "FeatureSwitcher"
+(* behaviors *)
+let Behaviors = ["Configuration"]
 
 (* Targets *)
 Target "Clean" (fun _ -> CleanDirs [buildDir; testDir; deployDir; docsDir; testOutputDir] )
@@ -135,34 +135,31 @@ Target "BuildNuGet" (fun _ ->
       |> CopyTo deployDir
 )
 
-(*
-Target "BuildNuGetFlavours" (fun _ ->
-    Flavours
-      |> Seq.iter (fun (flavour) ->
-            let flavourVersion = GetPackageVersion packagesDir flavour
+Target "BuildNuGetBehaviors" (fun _ ->
+    Behaviors
+      |> Seq.iter (fun (behavior) ->
             CleanDirs [nugetDir; nugetLibDir]
 
-            [buildDir + sprintf "Machine.Fakes.Adapters.%s.dll" flavour]
+            [buildDir + sprintf "FeatureSwitcher.%s.dll" behavior]
               |> CopyTo nugetLibDir
 
             NuGet (fun p ->
                 {p with
-                    Authors = if flavour = "NSubstitute" then "Steffen Forkmann" :: authors else authors
-                    Project = sprintf "%s.%s" projectName flavour
-                    Description = sprintf " This is the adapter for %s %s" flavour flavourVersion
+                    ToolPath = nugetPath
+                    Authors = authors
+                    Project = sprintf "%s.%s" projectName behavior
+                    Description = sprintf " This is the %s behavior." behavior
                     Version = version
                     OutputPath = nugetDir
                     Dependencies =
-                        ["Machine.Fakes",RequireExactly (NormalizeVersion version)
-                         flavour,RequireExactly flavourVersion]
+                        [projectName, RequireExactly (NormalizeVersion version)]
                     AccessKey = NugetKey
                     Publish = NugetKey <> "" })
-                "machine.fakes.nuspec"
+                "FeatureSwitcher.nuspec"
 
-            !! (nugetDir + sprintf "Machine.Fakes.%s.*.nupkg" flavour)
+            !! (nugetDir + sprintf "FeatureSwitcher.%s.*.nupkg" behavior)
               |> CopyTo deployDir)
 )
-*)
 
 Target "Default" DoNothing
 Target "Deploy" DoNothing
@@ -175,7 +172,7 @@ Target "Deploy" DoNothing
 //  ==> "GenerateDocumentation"
 //  ==> "ZipDocumentation"
   ==> "BuildNuGet"
-//  ==> "BuildNuGetFlavours"
+  ==> "BuildNuGetBehaviors"
   ==> "Deploy"
   ==> "Default"
 
