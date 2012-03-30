@@ -1,34 +1,36 @@
 using System;
 using System.Configuration;
 
-namespace FeatureSwitcher.Configuration
+namespace FeatureSwitcher.Behaviors
 {
     public class WithAppConfig : IControlFeatures
     {
-        private readonly Configuration _configuration;
+        private readonly Configuration.Configuration _configuration;
 
         public WithAppConfig() : this(null)
         {
         }
 
-        internal WithAppConfig(Configuration configuration)
+        internal WithAppConfig(Configuration.Configuration configuration)
         {
             _configuration = configuration;
         }
 
-        private Configuration Configuration
+        private Configuration.Configuration Configuration
         {
             get
             {
                 return _configuration ??
-                       ConfigurationManager.GetSection("featureSwitcher") as Configuration ??
-                       new Configuration();
+                       ConfigurationManager.GetSection("featureSwitcher") as Configuration.Configuration ??
+                       new Configuration.Configuration();
             }
         }
 
         public bool IsEnabled(Type feature)
         {
-            return Configuration.EnabledByDefault;
+            var featureElement = Configuration.Features[feature.FullName];
+
+            return featureElement != null ? featureElement.Enabled : Configuration.EnabledByDefault;
         }
     }
 }
