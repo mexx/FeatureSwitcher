@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3B2BAC6C-FEB6-4EDF-B4DE-B7A05810C24C}</ProjectGuid>
+    <ProjectGuid>{7622325E-609D-47F4-B7D8-E0172A1A2BDF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FeatureSwitcher.Specs</RootNamespace>
-    <AssemblyName>FeatureSwitcher.Specs</AssemblyName>
+    <RootNamespace>FeatureSwitcher.Configuration</RootNamespace>
+    <AssemblyName>FeatureSwitcher.Configuration</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\Source\</SolutionDir>
@@ -33,35 +33,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Machine.Specifications, Version=0.5.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Machine.Specifications.0.5.6.0\lib\net40\Machine.Specifications.dll</HintPath>
-    </Reference>
-    <Reference Include="Machine.Specifications.Clr4, Version=0.5.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Machine.Specifications.0.5.6.0\lib\net40\Machine.Specifications.Clr4.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WithAllFeaturesEnabledBehavior.cs" />
+    <Compile Include="DefaultSection.cs" />
+    <Compile Include="FeatureElementCollection.cs" />
+    <Compile Include="FeaturesSection.cs" />
+    <Compile Include="FeatureElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WithAppConfigBehavior.cs" />
-    <Compile Include="WithFeature.cs" />
-    <Compile Include="WithoutBehavior.cs" />
+    <Compile Include="SectionGroup.cs" />
+    <Compile Include="WithAppConfig.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FeatureSwitcher.Configuration\FeatureSwitcher.Configuration.csproj">
-      <Project>{7622325E-609D-47F4-B7D8-E0172A1A2BDF}</Project>
-      <Name>FeatureSwitcher.Configuration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FeatureSwitcher\FeatureSwitcher.csproj">
       <Project>{3A2D3A93-5B05-4003-BBAB-13D5E20824EC}</Project>
       <Name>FeatureSwitcher</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
