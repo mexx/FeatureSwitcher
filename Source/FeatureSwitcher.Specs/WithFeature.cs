@@ -8,10 +8,9 @@ namespace FeatureSwitcher.Specs
 
     public class Complex : IFeature { }
 
-    //public class Configuration : IFeature { }
-
     public class WithFeature<T> where T : IFeature
     {
+        protected static string FeatureName { get { return typeof (T).FullName; } }
         protected static bool FeatureEnabled { get; private set; }
 
         Cleanup clean = () => ControlFeatures.Behavior = null;

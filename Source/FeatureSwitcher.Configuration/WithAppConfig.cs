@@ -1,11 +1,14 @@
 using System;
 using System.Configuration;
+using FeatureSwitcher.Configuration;
 
+// ReSharper disable CheckNamespace
 namespace FeatureSwitcher.Behaviors
+// ReSharper restore CheckNamespace
 {
     public class WithAppConfig : IControlFeatures
     {
-        private readonly Configuration.Configuration _configuration;
+        private readonly Section _configuration;
         private readonly bool _ignoreConfigurationErrors;
 
         public WithAppConfig()
@@ -18,37 +21,37 @@ namespace FeatureSwitcher.Behaviors
         {
         }
 
-        internal WithAppConfig(Configuration.Configuration configuration)
+        internal WithAppConfig(Section configuration)
             : this(configuration, false)
         {
         }
 
-        internal WithAppConfig(Configuration.Configuration configuration, bool ignoreConfigurationErrors)
+        internal WithAppConfig(Section configuration, bool ignoreConfigurationErrors)
         {
             _configuration = configuration;
             _ignoreConfigurationErrors = ignoreConfigurationErrors;
         }
 
-        private Configuration.Configuration Configuration
+        private Section Configuration
         {
             get { return _configuration ?? ConfigurationManagerSection; }
         }
 
-        private Configuration.Configuration ConfigurationManagerSection
+        private Section ConfigurationManagerSection
         {
             get
             {
-                Configuration.Configuration configuration = null;
+                Section configuration = null;
                 try
                 {
-                    configuration = ConfigurationManager.GetSection("featureSwitcher") as Configuration.Configuration;
+                    configuration = ConfigurationManager.GetSection("featureSwitcher") as Section;
                 }
                 catch (ConfigurationErrorsException)
                 {
                     if (!_ignoreConfigurationErrors)
                         throw;
                 }
-                return configuration ?? new Configuration.Configuration();
+                return configuration ?? new Section();
             }
         }
 

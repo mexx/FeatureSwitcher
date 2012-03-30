@@ -2,7 +2,7 @@
 
 namespace FeatureSwitcher.Configuration
 {
-    public sealed class Configuration : ConfigurationSection
+    public sealed class Section : ConfigurationSection
     {
         /// <summary>
         /// Indicates the default for features not listed in &lt;features&gt;.
@@ -20,35 +20,21 @@ namespace FeatureSwitcher.Configuration
         [ConfigurationProperty("features")]
         public FeatureElementCollection Features
         {
-            get { return base["features"] as FeatureElementCollection; }
+            get { return (FeatureElementCollection)base["features"]; }
         }
     }
 
     [ConfigurationCollection(typeof(FeatureElement), AddItemName = "feature", CollectionType = ConfigurationElementCollectionType.BasicMap)]
     public sealed class FeatureElementCollection : ConfigurationElementCollection
     {
-/*        
-        public FeatureElement this[int index]
-        {
-            get { return BaseGet(index) as FeatureElement; }
-            set
-            {
-                if (BaseGet(index) != null)
-                {
-                    BaseRemoveAt(index);
-                }
-                BaseAdd(index, value);
-            }
-        }
-*/
         public new FeatureElement this[string name]
         {
-            get { return BaseGet(name) as FeatureElement; }
+            get { return (FeatureElement)BaseGet(name); }
         }
 
         public void Add(FeatureElement feature)
         {
-            base.BaseAdd(feature);
+            BaseAdd(feature);
         }
 
         protected override ConfigurationElement CreateNewElement()
@@ -58,7 +44,7 @@ namespace FeatureSwitcher.Configuration
 
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return (element as FeatureElement).Name;
+            return ((FeatureElement)element).Name;
         }
     }
 
@@ -70,7 +56,7 @@ namespace FeatureSwitcher.Configuration
         [ConfigurationProperty("name", IsRequired = true)]
         public string Name
         {
-            get { return base["name"] as string; }
+            get { return (string)base["name"]; }
             set { base["name"] = value; }
         }
 
