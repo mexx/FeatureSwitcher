@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E2ACB0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureSwitcher.Configuration", "FeatureSwitcher.Configuration\FeatureSwitcher.Configuration.csproj", "{7622325E-609D-47F4-B7D8-E0172A1A2BDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureSwitcher.Examples", "FeatureSwitcher.Examples\FeatureSwitcher.Examples.csproj", "{E4727D47-E8DA-4730-8B04-01014ECDE524}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{7622325E-609D-47F4-B7D8-E0172A1A2BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7622325E-609D-47F4-B7D8-E0172A1A2BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7622325E-609D-47F4-B7D8-E0172A1A2BDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4727D47-E8DA-4730-8B04-01014ECDE524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4727D47-E8DA-4730-8B04-01014ECDE524}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4727D47-E8DA-4730-8B04-01014ECDE524}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4727D47-E8DA-4730-8B04-01014ECDE524}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
