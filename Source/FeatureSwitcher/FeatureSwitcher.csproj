@@ -40,6 +40,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Behaviors\AllFeaturesEnabled.cs" />
     <Compile Include="ControlFeatures.cs" />
     <Compile Include="IControlFeatures.cs" />
     <Compile Include="IFeature.cs" />
