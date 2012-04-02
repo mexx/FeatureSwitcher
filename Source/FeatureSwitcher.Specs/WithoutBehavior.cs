@@ -12,11 +12,15 @@ namespace FeatureSwitcher.Specs
     public class Without_behavior_simple_feature : WithoutBehavior<Simple>
     {
         It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
+
+        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
     }
 
     public class Without_behavior_complex_feature : WithoutBehavior<Complex>
     {
         It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
+
+        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Complex().IsEnabled());
     }
     // ReSharper restore UnusedMember.Local
     // ReSharper restore InconsistentNaming

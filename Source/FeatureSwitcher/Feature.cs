@@ -14,4 +14,15 @@ namespace FeatureSwitcher
             get { return ControlFeatures.IsEnabled(typeof (T)); }
         }
     }
+
+    /// <summary>
+    /// Extension methods for a feature.
+    /// </summary>
+    public static class Feature
+    {
+        public static bool IsEnabled(this IFeature This)
+        {
+            return ControlFeatures.IsEnabled(This.GetType());
+        }
+    }
 }

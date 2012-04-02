@@ -25,6 +25,8 @@ namespace FeatureSwitcher.Specs
         Establish ctx = () => ControlFeatures.Behavior = Use.SettingsFrom.AppConfig().IgnoreConfigurationErrors();
 
         It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
+
+        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
     }
 
     public class WithConfiguration<T> : WithFeature<T> where T : IFeature
@@ -58,11 +60,15 @@ namespace FeatureSwitcher.Specs
     public class When_enabled_by_default_in_configuration_feature : WithEnabledByDefaultConfiguration<Simple>
     {
         It should_be_enabled = () => FeatureEnabled.ShouldBeTrue();
+
+        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
     }
 
     public class When_disabled_by_default_in_configuration_feature : WithDisabledByDefaultConfiguration<Simple>
     {
         It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
+
+        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
     }
 
     public class When_enabled_by_default_and_feature_explicitly_disabled_in_configuration_feature : WithEnabledByDefaultConfiguration<Simple>
@@ -70,6 +76,8 @@ namespace FeatureSwitcher.Specs
         Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Simple.Name, Enabled = false });
 
         It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
+
+        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
     }
 
     public class When_disabled_by_default_and_feature_explicitly_enabled_in_configuration_feature : WithDisabledByDefaultConfiguration<Simple>
@@ -77,6 +85,8 @@ namespace FeatureSwitcher.Specs
         Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Simple.Name, Enabled = true });
 
         It should_be_enabled = () => FeatureEnabled.ShouldBeTrue();
+
+        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
     }
 
     public class When_enabled_by_default_and_feature_not_explicitly_disabled_in_configuration_feature : WithEnabledByDefaultConfiguration<Simple>
@@ -84,6 +94,8 @@ namespace FeatureSwitcher.Specs
         Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Complex.Name, Enabled = false });
 
         It should_be_enabled = () => FeatureEnabled.ShouldBeTrue();
+
+        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
     }
 
     public class When_disabled_by_default_and_feature_not_explicitly_enabled_in_configuration_feature : WithDisabledByDefaultConfiguration<Simple>
@@ -91,6 +103,8 @@ namespace FeatureSwitcher.Specs
         Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Complex.Name, Enabled = true });
 
         It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
+
+        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
     }
     // ReSharper restore UnusedMember.Local
     // ReSharper restore InconsistentNaming
