@@ -43,6 +43,10 @@
     <Compile Include="Behaviors\Internal\AllFeatures.cs" />
     <Compile Include="Behaviors\IAllFeaturesBehavior.cs" />
     <Compile Include="Behaviors\IConfigurableBehavior.cs" />
+    <Compile Include="NamingConventions\Internal\FeatureNameFor.cs" />
+    <Compile Include="NamingConventions\Internal\ProvideFeatureNameForTypes.cs" />
+    <Compile Include="IProvideFeatureNames.cs" />
+    <Compile Include="NamingConventions\IProvideFeatureNameForTypes.cs" />
     <Compile Include="Use.cs" />
     <Compile Include="Behaviors\Internal\AllFeaturesBehavior.cs" />
     <Compile Include="ControlFeatures.cs" />

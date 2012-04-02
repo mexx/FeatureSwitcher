@@ -1,5 +1,3 @@
-using System;
-
 namespace FeatureSwitcher
 {
     /// <summary>
@@ -10,8 +8,8 @@ namespace FeatureSwitcher
         /// <summary>
         /// Controls whether the feature is enabled or disabled.
         /// </summary>
-        /// <param name="feature">The type of the feature</param>
+        /// <param name="feature">The name of the feature.</param>
         /// <returns><c>true</c> if feature is enabled, <c>false</c> otherwise.</returns>
-        bool IsEnabled(Type feature);
+        bool IsEnabled(string feature);
     }
 }

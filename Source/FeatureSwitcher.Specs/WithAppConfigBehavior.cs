@@ -34,7 +34,7 @@ namespace FeatureSwitcher.Specs
         protected static DefaultSection DefaultSection { get; private set; }
         protected static FeaturesSection FeaturesSection { get; private set; }
 
-        private Establish ctx = () =>        
+        Establish ctx = () =>        
         {
             DefaultSection = new DefaultSection();
             FeaturesSection = new FeaturesSection();
@@ -73,7 +73,7 @@ namespace FeatureSwitcher.Specs
 
     public class When_enabled_by_default_and_feature_explicitly_disabled_in_configuration_feature : WithEnabledByDefaultConfiguration<Simple>
     {
-        Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Simple.Name, Enabled = false });
+        Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Simple.FullName, Enabled = false });
 
         It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
 
@@ -82,7 +82,7 @@ namespace FeatureSwitcher.Specs
 
     public class When_disabled_by_default_and_feature_explicitly_enabled_in_configuration_feature : WithDisabledByDefaultConfiguration<Simple>
     {
-        Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Simple.Name, Enabled = true });
+        Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Simple.FullName, Enabled = true });
 
         It should_be_enabled = () => FeatureEnabled.ShouldBeTrue();
 
@@ -91,7 +91,7 @@ namespace FeatureSwitcher.Specs
 
     public class When_enabled_by_default_and_feature_not_explicitly_disabled_in_configuration_feature : WithEnabledByDefaultConfiguration<Simple>
     {
-        Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Complex.Name, Enabled = false });
+        Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Complex.FullName, Enabled = false });
 
         It should_be_enabled = () => FeatureEnabled.ShouldBeTrue();
 
@@ -100,7 +100,7 @@ namespace FeatureSwitcher.Specs
 
     public class When_disabled_by_default_and_feature_not_explicitly_enabled_in_configuration_feature : WithDisabledByDefaultConfiguration<Simple>
     {
-        Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Complex.Name, Enabled = true });
+        Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Complex.FullName, Enabled = true });
 
         It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
 

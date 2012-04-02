@@ -1,4 +1,3 @@
-using System;
 using FeatureSwitcher.Configuration;
 
 // ReSharper disable CheckNamespace
@@ -66,9 +65,9 @@ namespace FeatureSwitcher.Behaviors.Internal
             return new T();
         }
 
-        public bool IsEnabled(Type feature)
+        public bool IsEnabled(string feature)
         {
-            var featureElement = FeaturesSection.Features[feature.FullName];
+            var featureElement = FeaturesSection.Features[feature];
 
             return featureElement != null ? featureElement.Enabled : DefaultSection.FeaturesEnabled;
         }

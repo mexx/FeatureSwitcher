@@ -8,7 +8,7 @@ namespace FeatureSwitcher.Behaviors.Internal
     {
         private readonly Lazy<AppConfig> _implementation = new Lazy<AppConfig>(true);
 
-        public bool IsEnabled(Type feature)
+        public bool IsEnabled(string feature)
         {
             return _implementation.Value.IsEnabled(feature);
         }

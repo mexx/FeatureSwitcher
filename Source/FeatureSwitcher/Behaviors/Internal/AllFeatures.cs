@@ -1,5 +1,3 @@
-using System;
-
 namespace FeatureSwitcher.Behaviors.Internal
 {
     class AllFeatures : IControlFeatures
@@ -11,7 +9,7 @@ namespace FeatureSwitcher.Behaviors.Internal
             _enabled = enabled;
         }
 
-        public bool IsEnabled(Type feature)
+        public bool IsEnabled(string feature)
         {
             return _enabled;
         }
