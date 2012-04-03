@@ -36,14 +36,29 @@ Create a class that name your feature and implement the IFeature interface.
 
 	public class Sample : IFeature {}
 	
-In the code where you need the switch simply ask FeatureSwitcher if this feature is enabled.
+In the code where you need the switch simply ask FeatureSwitcher if this feature is enabled or disabled
 
 	Feature<Sample>.IsEnabled
+	Feature<Sample>.IsDisabled
+
+If your have an instance of your feature and want to check it is enabled or disabled
+
+	instance.IsEnabled()
+	instance.IsDisabled()
+
+You can even filter a list of features very simple
+
+	list.Where(Feature.IsEnabled)
+	list.Where(Feature.IsDisabled)
 	
 By default if no control feature behavior is provided all features are disabled. To provide a behavior simply assign it to ControlFeatures.Behavior.
 
 	ControlFeatures.Behavior = Use.AllFeatures.Enabled;
-	
+
+By default if no naming strategy is provided fullname of the type is used. To provide an own strategy simply assign it to ControlFeatures.Name.
+
+	ControlFeatures.Name = Use.Type.Name;
+
 # Versioning
 
 For version numbers we follow the [Semantic Versioning Specification](http://semver.org/).
