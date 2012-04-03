@@ -4,23 +4,19 @@ namespace FeatureSwitcher.Specs
 {
     // ReSharper disable InconsistentNaming
     // ReSharper disable UnusedMember.Local
-    public class WithoutBehavior<T> : WithFeature<T> where T : IFeature
+    public class WithoutBehavior : WithCleanUp
     {
         Establish ctx = () => ControlFeatures.Behavior = null;
     }
 
-    public class Without_behavior_simple_feature : WithoutBehavior<Simple>
+    public class Without_behavior_simple_feature : WithoutBehavior
     {
-        It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
-
-        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
+        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
     }
 
-    public class Without_behavior_complex_feature : WithoutBehavior<Complex>
+    public class Without_behavior_complex_feature : WithoutBehavior
     {
-        It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
-
-        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Complex().IsEnabled());
+        Behaves_like<DisabledComplexFeatureBehavior> a_disabled_feature;
     }
     // ReSharper restore UnusedMember.Local
     // ReSharper restore InconsistentNaming

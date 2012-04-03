@@ -13,23 +13,23 @@ namespace FeatureSwitcher.Specs
 
         Cleanup clean = () => ControlFeatures.Behavior = null;
 
+        // ReSharper disable UnusedVariable
         Because of = () => _exception = Catch.Exception(() => { var isEnabled=Feature<Simple>.IsEnabled; });
+        // ReSharper restore UnusedVariable
 
         It should_throw_a_configuration_errors_exception = () => _exception.ShouldBeOfType<System.Configuration.ConfigurationErrorsException>();
 
         private static Exception _exception;
     }
 
-    public class Without_configuration_feature : WithFeature<Simple>
+    public class Without_configuration_feature : WithCleanUp
     {
         Establish ctx = () => ControlFeatures.Behavior = Use.SettingsFrom.AppConfig().IgnoreConfigurationErrors();
 
-        It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
-
-        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
+        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
     }
 
-    public class WithConfiguration<T> : WithFeature<T> where T : IFeature
+    public class WithConfiguration : WithCleanUp
     {
         protected static DefaultSection DefaultSection { get; private set; }
         protected static FeaturesSection FeaturesSection { get; private set; }
@@ -42,69 +42,57 @@ namespace FeatureSwitcher.Specs
         };
     }
 
-    public class With_default_configuration_feature : WithConfiguration<Simple>
+    public class With_default_configuration_feature : WithConfiguration
     {
-        It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
+        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
     }
 
-    public class WithEnabledByDefaultConfiguration<T> : WithConfiguration<T> where T : IFeature
+    public class WithEnabledByDefaultConfiguration : WithConfiguration
     {
         Establish ctx = () => DefaultSection.FeaturesEnabled = true;
     }
 
-    public class WithDisabledByDefaultConfiguration<T> : WithConfiguration<T> where T : IFeature
+    public class WithDisabledByDefaultConfiguration : WithConfiguration
     {
         Establish ctx = () => DefaultSection.FeaturesEnabled = false;
     }
 
-    public class When_enabled_by_default_in_configuration_feature : WithEnabledByDefaultConfiguration<Simple>
+    public class When_enabled_by_default_in_configuration_feature : WithEnabledByDefaultConfiguration
     {
-        It should_be_enabled = () => FeatureEnabled.ShouldBeTrue();
-
-        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
+        Behaves_like<EnabledSimpleFeatureBehavior> an_enabled_feature;
     }
 
-    public class When_disabled_by_default_in_configuration_feature : WithDisabledByDefaultConfiguration<Simple>
+    public class When_disabled_by_default_in_configuration_feature : WithDisabledByDefaultConfiguration
     {
-        It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
-
-        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
+        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
     }
 
-    public class When_enabled_by_default_and_feature_explicitly_disabled_in_configuration_feature : WithEnabledByDefaultConfiguration<Simple>
+    public class When_enabled_by_default_and_feature_explicitly_disabled_in_configuration_feature : WithEnabledByDefaultConfiguration
     {
         Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Simple.FullName, Enabled = false });
 
-        It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
-
-        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
+        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
     }
 
-    public class When_disabled_by_default_and_feature_explicitly_enabled_in_configuration_feature : WithDisabledByDefaultConfiguration<Simple>
+    public class When_disabled_by_default_and_feature_explicitly_enabled_in_configuration_feature : WithDisabledByDefaultConfiguration
     {
         Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Simple.FullName, Enabled = true });
 
-        It should_be_enabled = () => FeatureEnabled.ShouldBeTrue();
-
-        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
+        Behaves_like<EnabledSimpleFeatureBehavior> an_enabled_feature;
     }
 
-    public class When_enabled_by_default_and_feature_not_explicitly_disabled_in_configuration_feature : WithEnabledByDefaultConfiguration<Simple>
+    public class When_enabled_by_default_and_feature_not_explicitly_disabled_in_configuration_feature : WithEnabledByDefaultConfiguration
     {
         Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Complex.FullName, Enabled = false });
 
-        It should_be_enabled = () => FeatureEnabled.ShouldBeTrue();
-
-        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
+        Behaves_like<EnabledSimpleFeatureBehavior> an_enabled_feature;
     }
 
-    public class When_disabled_by_default_and_feature_not_explicitly_enabled_in_configuration_feature : WithDisabledByDefaultConfiguration<Simple>
+    public class When_disabled_by_default_and_feature_not_explicitly_enabled_in_configuration_feature : WithDisabledByDefaultConfiguration
     {
         Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Complex.FullName, Enabled = true });
 
-        It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
-
-        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
+        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
     }
     // ReSharper restore UnusedMember.Local
     // ReSharper restore InconsistentNaming

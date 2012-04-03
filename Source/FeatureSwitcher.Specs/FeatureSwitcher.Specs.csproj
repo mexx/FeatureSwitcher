@@ -44,10 +44,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestBehaviors.cs" />
     <Compile Include="WithAllFeaturesEnabledBehavior.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WithAppConfigBehavior.cs" />
-    <Compile Include="WithFeature.cs" />
+    <Compile Include="TestFeatures.cs" />
+    <Compile Include="WithCleanUp.cs" />
     <Compile Include="WithNamingConvention.cs" />
     <Compile Include="WithoutBehavior.cs" />
   </ItemGroup>

@@ -4,42 +4,34 @@ namespace FeatureSwitcher.Specs
 {
     // ReSharper disable InconsistentNaming
     // ReSharper disable UnusedMember.Local
-    public class WithAllFeaturesEnabledBehavior<T> : WithFeature<T> where T : IFeature
+    public class WithAllFeaturesEnabledBehavior : WithCleanUp
     {
         Establish ctx = () => ControlFeatures.Behavior = Use.AllFeatures.Enabled;
     }
 
-    public class With_all_features_enabled_behavior_simple_feature : WithAllFeaturesEnabledBehavior<Simple>
+    public class With_all_features_enabled_behavior_simple_feature : WithAllFeaturesEnabledBehavior
     {
-        It should_be_enabled = () => FeatureEnabled.ShouldBeTrue();
-
-        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
+        Behaves_like<EnabledSimpleFeatureBehavior> an_enabled_feature;
     }
 
-    public class With_all_features_enabled_behavior_complex_feature : WithAllFeaturesEnabledBehavior<Complex>
+    public class With_all_features_enabled_behavior_complex_feature : WithAllFeaturesEnabledBehavior
     {
-        It should_be_enabled = () => FeatureEnabled.ShouldBeTrue();
-
-        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Complex().IsEnabled());
+        Behaves_like<EnabledComplexFeatureBehavior> an_enabled_feature;
     }
 
-    public class WithAllFeaturesDisabledBehavior<T> : WithFeature<T> where T : IFeature
+    public class WithAllFeaturesDisabledBehavior : WithCleanUp
     {
         Establish ctx = () => ControlFeatures.Behavior = Use.AllFeatures.Disabled;
     }
 
-    public class With_all_features_disabled_behavior_simple_feature : WithAllFeaturesDisabledBehavior<Simple>
+    public class With_all_features_disabled_behavior_simple_feature : WithAllFeaturesDisabledBehavior
     {
-        It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
-
-        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Simple().IsEnabled());
+        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
     }
 
-    public class With_all_features_disabled_behavior_complex_feature : WithAllFeaturesDisabledBehavior<Complex>
+    public class With_all_features_disabled_behavior_complex_feature : WithAllFeaturesDisabledBehavior
     {
-        It should_be_disabled = () => FeatureEnabled.ShouldBeFalse();
-
-        It should_be_same_state_as_non_generic = () => FeatureEnabled.ShouldEqual(new Complex().IsEnabled());
+        Behaves_like<DisabledComplexFeatureBehavior> a_disabled_feature;
     }
     // ReSharper restore UnusedMember.Local
     // ReSharper restore InconsistentNaming

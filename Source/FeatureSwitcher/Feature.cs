@@ -13,6 +13,14 @@ namespace FeatureSwitcher
         {
             get { return ControlFeatures.IsEnabled(typeof (T)); }
         }
+
+        /// <summary>
+        /// Gets whether the feature is disabled
+        /// </summary>
+        public static bool IsDisabled
+        {
+            get { return !IsEnabled; }
+        }
     }
 
     /// <summary>
@@ -20,9 +28,20 @@ namespace FeatureSwitcher
     /// </summary>
     public static class Feature
     {
+        /// <summary>
+        /// Gets whether the feature is enabled
+        /// </summary>
         public static bool IsEnabled(this IFeature This)
         {
             return ControlFeatures.IsEnabled(This.GetType());
+        }
+        
+        /// <summary>
+        /// Gets whether the feature is disabled
+        /// </summary>
+        public static bool IsDisabled(this IFeature This)
+        {
+            return !IsEnabled(This);
         }
     }
 }
