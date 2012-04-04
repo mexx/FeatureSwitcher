@@ -5,18 +5,18 @@ namespace FeatureSwitcher.Configuration
 {
     internal static class Control
     {
-        private static readonly ControlContext Default = new ControlContext();
-        private static readonly IDictionary<IContext, ControlContext> Contexts = new Dictionary<IContext, ControlContext>();
+        private static readonly ControlFeatures Default = new ControlFeatures();
+        private static readonly IDictionary<IContext, ControlFeatures> Contexts = new Dictionary<IContext, ControlFeatures>();
 
-        internal static ControlContext For(IContext context)
+        internal static ControlFeatures For(IContext context)
         {
             if (context == Context.Default)
                 return Default;
 
-            ControlContext result;
+            ControlFeatures result;
             if (!Contexts.TryGetValue(context, out result))
             {
-                result = new ControlContext();
+                result = new ControlFeatures();
                 Contexts.Add(context, result);
             }
             return result;

@@ -3,7 +3,7 @@ using FeatureSwitcher.Behaviors.Internal;
 
 namespace FeatureSwitcher.Configuration
 {
-    internal class ControlContext: IConfigureBehavior, IConfigureNaming
+    internal class ControlFeatures: IConfigureBehavior, IConfigureNaming
     {
         private IControlFeatures _behavior;
         private IProvideFeatureNames _naming;
