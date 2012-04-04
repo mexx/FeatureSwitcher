@@ -1,4 +1,5 @@
 using System;
+using ContextSwitcher;
 using FeatureSwitcher.Configuration;
 
 namespace FeatureSwitcher
@@ -14,17 +15,17 @@ namespace FeatureSwitcher
         /// </summary>
         public static IControlFeatures Behavior
         {
-            get { return Control.For(Context.Default).Behavior; }
-            set { Control.For(Context.Default).Behavior = value; }
+            get { return Control.For<IContext>().Behavior; }
+            set { Control.For<IContext>().Behavior = value; }
         }
 
         /// <summary>
         /// Gets and sets the provider for feature names to be used.
         /// </summary>
-        public static IProvideFeatureNames Name
+        public static IProvideNaming Name
         {
-            get { return Control.For(Context.Default).Naming; }
-            set { Control.For(Context.Default).Naming = value; }
+            get { return Control.For<IContext>().Naming; }
+            set { Control.For<IContext>().Naming = value; }
         }
 
         internal static bool IsEnabled(Type feature)

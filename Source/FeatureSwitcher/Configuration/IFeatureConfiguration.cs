@@ -1,13 +1,12 @@
+using ContextSwitcher;
+
 namespace FeatureSwitcher.Configuration
 {
-    public interface IFeatureConfiguration
+    public interface IFeatureConfiguration<TContext> where TContext : IContext
     {
-        IFeatureConfiguration AlwaysEnabled();
-        IFeatureConfiguration AlwaysDisabled();
+        IFeatureConfiguration<TContext> And { get; }
 
-        IFeatureConfiguration And { get; }
-
-        IConfigureNaming NamedBy { get; }
-        IConfigureBehavior ConfiguredBy { get; }
+        IConfigureNaming<TContext> NamedBy { get; }
+        IConfigureBehavior<TContext> ConfiguredBy { get; }
     }
 }

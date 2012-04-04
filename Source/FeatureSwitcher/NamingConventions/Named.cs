@@ -1,18 +1,18 @@
-using System;
+using ContextSwitcher;
 
 namespace FeatureSwitcher.Configuration
 {
     public static class Named
     {
-        public static IFeatureConfiguration TypeFullName(this IConfigureNaming This)
+        public static IFeatureConfiguration<TContext> TypeFullName<TContext>(this IConfigureNaming<TContext> This) where TContext : IContext
         {
-            This.Naming = Use.Type.FullName;
+            This.Set(Use.Type.FullName);
             return null;
         }
 
-        public static IFeatureConfiguration TypeName(this IConfigureNaming This)
+        public static IFeatureConfiguration<TContext> TypeName<TContext>(this IConfigureNaming<TContext> This) where TContext : IContext
         {
-            This.Naming = Use.Type.Name;
+            This.Set(Use.Type.Name);
             return null;
         }
     }

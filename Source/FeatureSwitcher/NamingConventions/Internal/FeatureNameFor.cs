@@ -2,11 +2,11 @@ using System;
 
 namespace FeatureSwitcher.NamingConventions.Internal
 {
-    class ProvideFeatureName : IProvideFeatureNames
+    class ProvideNaming : IProvideNaming
     {
         private readonly Func<Type, string> _nameFor;
 
-        public ProvideFeatureName(Func<Type, string> nameFor)
+        public ProvideNaming(Func<Type, string> nameFor)
         {
             _nameFor = nameFor;
         }

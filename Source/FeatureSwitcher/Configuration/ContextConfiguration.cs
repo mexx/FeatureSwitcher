@@ -1,57 +1,73 @@
 using System;
+using ContextSwitcher;
 using FeatureSwitcher.Behaviors.Internal;
 
 namespace FeatureSwitcher.Configuration
 {
-    public sealed class ContextConfiguration
+    public static class InContexts
     {
-        private readonly IContext _context;
-
-        internal ContextConfiguration(IContext context)
+        public static ContextConfiguration<T> OfType<T>() where T : IContext
         {
-            _context = context;
-        }
-
-        public IFeatureConfiguration WithFeatures
-        {
-            get { return new FeatureConfigurationFor(_context); }
+            return new ContextConfiguration<T>();
         }
     }
 
-    internal class FeatureConfigurationFor : IFeatureConfiguration
+    public sealed class ContextConfiguration<TContext> where TContext : IContext
     {
-        private readonly IContext _context;
+        internal ContextConfiguration() {}
 
-        public FeatureConfigurationFor(IContext context)
+        public IFeatureConfiguration<TContext> WithFeatures
         {
-            _context = context;
+            get { return new FeatureConfigurationFor<TContext>(); }
+        }
+    }
+
+    public static class Always
+    {
+        public static IFeatureConfiguration<TContext> AlwaysEnabled<TContext>(this IFeatureConfiguration<TContext> This) where TContext : IContext
+        {
+            This.ConfiguredBy.Set(AllFeatures.Enabled);
+            return This;
         }
 
-        public IFeatureConfiguration AlwaysEnabled()
+        public static IFeatureConfiguration<TContext> AlwaysDisabled<TContext>(this IFeatureConfiguration<TContext> This) where TContext : IContext
         {
-            ConfiguredBy.Behavior = AllFeatures.Enabled;
-            return this;
+            This.ConfiguredBy.Set(AllFeatures.Disabled);
+            return This;
         }
+    }
 
-        public IFeatureConfiguration AlwaysDisabled()
-        {
-            ConfiguredBy.Behavior = AllFeatures.Disabled;
-            return this;
-        }
-
-        public IFeatureConfiguration And
+    internal class FeatureConfigurationFor<TContext> : IFeatureConfiguration<TContext> where TContext : IContext
+    {
+        public IFeatureConfiguration<TContext> And
         {
             get { return this; }
         }
 
-        public IConfigureNaming NamedBy
+        public IConfigureNaming<TContext> NamedBy
         {
-            get { return Control.For(_context); }
+            get { return new ConfigureNaming<TContext>(); }
         }
 
-        public IConfigureBehavior ConfiguredBy
+        public IConfigureBehavior<TContext> ConfiguredBy
         {
-            get { return Control.For(_context); }
+            get { return new ConfigureBehavior<TContext>(); }
+        }
+    }
+
+    internal class ConfigureBehavior<TContext> : IConfigureBehavior<TContext> where TContext : IContext
+    {
+        public void Set(IControlFeatures value)
+        {
+            Control.For<TContext>().Behavior = value;
+        }
+    }
+
+    internal class ConfigureNaming<TContext> : IConfigureNaming<TContext> where TContext : IContext
+    {
+        public void Set(IProvideNaming value)
+        {
+            Control.For<TContext>().Naming = value;
         }
     }
 }

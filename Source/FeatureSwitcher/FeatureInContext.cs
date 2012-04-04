@@ -1,12 +1,13 @@
+using ContextSwitcher;
 using FeatureSwitcher.Configuration;
 
 namespace FeatureSwitcher
 {
-    public sealed class FeatureInContext<T> where T : IFeature
+    public sealed class FeatureInContext<T, TContext> where T : IFeature where TContext : IContext
     {
-        private readonly IContext _context;
+        private readonly TContext _context;
 
-        internal FeatureInContext(IContext context)
+        internal FeatureInContext(TContext context)
         {
             _context = context;
         }

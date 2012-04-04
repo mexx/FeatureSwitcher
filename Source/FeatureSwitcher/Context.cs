@@ -1,17 +1,32 @@
+using ContextSwitcher;
+
 namespace FeatureSwitcher
 {
-    public static class Context
+    public static class InContext
     {
-        public static readonly IContext Default = null;
+        public static FeatureContext<TContext> Of<TContext>(TContext context) where TContext : IContext
+        {
+            return new FeatureContext<TContext>(context);
+        }
+    }
 
-        public static FeatureInContext<T> Feature<T>(this IContext This) where T: IFeature
-        {            
-            return new FeatureInContext<T>(This);
+    public sealed class FeatureContext<T> where T : IContext
+    {
+        private readonly T _context;
+
+        public FeatureContext(T context)
+        {
+            _context = context;
         }
 
-        public static FeatureInContext<T> Feature<T>(this IContext This, T feature) where T : IFeature
+        public FeatureInContext<TFeature, T> Feature<TFeature>() where TFeature : IFeature
         {
-            return new FeatureInContext<T>(This);
+            return new FeatureInContext<TFeature, T>(_context);
+        }
+
+        public FeatureInContext<TFeature, T> Feature<TFeature>(TFeature feature) where TFeature : IFeature
+        {
+            return new FeatureInContext<TFeature, T>(_context);
         }
     }
 }

@@ -13,7 +13,6 @@ namespace FeatureSwitcher.Configuration
             AllFeatures = new AllFeaturesBehavior();
             SettingsFrom = null;
             Type = new ProvideFeatureNameForTypes();
-            Context = new ContextConfigurations();
         }
 
         [Obsolete("may be")]
@@ -24,8 +23,5 @@ namespace FeatureSwitcher.Configuration
 
         [Obsolete("may be")]
         public static IProvideFeatureNameForTypes Type { get; private set; }
-
-
-        public static ContextConfigurations Context { get; private set; }
     }
 }

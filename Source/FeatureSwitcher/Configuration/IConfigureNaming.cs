@@ -1,7 +1,9 @@
+using ContextSwitcher;
+
 namespace FeatureSwitcher.Configuration
 {
-    public interface IConfigureNaming
+    public interface IConfigureNaming<TContext> where TContext : IContext
     {
-        IProvideFeatureNames Naming { get; set; }
+        void Set(IProvideNaming value);
     }
 }

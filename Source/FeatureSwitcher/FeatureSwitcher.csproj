@@ -44,7 +44,6 @@
     <Compile Include="Behaviors\IConfigurableBehavior.cs" />
     <Compile Include="Configuration\ByDefault.cs" />
     <Compile Include="Configuration\ContextConfiguration.cs" />
-    <Compile Include="Configuration\ContextConfigurations.cs" />
     <Compile Include="Configuration\Control.cs" />
     <Compile Include="Configuration\ControlContext.cs" />
     <Compile Include="Configuration\IConfigureBehavior.cs" />
@@ -56,7 +55,7 @@
     <Compile Include="IContext.cs" />
     <Compile Include="NamingConventions\Internal\FeatureNameFor.cs" />
     <Compile Include="NamingConventions\Internal\ProvideFeatureNameForTypes.cs" />
-    <Compile Include="Configuration\IProvideFeatureNames.cs" />
+    <Compile Include="Configuration\IProvideNaming.cs" />
     <Compile Include="NamingConventions\IProvideFeatureNameForTypes.cs" />
     <Compile Include="Configuration\Use.cs" />
     <Compile Include="Behaviors\Internal\AllFeaturesBehavior.cs" />

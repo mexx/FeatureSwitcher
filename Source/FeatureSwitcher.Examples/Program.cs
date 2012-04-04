@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using ContextSwitcher;
 using FeatureSwitcher.Configuration;
 
 namespace FeatureSwitcher.Examples
@@ -39,6 +40,7 @@ namespace FeatureSwitcher.Examples
                 NamedBy.TypeFullName().And.
                 AlwaysEnabled();
 
+            InContexts.OfType<BusinessBranch>().FeaturesAre.ConfiguredBy.Test();
 
             Use.Context[BusinessBranch.HQ].WithFeatures.
                 AlwaysDisabled();
@@ -98,17 +100,17 @@ namespace FeatureSwitcher.Examples
 
             var a = Feature<TestNamed>.IsEnabled;
 //            var b = Context.Default.Feature<TestNamed>().IsEnabled;
-            var c = branch.Feature<TestNamed>().IsEnabled;
+            var c = InContext.Of(branch).Feature<TestNamed>().IsEnabled;
 
             var d = named.IsEnabled();
 //            var e = Context.Default.Feature(named).IsEnabled;
-            var f = branch.Feature(named).IsEnabled;
+            var f = InContext.Of(branch).Feature(named).IsEnabled;
 
             var features = new IFeature[] {new Myth(), new BlueBackground()};
             foreach (var feature in features.
                 Where(Feature.IsEnabled).
 //                Where(x => Default.Context.Feature(x).IsEnabled).
-                Where(x => branch.Feature(x).IsEnabled))
+                Where(x => InContext.Of(branch).Feature(x).IsEnabled))
             {
                 feature.IsEnabled();
             }

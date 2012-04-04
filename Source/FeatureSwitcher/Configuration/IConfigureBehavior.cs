@@ -1,7 +1,9 @@
+using ContextSwitcher;
+
 namespace FeatureSwitcher.Configuration
 {
-    public interface IConfigureBehavior
+    public interface IConfigureBehavior<TContext> where TContext : IContext
     {
-        IControlFeatures Behavior { get; set; }
+        void Set(IControlFeatures value);
     }
 }

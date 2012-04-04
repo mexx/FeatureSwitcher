@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
+using ContextSwitcher;
 
 namespace FeatureSwitcher.Configuration
 {
     internal static class Control
     {
         private static readonly ControlFeatures Default = new ControlFeatures();
-        private static readonly IDictionary<IContext, ControlFeatures> Contexts = new Dictionary<IContext, ControlFeatures>();
+        private static readonly IDictionary<Type, ControlFeatures> Contexts = new Dictionary<Type, ControlFeatures>();
 
-        internal static ControlFeatures For(IContext context)
+        internal static ControlFeatures<TContext> For<TContext>() where TContext : IContext
         {
-            if (context == Context.Default)
+            var context = typeof (TContext);
+            if (context == typeof(IContext))
                 return Default;
 
             ControlFeatures result;
@@ -22,9 +24,9 @@ namespace FeatureSwitcher.Configuration
             return result;
         }
 
-        internal static bool IsEnabled(IContext context, Type feature)
+        internal static bool IsEnabled<TContext>(TContext context, Type feature) where TContext : IContext
         {
-            return For(context).IsEnabled(feature);
+            return For<TContext>().IsEnabled(context, feature);
         }
     }
 }

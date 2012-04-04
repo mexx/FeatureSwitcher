@@ -4,11 +4,11 @@ namespace FeatureSwitcher.NamingConventions.Internal
     {
         public ProvideFeatureNameForTypes()
         {
-            FullName = new ProvideFeatureName(t => t.FullName);
-            Name = new ProvideFeatureName(t => t.Name);
+            FullName = new ProvideNaming(t => t.FullName);
+            Name = new ProvideNaming(t => t.Name);
         }
 
-        public IProvideFeatureNames FullName { get; private set; }
-        public IProvideFeatureNames Name { get; private set; }
+        public IProvideNaming FullName { get; private set; }
+        public IProvideNaming Name { get; private set; }
     }
 }
