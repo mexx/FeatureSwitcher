@@ -1,3 +1,4 @@
+using FeatureSwitcher.Configuration;
 using Machine.Specifications;
 
 namespace FeatureSwitcher.Specs
@@ -8,8 +9,8 @@ namespace FeatureSwitcher.Specs
     {
         Cleanup clean = () =>
                             {
-                                ControlFeatures.Behavior = null;
-                                ControlFeatures.Name = null;
+                                ByDefault.FeaturesAre.AlwaysDisabled();
+                                ByDefault.FeaturesAre.NamedBy.TypeFullName();
                             };
     }
     // ReSharper restore UnusedMember.Local

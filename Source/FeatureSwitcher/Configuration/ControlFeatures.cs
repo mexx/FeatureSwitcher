@@ -1,28 +1,21 @@
 using System;
+using FeatureSwitcher.Configuration;
 
 namespace FeatureSwitcher
 {
     /// <summary>
     /// Provides the possibility to specify the control features behaviour to be used.
-    /// </summary>
+    /// </summary>    
+    [Obsolete("may be")]
     public static class ControlFeatures
     {
-        private static IControlFeatures _behavior;
-        private static IProvideFeatureNames _name;
-
-        static ControlFeatures()
-        {
-            Behavior = null;
-            Name = null;
-        }
-
         /// <summary>
         /// Gets and sets the control features behaviour to be used.
         /// </summary>
         public static IControlFeatures Behavior
         {
-            get { return _behavior; }
-            set { _behavior = value ?? Use.AllFeatures.Disabled; }
+            get { return Control.For(Context.Default).Behavior; }
+            set { Control.For(Context.Default).Behavior = value; }
         }
 
         /// <summary>
@@ -30,8 +23,8 @@ namespace FeatureSwitcher
         /// </summary>
         public static IProvideFeatureNames Name
         {
-            get { return _name; }
-            set { _name = value ?? Use.Type.FullName; }
+            get { return Control.For(Context.Default).Naming; }
+            set { Control.For(Context.Default).Naming = value; }
         }
 
         internal static bool IsEnabled(Type feature)

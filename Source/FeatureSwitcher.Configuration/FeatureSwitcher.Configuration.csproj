@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\AppConfigExtensions.cs" />
+    <Compile Include="Behaviors\ByAppConfig.cs" />
     <Compile Include="DefaultSection.cs" />
     <Compile Include="FeatureElementCollection.cs" />
     <Compile Include="FeaturesSection.cs" />

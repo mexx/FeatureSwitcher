@@ -7,11 +7,9 @@ namespace FeatureSwitcher.Specs
 {
     // ReSharper disable InconsistentNaming
     // ReSharper disable UnusedMember.Local
-    public class Without_configuration
+    public class Without_configuration : WithCleanUp
     {
-        Establish ctx = () => ControlFeatures.Behavior = Use.SettingsFrom.AppConfig();
-
-        Cleanup clean = () => ControlFeatures.Behavior = null;
+        Establish ctx = () => ByDefault.FeaturesAre.ConfiguredBy.AppConfig();
 
         // ReSharper disable UnusedVariable
         Because of = () => _exception = Catch.Exception(() => { var isEnabled=Feature<Simple>.IsEnabled; });
@@ -24,7 +22,7 @@ namespace FeatureSwitcher.Specs
 
     public class Without_configuration_feature : WithCleanUp
     {
-        Establish ctx = () => ControlFeatures.Behavior = Use.SettingsFrom.AppConfig().IgnoreConfigurationErrors();
+        Establish ctx = () => ByDefault.FeaturesAre.ConfiguredBy.AppConfig().IgnoreConfigurationErrors();
 
         Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
     }
@@ -38,7 +36,7 @@ namespace FeatureSwitcher.Specs
         {
             DefaultSection = new DefaultSection();
             FeaturesSection = new FeaturesSection();
-            ControlFeatures.Behavior = new AppConfig(DefaultSection, FeaturesSection);
+            ByDefault.FeaturesAre.ConfiguredBy.AppConfig(DefaultSection, FeaturesSection);
         };
     }
 

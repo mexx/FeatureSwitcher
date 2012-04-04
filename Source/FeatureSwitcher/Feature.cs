@@ -11,7 +11,7 @@ namespace FeatureSwitcher
         /// </summary>
         public static bool IsEnabled
         {
-            get { return ControlFeatures.IsEnabled(typeof (T)); }
+            get { return Context.Default.Feature<T>().IsEnabled; }
         }
 
         /// <summary>
@@ -31,17 +31,17 @@ namespace FeatureSwitcher
         /// <summary>
         /// Gets whether the feature is enabled
         /// </summary>
-        public static bool IsEnabled(this IFeature This)
+        public static bool IsEnabled<T>(this T This) where T : IFeature
         {
-            return ControlFeatures.IsEnabled(This.GetType());
+            return Feature<T>.IsEnabled;
         }
-        
+
         /// <summary>
         /// Gets whether the feature is disabled
         /// </summary>
-        public static bool IsDisabled(this IFeature This)
+        public static bool IsDisabled<T>(this T This) where T : IFeature
         {
-            return !IsEnabled(This);
+            return Feature<T>.IsDisabled;
         }
     }
 }
