@@ -11,9 +11,9 @@ namespace FeatureSwitcher.NamingConventions.Internal
             _nameFor = nameFor;
         }
 
-        public string For(Type feature)
+        public string For<TFeature>() where TFeature : IFeature
         {
-            return _nameFor(feature);
+            return _nameFor(typeof(TFeature));
         }
     }
 }

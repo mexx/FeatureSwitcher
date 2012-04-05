@@ -40,22 +40,19 @@ namespace FeatureSwitcher.Examples
                 NamedBy.TypeFullName().And.
                 AlwaysEnabled();
 
-            InContexts.OfType<BusinessBranch>().FeaturesAre.ConfiguredBy.Test();
-
-            Use.Context[BusinessBranch.HQ].WithFeatures.
+            InContexts.OfType<BusinessBranch>().FeaturesAre.
                 AlwaysDisabled();
 
-            Use.Context[BusinessBranch.HQ].WithFeatures.
+            InContexts.OfType<BusinessBranch>().FeaturesAre.
                 AlwaysEnabled().And.
                 NamedBy.TypeFullName();
 
-            Use.Context[BusinessBranch.HQ].WithFeatures.
+            InContexts.OfType<BusinessBranch>().FeaturesAre.
                 NamedBy.TypeName();
 
-            Use.Context[BusinessBranch.HQ].WithFeatures.
+            InContexts.OfType<BusinessBranch>().FeaturesAre.
                 NamedBy.TypeName().And.
                 AlwaysEnabled();
-
 
             ByDefault.FeaturesAre.
                 ConfiguredBy.AppConfig().And.
@@ -87,6 +84,12 @@ namespace FeatureSwitcher.Examples
                 NamedBy.TypeFullName().And.
                 ConfiguredBy.AppConfig().UsingConfigSectionGroup("featureSwitcher.hq");
 
+            ByDefault.FeaturesAre.
+                HandledByDefault();
+
+            ByDefault.FeaturesAre.
+                ConfiguredBy.AppConfig().IgnoreConfigurationErrors();
+
             if (Feature<BlueBackground>.IsEnabled)
                 Console.BackgroundColor = ConsoleColor.Blue;
 
@@ -99,20 +102,23 @@ namespace FeatureSwitcher.Examples
             var named = new TestNamed();
 
             var a = Feature<TestNamed>.IsEnabled;
-//            var b = Context.Default.Feature<TestNamed>().IsEnabled;
             var c = InContext.Of(branch).Feature<TestNamed>().IsEnabled;
 
             var d = named.IsEnabled();
-//            var e = Context.Default.Feature(named).IsEnabled;
             var f = InContext.Of(branch).Feature(named).IsEnabled;
 
             var features = new IFeature[] {new Myth(), new BlueBackground()};
             foreach (var feature in features.
                 Where(Feature.IsEnabled).
-//                Where(x => Default.Context.Feature(x).IsEnabled).
-                Where(x => InContext.Of(branch).Feature(x).IsEnabled))
+                Where(InContext.Of(branch).FeatureIsEnabled))
             {
                 feature.IsEnabled();
+            }
+
+            foreach (var feature in features.
+                Select(InContext.Of(branch).Feature))
+            {
+                var b = feature.IsEnabled;
             }
         }
     }

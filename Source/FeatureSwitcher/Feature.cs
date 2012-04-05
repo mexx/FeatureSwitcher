@@ -1,3 +1,5 @@
+using ContextSwitcher;
+
 namespace FeatureSwitcher
 {
     /// <summary>

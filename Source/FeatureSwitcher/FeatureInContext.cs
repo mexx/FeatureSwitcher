@@ -14,7 +14,7 @@ namespace FeatureSwitcher
 
         public bool IsEnabled
         {
-            get { return Control.IsEnabled(_context, typeof(T)); }
+            get { return Control.IsEnabled<T, TContext>(_context); }
         }
 
         public bool IsDisabled

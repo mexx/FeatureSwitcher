@@ -2,8 +2,9 @@ using ContextSwitcher;
 
 namespace FeatureSwitcher.Configuration
 {
-    public interface IConfigureNaming<TContext> where TContext : IContext
+    public interface IConfigureNaming<out TContext> where TContext : IContext
     {
-        void Set(IProvideNaming value);
+        IFeatureConfiguration<TContext> Custom(ISupportContextFor<IProvideNaming, TContext> value);
+        IFeatureConfiguration<TContext> Custom(IProvideNaming value);
     }
 }

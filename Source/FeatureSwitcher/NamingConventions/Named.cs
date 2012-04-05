@@ -6,14 +6,12 @@ namespace FeatureSwitcher.Configuration
     {
         public static IFeatureConfiguration<TContext> TypeFullName<TContext>(this IConfigureNaming<TContext> This) where TContext : IContext
         {
-            This.Set(Use.Type.FullName);
-            return null;
+            return This.Custom(Use.Type.FullName);
         }
 
         public static IFeatureConfiguration<TContext> TypeName<TContext>(this IConfigureNaming<TContext> This) where TContext : IContext
         {
-            This.Set(Use.Type.Name);
-            return null;
+            return This.Custom(Use.Type.Name);
         }
     }
 }

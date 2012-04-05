@@ -2,7 +2,7 @@ using ContextSwitcher;
 
 namespace FeatureSwitcher.Configuration
 {
-    public interface IFeatureConfiguration<TContext> where TContext : IContext
+    public interface IFeatureConfiguration<out TContext> where TContext : IContext
     {
         IFeatureConfiguration<TContext> And { get; }
 

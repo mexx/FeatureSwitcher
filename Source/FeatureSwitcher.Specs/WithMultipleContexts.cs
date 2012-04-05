@@ -1,4 +1,5 @@
 using ContextSwitcher;
+using FeatureSwitcher.Behaviors.Internal;
 using FeatureSwitcher.Configuration;
 using Machine.Specifications;
 
@@ -6,31 +7,46 @@ namespace FeatureSwitcher.Specs
 {
     // ReSharper disable InconsistentNaming
     // ReSharper disable UnusedMember.Local
-    public class TestConfiguration : ISupportContextFor<IControlFeatures, BusinessBranch>
+    public class TestConfiguration : ISupportContextFor<IControlFeatures, BusinessBranch>, ISupportContextFor<IProvideNaming, BusinessBranch>
     {
-        public IControlFeatures With(BusinessBranch context)
+        IControlFeatures ISupportContextFor<IControlFeatures, BusinessBranch>.With(BusinessBranch context)
         {
-            return null;
+            return AllFeatures.Enabled;
         }
-    }
 
-    public static class TestConfigurationExtensions
-    {
-        public static void Test(this IConfigureBehavior<BusinessBranch> This)
+        IProvideNaming ISupportContextFor<IProvideNaming, BusinessBranch>.With(BusinessBranch context)
         {
-//            This.Behavior = new TestConfiguration();
+            return Use.Type.Name;
         }
     }
 
     public class WithMultipleContexts : WithCleanUp
     {
-//        Establish ctx = () => InContexts.OfType<BusinessBranch>().FeaturesAre.ConfiguredBy.Test();
+        Establish ctx = () => InContexts.OfType<BusinessBranch>().FeaturesAre.
+            ConfiguredBy.Custom(new TestConfiguration()).And.
+            NamedBy.Custom(new TestConfiguration());
 
-//        Cleanup cleanup = () => InContexts.OfType<BusinessBranch>().FeaturesAre.HandledByDefault();
+        Cleanup cleanup = () => InContexts.OfType<BusinessBranch>().FeaturesAre.
+            HandledByDefault();
 
         Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
 
         Behaves_like<EnabledSimpleFeatureInHeadquatersBehavior> an_enabled_feature;
+    }
+
+    public class Syntax_sugar : WithCleanUp
+    {
+        Because of = () => ByDefault.FeaturesAre.
+            NamedBy.TypeName().And.
+            NamedBy.TypeFullName().And.
+            ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).And.
+            ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).IgnoreConfigurationErrors().And.
+            ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).IgnoreConfigurationErrors().UsingConfigSectionGroup("test").And.
+            AlwaysDisabled().And.
+            AlwaysEnabled().And.
+            HandledByDefault();
+
+        It should_not_fail = () => true.ShouldBeTrue();
     }
     // ReSharper restore UnusedMember.Local
     // ReSharper restore InconsistentNaming

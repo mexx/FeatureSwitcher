@@ -1,57 +1,66 @@
 using System;
 using ContextSwitcher;
-using FeatureSwitcher.Behaviors;
 using FeatureSwitcher.Behaviors.Internal;
 
 namespace FeatureSwitcher.Configuration
 {
     public static class ByAppConfig
     {
-        public static ConfigureBehaviorAppConfig AppConfig(this IConfigureBehavior<IContext> This)
+        public static ConfigureBehaviorAppConfig<TContext> AppConfig<TContext>(this IConfigureBehavior<TContext> This) where TContext : IContext
         {
-            return new ConfigureBehaviorAppConfig(This);
+            return new ConfigureBehaviorAppConfig<TContext>(This);
         }
 
-        public static ConfigureBehaviorAppConfig UsingConfigSectionGroup(this ConfigureBehaviorAppConfig This, string name)
+        internal static ConfigureBehaviorAppConfig<TContext> AppConfig<TContext>(this IConfigureBehavior<TContext> This, DefaultSection defaultSection, FeaturesSection featuresSection) where TContext : IContext
         {
-            throw new NotImplementedException();
-        }
-
-        internal static void AppConfig(this IConfigureBehavior<IContext> This, DefaultSection defaultSection, FeaturesSection featuresSection)
-        {
-            This.Set(new AppConfig(defaultSection, featuresSection));
+            return new ConfigureBehaviorAppConfig<TContext>(This, defaultSection, featuresSection);
         }
     }
 
-    public sealed class ConfigureBehaviorAppConfig : IFeatureConfiguration<IContext>
+    public sealed class ConfigureBehaviorAppConfig<TContext> : IFeatureConfiguration<TContext> where TContext : IContext
     {
-        private readonly IConfigureBehavior<IContext> _control;
-        private readonly IControlFeaturesWithAppConfig _controlFeaturesWithAppConfig;
+        private readonly IConfigureBehavior<TContext> _control;
+        private readonly AppConfig _appConfig;
+        private readonly IFeatureConfiguration<TContext> _configuration;
 
-        public ConfigureBehaviorAppConfig(IConfigureBehavior<IContext> control)
+        public ConfigureBehaviorAppConfig(IConfigureBehavior<TContext> control)
+            :this(control, new AppConfig())
+        {
+        }
+
+        public ConfigureBehaviorAppConfig(IConfigureBehavior<TContext> control, DefaultSection defaultSection, FeaturesSection featuresSection)
+            : this(control, new AppConfig(defaultSection, featuresSection))
+        {
+        }
+
+        private ConfigureBehaviorAppConfig(IConfigureBehavior<TContext> control, AppConfig appConfig)
         {
             _control = control;
-            _controlFeaturesWithAppConfig = Use.SettingsFrom.AppConfig();
-            _control.Set(_controlFeaturesWithAppConfig);
+            _appConfig = appConfig;
+            _configuration = _control.Custom(_appConfig);
         }
 
-        public ConfigureBehaviorAppConfig IgnoreConfigurationErrors()
+        public ConfigureBehaviorAppConfig<TContext> IgnoreConfigurationErrors()
         {
-            _control.Set(_controlFeaturesWithAppConfig.IgnoreConfigurationErrors());
-            return this;
+            return new ConfigureBehaviorAppConfig<TContext>(_control, _appConfig.IgnoreConfigurationErrors());
         }
 
-        public IFeatureConfiguration<IContext> And
+        public ConfigureBehaviorAppConfig<TContext> UsingConfigSectionGroup(string name)
+        {
+            return new ConfigureBehaviorAppConfig<TContext>(_control, _appConfig.UseConfigSectionGroup(name));
+        }
+
+        public IFeatureConfiguration<TContext> And
+        {
+            get { return _configuration; }
+        }
+
+        public IConfigureNaming<TContext> NamedBy
         {
             get { throw new NotImplementedException(); }
         }
 
-        public IConfigureNaming<IContext> NamedBy
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IConfigureBehavior<IContext> ConfiguredBy
+        public IConfigureBehavior<TContext> ConfiguredBy
         {
             get { throw new NotImplementedException(); }
         }

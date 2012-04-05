@@ -2,8 +2,9 @@ using ContextSwitcher;
 
 namespace FeatureSwitcher.Configuration
 {
-    public interface IConfigureBehavior<TContext> where TContext : IContext
+    public interface IConfigureBehavior<out TContext> where TContext : IContext
     {
-        void Set(IControlFeatures value);
+        IFeatureConfiguration<TContext> Custom(ISupportContextFor<IControlFeatures, TContext> value);
+        IFeatureConfiguration<TContext> Custom(IControlFeatures value);
     }
 }

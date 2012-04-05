@@ -59,7 +59,6 @@
     <Compile Include="NamingConventions\IProvideFeatureNameForTypes.cs" />
     <Compile Include="Configuration\Use.cs" />
     <Compile Include="Behaviors\Internal\AllFeaturesBehavior.cs" />
-    <Compile Include="Configuration\ControlFeatures.cs" />
     <Compile Include="Configuration\IControlFeatures.cs" />
     <Compile Include="IFeature.cs" />
     <Compile Include="Feature.cs" />

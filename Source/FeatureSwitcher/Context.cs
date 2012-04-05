@@ -19,12 +19,17 @@ namespace FeatureSwitcher
             _context = context;
         }
 
-        public FeatureInContext<TFeature, T> Feature<TFeature>() where TFeature : IFeature
+        public bool FeatureIsEnabled<TFeature>(TFeature feature) where TFeature : IFeature
         {
-            return new FeatureInContext<TFeature, T>(_context);
+            return Feature(feature).IsEnabled;
         }
 
         public FeatureInContext<TFeature, T> Feature<TFeature>(TFeature feature) where TFeature : IFeature
+        {
+            return Feature<TFeature>();
+        }
+
+        public FeatureInContext<TFeature, T> Feature<TFeature>() where TFeature : IFeature
         {
             return new FeatureInContext<TFeature, T>(_context);
         }
