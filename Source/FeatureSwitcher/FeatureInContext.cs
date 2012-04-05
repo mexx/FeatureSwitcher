@@ -1,4 +1,3 @@
-using ContextSwitcher;
 using FeatureSwitcher.Configuration;
 
 namespace FeatureSwitcher

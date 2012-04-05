@@ -1,4 +1,4 @@
-﻿namespace ContextSwitcher
+﻿namespace FeatureSwitcher
 {
     public interface IContext
     {
@@ -9,23 +9,31 @@
         public static readonly IContext Default = null;
     }
 
-    public interface ISupportContextFor<out TResult, in TContext> where TContext : IContext
+    public interface IInContextOf<in T, out TResult> where T : IContext
     {
-        TResult With(TContext context);
+        TResult With(T context);
     }
 
-    public sealed class NoContextSupport<T, TContext> : ISupportContextFor<T, TContext> where TContext : IContext
+    public static class NoContext<T> where T : IContext
     {
-        private readonly T _result;
-
-        public NoContextSupport(T result)
+        public static IInContextOf<T, TResult> SupportFor<TResult>(TResult result)
         {
-            _result = result;
+            return new NoContextSupport<T, TResult>(result);
         }
 
-        public T With(TContext context)
+        private sealed class NoContextSupport<TContext, TResult> : IInContextOf<TContext, TResult> where TContext : IContext
         {
-            return _result;
+            private readonly TResult _result;
+
+            public NoContextSupport(TResult result)
+            {
+                _result = result;
+            }
+
+            public TResult With(TContext context)
+            {
+                return _result;
+            }
         }
     }
 }

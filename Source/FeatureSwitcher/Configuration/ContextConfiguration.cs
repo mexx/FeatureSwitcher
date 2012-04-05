@@ -1,22 +1,20 @@
-using System;
-using ContextSwitcher;
 using FeatureSwitcher.Behaviors.Internal;
 
 namespace FeatureSwitcher.Configuration
 {
     public static class InContexts
     {
-        public static ContextConfiguration<T> OfType<T>() where T : IContext
+        public static ConfigurationFor<TContext> OfType<TContext>() where TContext : IContext
         {
-            return new ContextConfiguration<T>();
+            return new ConfigurationFor<TContext>();
         }
     }
 
-    public sealed class ContextConfiguration<TContext> where TContext : IContext
+    public sealed class ConfigurationFor<TContext> where TContext : IContext
     {
-        internal ContextConfiguration() {}
+        internal ConfigurationFor() {}
 
-        public IFeatureConfiguration<TContext> FeaturesAre
+        public IConfigureFeaturesFor<TContext> FeaturesAre
         {
             get { return new FeatureConfigurationFor<TContext>(); }
         }
@@ -24,83 +22,83 @@ namespace FeatureSwitcher.Configuration
 
     public static class Default
     {
-        public static void HandledByDefault<TContext>(this IFeatureConfiguration<TContext> This) where TContext : IContext
+        public static void HandledByDefault<TContext>(this IConfigureFeaturesFor<TContext> This) where TContext : IContext
         {
-            This.ConfiguredBy.Custom((ISupportContextFor<IControlFeatures, TContext>) null);
-            This.NamedBy.Custom((ISupportContextFor<IProvideNaming, TContext>) null);
+            This.ConfiguredBy.Custom((IInContextOf<TContext, IControlFeatures>)null);
+            This.NamedBy.Custom((IInContextOf<TContext, IProvideNaming>)null);
         }
     }
 
     public static class Always
     {
-        public static IFeatureConfiguration<TContext> AlwaysEnabled<TContext>(this IFeatureConfiguration<TContext> This) where TContext : IContext
+        public static IConfigureFeaturesFor<TContext> AlwaysEnabled<TContext>(this IConfigureFeaturesFor<TContext> This) where TContext : IContext
         {
             return This.ConfiguredBy.Custom(AllFeatures.Enabled);
         }
 
-        public static IFeatureConfiguration<TContext> AlwaysDisabled<TContext>(this IFeatureConfiguration<TContext> This) where TContext : IContext
+        public static IConfigureFeaturesFor<TContext> AlwaysDisabled<TContext>(this IConfigureFeaturesFor<TContext> This) where TContext : IContext
         {
             return This.ConfiguredBy.Custom(AllFeatures.Disabled);
         }
     }
 
-    internal class FeatureConfigurationFor<TContext> : IFeatureConfiguration<TContext> where TContext : IContext
+    internal class FeatureConfigurationFor<TContext> : IConfigureFeaturesFor<TContext> where TContext : IContext
     {
-        public IFeatureConfiguration<TContext> And
+        public IConfigureFeaturesFor<TContext> And
         {
             get { return this; }
         }
 
-        public IConfigureNaming<TContext> NamedBy
+        public IConfigureNamingIn<TContext> NamedBy
         {
-            get { return new ConfigureNaming<TContext>(this); }
+            get { return new ConfigureNamingIn<TContext>(this); }
         }
 
-        public IConfigureBehavior<TContext> ConfiguredBy
+        public IConfigureBehaviorIn<TContext> ConfiguredBy
         {
-            get { return new ConfigureBehavior<TContext>(this); }
+            get { return new ConfigureBehaviorIn<TContext>(this); }
         }
     }
 
-    internal class ConfigureBehavior<TContext> : IConfigureBehavior<TContext> where TContext : IContext
+    internal class ConfigureBehaviorIn<TContext> : IConfigureBehaviorIn<TContext> where TContext : IContext
     {
         private readonly FeatureConfigurationFor<TContext> _featureConfigurationFor;
 
-        public ConfigureBehavior(FeatureConfigurationFor<TContext> featureConfigurationFor)
+        public ConfigureBehaviorIn(FeatureConfigurationFor<TContext> featureConfigurationFor)
         {
             _featureConfigurationFor = featureConfigurationFor;
         }
 
-        public IFeatureConfiguration<TContext> Custom(ISupportContextFor<IControlFeatures, TContext> value)
+        public IConfigureFeaturesFor<TContext> Custom(IInContextOf<TContext, IControlFeatures> value)
         {
             Control.ConfigFor<TContext>().Set(value);
             return _featureConfigurationFor;
         }
 
-        public IFeatureConfiguration<TContext> Custom(IControlFeatures value)
+        public IConfigureFeaturesFor<TContext> Custom(IControlFeatures value)
         {
-            return Custom(new NoContextSupport<IControlFeatures, TContext>(value));
+            return Custom(NoContext<TContext>.SupportFor(value));
         }
     }
 
-    internal class ConfigureNaming<TContext> : IConfigureNaming<TContext> where TContext : IContext
+    internal class ConfigureNamingIn<TContext> : IConfigureNamingIn<TContext> where TContext : IContext
     {
         private readonly FeatureConfigurationFor<TContext> _featureConfigurationFor;
 
-        public ConfigureNaming(FeatureConfigurationFor<TContext> featureConfigurationFor)
+        public ConfigureNamingIn(FeatureConfigurationFor<TContext> featureConfigurationFor)
         {
             _featureConfigurationFor = featureConfigurationFor;
         }
 
-        public IFeatureConfiguration<TContext> Custom(ISupportContextFor<IProvideNaming, TContext> value)
+        public IConfigureFeaturesFor<TContext> Custom(IInContextOf<TContext, IProvideNaming> value)
         {
             Control.ConfigFor<TContext>().Set(value);
             return _featureConfigurationFor;
         }
 
-        public IFeatureConfiguration<TContext> Custom(IProvideNaming value)
+        public IConfigureFeaturesFor<TContext> Custom(IProvideNaming value)
         {
-            return Custom(new NoContextSupport<IProvideNaming, TContext>(value));
+            return Custom(NoContext<TContext>.SupportFor(value));
         }
     }
 }

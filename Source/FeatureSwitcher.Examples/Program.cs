@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using ContextSwitcher;
 using FeatureSwitcher.Configuration;
 
 namespace FeatureSwitcher.Examples

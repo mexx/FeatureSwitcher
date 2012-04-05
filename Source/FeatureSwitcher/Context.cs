@@ -1,5 +1,3 @@
-using ContextSwitcher;
-
 namespace FeatureSwitcher
 {
     public static class InContext

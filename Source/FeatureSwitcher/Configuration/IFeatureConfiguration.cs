@@ -1,12 +1,10 @@
-using ContextSwitcher;
-
 namespace FeatureSwitcher.Configuration
 {
-    public interface IFeatureConfiguration<out TContext> where TContext : IContext
+    public interface IConfigureFeaturesFor<out TContext> where TContext : IContext
     {
-        IFeatureConfiguration<TContext> And { get; }
+        IConfigureFeaturesFor<TContext> And { get; }
 
-        IConfigureNaming<TContext> NamedBy { get; }
-        IConfigureBehavior<TContext> ConfiguredBy { get; }
+        IConfigureNamingIn<TContext> NamedBy { get; }
+        IConfigureBehaviorIn<TContext> ConfiguredBy { get; }
     }
 }

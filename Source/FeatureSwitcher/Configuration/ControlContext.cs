@@ -1,4 +1,3 @@
-using ContextSwitcher;
 using FeatureSwitcher.Behaviors.Internal;
 
 namespace FeatureSwitcher.Configuration
@@ -10,48 +9,40 @@ namespace FeatureSwitcher.Configuration
 
     internal interface IControlContexts<out TContext> where TContext : IContext
     {
-        void Set(ISupportContextFor<IControlFeatures, TContext> value);
-        void Set(ISupportContextFor<IProvideNaming, TContext> naming);
+        void Set(IInContextOf<TContext, IControlFeatures> value);
+        void Set(IInContextOf<TContext, IProvideNaming> naming);
     }
 
     internal class ControlContexts<TContext> : IControlContexts<TContext>, IControlFeatureInContexts<TContext> where TContext : IContext
     {
-        private ISupportContextFor<IControlFeatures, TContext> _behavior;
-        private ISupportContextFor<IProvideNaming, TContext> _naming;
+        private IInContextOf<TContext, IControlFeatures> _behavior;
+        private IInContextOf<TContext, IProvideNaming> _naming;
 
         public bool IsEnabled<TFeature>(TContext context) where TFeature : IFeature
         {
             return ControlFeaturesFor(context).IsEnabled(NamingFor(context).For<TFeature>());
         }
 
-        public void Set(ISupportContextFor<IControlFeatures, TContext> value)
+        public void Set(IInContextOf<TContext, IControlFeatures> value)
         {
             _behavior = value;
         }
 
-        public void Set(ISupportContextFor<IProvideNaming, TContext> naming)
+        public void Set(IInContextOf<TContext, IProvideNaming> naming)
         {
             _naming = naming;
         }
 
         private IControlFeatures ControlFeaturesFor(TContext context)
         {
-            return Behavior().With(context) ?? AllFeatures.Disabled;
+            var result = _behavior != null ? _behavior.With(context) : null;
+            return result ?? AllFeatures.Disabled;
         }
 
         private IProvideNaming NamingFor(TContext context)
         {
-            return Naming().With(context) ?? Use.Type.FullName;
-        }
-
-        private ISupportContextFor<IControlFeatures, TContext> Behavior()
-        {
-            return _behavior ?? new NoContextSupport<IControlFeatures, TContext>(AllFeatures.Disabled);
-        }
-
-        private ISupportContextFor<IProvideNaming, TContext> Naming()
-        {
-            return _naming ?? new NoContextSupport<IProvideNaming, TContext>(Use.Type.FullName);
+            var result = _naming != null ? _naming.With(context) : null;
+            return result ?? Use.Type.FullName;
         }
     }
 }

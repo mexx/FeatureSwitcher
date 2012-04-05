@@ -1,4 +1,3 @@
-using ContextSwitcher;
 using FeatureSwitcher.Behaviors.Internal;
 using FeatureSwitcher.Configuration;
 using Machine.Specifications;
@@ -7,14 +6,14 @@ namespace FeatureSwitcher.Specs
 {
     // ReSharper disable InconsistentNaming
     // ReSharper disable UnusedMember.Local
-    public class TestConfiguration : ISupportContextFor<IControlFeatures, BusinessBranch>, ISupportContextFor<IProvideNaming, BusinessBranch>
+    public class TestConfiguration : IInContextOf<BusinessBranch, IControlFeatures>, IInContextOf<BusinessBranch, IProvideNaming>
     {
-        IControlFeatures ISupportContextFor<IControlFeatures, BusinessBranch>.With(BusinessBranch context)
+        IControlFeatures IInContextOf<BusinessBranch, IControlFeatures>.With(BusinessBranch context)
         {
             return AllFeatures.Enabled;
         }
 
-        IProvideNaming ISupportContextFor<IProvideNaming, BusinessBranch>.With(BusinessBranch context)
+        IProvideNaming IInContextOf<BusinessBranch, IProvideNaming>.With(BusinessBranch context)
         {
             return Use.Type.Name;
         }

@@ -1,5 +1,3 @@
-using ContextSwitcher;
-
 namespace FeatureSwitcher
 {
     /// <summary>
@@ -13,7 +11,7 @@ namespace FeatureSwitcher
         /// </summary>
         public static bool IsEnabled
         {
-            get { return InContext.Of(ContextSwitcher.Context.Default).Feature<T>().IsEnabled; }
+            get { return InContext.Of(Context.Default).Feature<T>().IsEnabled; }
         }
 
         /// <summary>

@@ -1,10 +1,8 @@
-using ContextSwitcher;
-
 namespace FeatureSwitcher.Configuration
 {
-    public interface IConfigureBehavior<out TContext> where TContext : IContext
+    public interface IConfigureBehaviorIn<out TContext> where TContext : IContext
     {
-        IFeatureConfiguration<TContext> Custom(ISupportContextFor<IControlFeatures, TContext> value);
-        IFeatureConfiguration<TContext> Custom(IControlFeatures value);
+        IConfigureFeaturesFor<TContext> Custom(IInContextOf<TContext, IControlFeatures> value);
+        IConfigureFeaturesFor<TContext> Custom(IControlFeatures value);
     }
 }
