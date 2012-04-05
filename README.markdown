@@ -25,40 +25,60 @@ If you've got NuGet installed on your machine it gets even easier. Currently the
 or for configuration behavior type
 
     install-package FeatureSwitcher.Configuration
-	
+
 into the package management console.
 
 It is planned to provide a [Bootstraper](http://bootstrapper.codeplex.com/) extension as NuGet package.
 
 ## How to use it
 
-Create a class that name your feature and implement the IFeature interface.
+Create a class that names your feature and implements the IFeature interface.
 
-	public class Sample : IFeature {}
-	
+    public class Sample : IFeature {}
+
 In the code where you need the switch simply ask FeatureSwitcher if this feature is enabled or disabled
 
-	Feature<Sample>.IsEnabled
-	Feature<Sample>.IsDisabled
+    Feature<Sample>.IsEnabled
+    Feature<Sample>.IsDisabled
 
 If your have an instance of your feature and want to check it is enabled or disabled
 
-	instance.IsEnabled()
-	instance.IsDisabled()
+    instance.IsEnabled()
+    instance.IsDisabled()
 
 You can even filter a list of features very simple
 
-	list.Where(Feature.IsEnabled)
-	list.Where(Feature.IsDisabled)
-	
-By default if no control feature behavior is provided all features are disabled. To provide a behavior simply assign it to ControlFeatures.Behavior.
+    list.Where(Feature.IsEnabled)
+    list.Where(Feature.IsDisabled)
 
-	ControlFeatures.Behavior = Use.AllFeatures.Enabled;
+By default if no control feature behavior is provided all features are disabled. To provide an own behavior simply pass it in the fluent configuration.
 
-By default if no naming strategy is provided fullname of the type is used. To provide an own strategy simply assign it to ControlFeatures.Name.
+    // behavior is an implementation of IControlFeatures
+    ByDefault.FeaturesAre.ConfiguredBy.Custom(behavior);
 
-	ControlFeatures.Name = Use.Type.Name;
+By default if no naming strategy is provided fullname of the type is used. To provide an own strategy simply pass it in the fluent configuration.
+
+    // strategy is an implementation of IControlFeatures
+    ByDefault.FeaturesAre.NamedBy.Custom(strategy);
+
+# FeatureSwitcher supports contexts
+
+Sometimes e.g. in a multitenant application you have features which should be enabled or disabled dependant of a context e.g. tenant. FeatureSwitcher has build in support for contexts.
+
+You can define an own context by creating a class which implements the IContext interface.
+
+    public class BusinessBranch : IContext {}
+
+In the code where you need to switch you create the desired context instance and ask FeatureSwitcher whether the feature is enabled or disabled
+
+    var branch = new BusinessBranch();
+    InContext.Of(branch).Feature<Sample>().IsEnabled;
+
+To control the features in the context you can provide the behavior which supports the context.
+
+    // behavior is an implementation of InContextOf<BusinessBranch, IControlFeatures>
+    InContexts.OfType<BusinessBranch>().FeaturesAre.ConfiguredBy.Custom(behavior);
 
 # Versioning
 
-For version numbers we follow the [Semantic Versioning Specification](http://semver.org/).
+Versioning follows the [Semantic Versioning Specification](http://semver.org/).
