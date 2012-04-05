@@ -1,36 +1,34 @@
-using FeatureSwitcher.Configuration;
-
-// ReSharper disable CheckNamespace
-namespace FeatureSwitcher.Behaviors.Internal
-// ReSharper restore CheckNamespace
+namespace FeatureSwitcher.Configuration.Internal
 {
-    class AppConfig : IControlFeatures
+    internal class AppConfig : IControlFeatures
     {
         const string FeatureSwitcherConfigurationGroupName = "featureSwitcher";
 
         private readonly DefaultSection _default;
         private readonly FeaturesSection _features;
         private readonly bool _ignoreConfigurationErrors;
+        private readonly string _sectionGroupName;
 
         public AppConfig()
-            : this(null, null, false)
+            : this(null, null, FeatureSwitcherConfigurationGroupName, false)
         {
         }
 
         public AppConfig(bool ignoreConfigurationErrors)
-            : this(null, null, ignoreConfigurationErrors)
+            : this(null, null, FeatureSwitcherConfigurationGroupName, ignoreConfigurationErrors)
         {
         }
 
         internal AppConfig(DefaultSection defaultSection, FeaturesSection featuresSection)
-            : this(defaultSection, featuresSection, false)
+            : this(defaultSection, featuresSection, FeatureSwitcherConfigurationGroupName, false)
         {
         }
 
-        internal AppConfig(DefaultSection defaultSection, FeaturesSection featuresSection, bool ignoreConfigurationErrors)
+        private AppConfig(DefaultSection defaultSection, FeaturesSection featuresSection, string sectionGroupName, bool ignoreConfigurationErrors)
         {
             _default = defaultSection;
             _features = featuresSection;
+            _sectionGroupName = sectionGroupName;
             _ignoreConfigurationErrors = ignoreConfigurationErrors;
         }
 
@@ -70,6 +68,16 @@ namespace FeatureSwitcher.Behaviors.Internal
             var featureElement = FeaturesSection.Features[feature];
 
             return featureElement != null ? featureElement.Enabled : DefaultSection.FeaturesEnabled;
+        }
+
+        internal AppConfig IgnoreConfigurationErrors()
+        {
+            return new AppConfig(_default, _features, _sectionGroupName, true);
+        }
+
+        public AppConfig UseConfigSectionGroup(string name)
+        {
+            return new AppConfig(_default, _features, name, _ignoreConfigurationErrors);
         }
     }
 }

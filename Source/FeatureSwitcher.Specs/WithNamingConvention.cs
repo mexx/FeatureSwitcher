@@ -7,7 +7,7 @@ namespace FeatureSwitcher.Specs
     // ReSharper disable UnusedMember.Local
     public class WithShortNameNamingConvention : WithDisabledByDefaultConfiguration
     {
-        Establish ctx = () => ControlFeatures.Name = Use.Type.Name;
+        Establish ctx = () => ByDefault.FeaturesAre.NamedBy.TypeName();
     }
 
     public class When_disabled_by_default_and_feature_explicitly_enabled_by_short_name_in_configuration_feature : WithShortNameNamingConvention

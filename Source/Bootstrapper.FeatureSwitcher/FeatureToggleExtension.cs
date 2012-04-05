@@ -1,5 +1,6 @@
 using Bootstrap.Extensions;
 using FeatureSwitcher;
+using FeatureSwitcher.Configuration;
 
 namespace Bootstrap.FeatureSwitcher
 {
@@ -14,12 +15,12 @@ namespace Bootstrap.FeatureSwitcher
 
         public void Run()
         {
-            ControlFeatures.Behavior = _behavior ?? Bootstrapper.ContainerExtension.Resolve<IControlFeatures>();
+            ByDefault.FeaturesAre.ConfiguredBy.Custom(_behavior ?? Bootstrapper.ContainerExtension.Resolve<IControlFeatures>());
         }
 
         public void Reset()
         {
-            ControlFeatures.Behavior = null;
+            ByDefault.FeaturesAre.ConfiguredBy.Custom((IControlFeatures) null);
         }
     }
 }

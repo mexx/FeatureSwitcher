@@ -16,7 +16,23 @@ namespace FeatureSwitcher.Specs
 
         It should_be_not_disabled_as_instance = () => new Simple().IsDisabled().ShouldBeFalse();
     }
+    
+    [Behaviors]
+    public class EnabledSimpleFeatureInHeadquatersBehavior
+    {
+        It should_be_enabled_as_generic = () => InContext.Of(BusinessBranch.Headquarters).Feature<Simple>().IsEnabled.ShouldBeTrue();
 
+        It should_be_enabled_as_instance = () => InContext.Of(BusinessBranch.Headquarters).Feature(new Simple()).IsEnabled.ShouldBeTrue();
+
+        It should_be_enabled_as_instance_convinience = () => InContext.Of(BusinessBranch.Headquarters).FeatureIsEnabled(new Simple()).ShouldBeTrue();
+
+        It should_be_not_disabled_as_generic = () => InContext.Of(BusinessBranch.Headquarters).Feature<Simple>().IsDisabled.ShouldBeFalse();
+
+        It should_be_not_disabled_as_instance = () => InContext.Of(BusinessBranch.Headquarters).Feature(new Simple()).IsDisabled.ShouldBeFalse();
+
+        It should_be_not_disabled_as_instance_convinience = () => InContext.Of(BusinessBranch.Headquarters).FeatureIsDisabled(new Simple()).ShouldBeFalse();
+    }
+    
     [Behaviors]
     public class DisabledSimpleFeatureBehavior
     {

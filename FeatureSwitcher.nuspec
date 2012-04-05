@@ -13,7 +13,7 @@ FeatureSwitcher is little framework build to support you when you want to introd
 <!--    <iconUrl>http://github.com/mexx/FeatureSwitcher/raw/dev/FeatureSwitcher.png</iconUrl> -->
     <projectUrl>http://github.com/mexx/FeatureSwitcher</projectUrl>
     <licenseUrl>http://github.com/mexx/FeatureSwitcher/raw/dev/License.txt</licenseUrl>
-    <tags>feature toggle switch featureswitch featuretoggle fluent</tags>
+    <tags>feature toggle switch context business businessfeature featureswitch featuretoggle fluent</tags>
     @dependencies@
   </metadata>
 </package>
