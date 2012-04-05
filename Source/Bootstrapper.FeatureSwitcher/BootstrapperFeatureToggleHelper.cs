@@ -1,5 +1,5 @@
 using Bootstrap.Extensions;
-using FeatureSwitcher;
+using FeatureSwitcher.Configuration;
 
 namespace Bootstrap.FeatureSwitcher
 {

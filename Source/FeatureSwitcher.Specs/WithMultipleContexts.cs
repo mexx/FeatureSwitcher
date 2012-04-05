@@ -1,4 +1,3 @@
-using FeatureSwitcher.Behaviors.Internal;
 using FeatureSwitcher.Configuration;
 using Machine.Specifications;
 
@@ -6,16 +5,16 @@ namespace FeatureSwitcher.Specs
 {
     // ReSharper disable InconsistentNaming
     // ReSharper disable UnusedMember.Local
-    public class TestConfiguration : IInContextOf<BusinessBranch, IControlFeatures>, IInContextOf<BusinessBranch, IProvideNaming>
+    public class TestConfiguration : InContextOf<BusinessBranch, IControlFeatures>, InContextOf<BusinessBranch, IProvideNaming>
     {
-        IControlFeatures IInContextOf<BusinessBranch, IControlFeatures>.With(BusinessBranch context)
+        IControlFeatures InContextOf<BusinessBranch, IControlFeatures>.With(BusinessBranch context)
         {
             return AllFeatures.Enabled;
         }
 
-        IProvideNaming IInContextOf<BusinessBranch, IProvideNaming>.With(BusinessBranch context)
+        IProvideNaming InContextOf<BusinessBranch, IProvideNaming>.With(BusinessBranch context)
         {
-            return Use.Type.Name;
+            return ProvideNaming.ByTypeName;
         }
     }
 
@@ -43,6 +42,15 @@ namespace FeatureSwitcher.Specs
             ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).IgnoreConfigurationErrors().UsingConfigSectionGroup("test").And.
             AlwaysDisabled().And.
             AlwaysEnabled().And.
+            NamedBy.TypeName().
+            NamedBy.TypeFullName().
+            ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).
+            NamedBy.TypeName().
+            ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).IgnoreConfigurationErrors().
+            ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).IgnoreConfigurationErrors().UsingConfigSectionGroup("test").
+            NamedBy.TypeFullName().
+            AlwaysDisabled().
+            AlwaysEnabled().
             HandledByDefault();
 
         It should_not_fail = () => true.ShouldBeTrue();

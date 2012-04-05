@@ -1,4 +1,4 @@
-namespace FeatureSwitcher
+namespace FeatureSwitcher.Configuration
 {
     /// <summary>
     /// Controls which features are enabled or disabled.

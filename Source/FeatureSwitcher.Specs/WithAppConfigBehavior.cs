@@ -1,5 +1,4 @@
 ﻿using System;
-using FeatureSwitcher.Behaviors.Internal;
 using FeatureSwitcher.Configuration;
 using Machine.Specifications;
 

@@ -1,35 +1,16 @@
 namespace FeatureSwitcher
 {
-    public static class InContext
+    public static class Context
     {
-        public static FeatureContext<TContext> Of<TContext>(TContext context) where TContext : IContext
-        {
-            return new FeatureContext<TContext>(context);
-        }
+        public static readonly IContext Default = new DefaultContext();
     }
 
-    public sealed class FeatureContext<T> where T : IContext
+    public static class Context<T>
+        where T: IContext
     {
-        private readonly T _context;
-
-        public FeatureContext(T context)
+        public static InContextOf<T, TResult> Insensitive<TResult>(TResult value)
         {
-            _context = context;
-        }
-
-        public bool FeatureIsEnabled<TFeature>(TFeature feature) where TFeature : IFeature
-        {
-            return Feature(feature).IsEnabled;
-        }
-
-        public FeatureInContext<TFeature, T> Feature<TFeature>(TFeature feature) where TFeature : IFeature
-        {
-            return Feature<TFeature>();
-        }
-
-        public FeatureInContext<TFeature, T> Feature<TFeature>() where TFeature : IFeature
-        {
-            return new FeatureInContext<TFeature, T>(_context);
+            return new InsensitiveFor<T, TResult>(value);
         }
     }
 }

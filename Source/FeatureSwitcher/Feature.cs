@@ -4,7 +4,8 @@ namespace FeatureSwitcher
     /// Represents the feature.
     /// </summary>
     /// <typeparam name="T">The type of the feature.</typeparam>
-    public static class Feature<T> where T : IFeature
+    public static class Feature<T>
+        where T : IFeature
     {
         /// <summary>
         /// Gets whether the feature is enabled
@@ -31,7 +32,8 @@ namespace FeatureSwitcher
         /// <summary>
         /// Gets whether the feature is enabled
         /// </summary>
-        public static bool IsEnabled<T>(this T This) where T : IFeature
+        public static bool IsEnabled<T>(this T This)
+            where T : IFeature
         {
             return Feature<T>.IsEnabled;
         }
@@ -39,7 +41,8 @@ namespace FeatureSwitcher
         /// <summary>
         /// Gets whether the feature is disabled
         /// </summary>
-        public static bool IsDisabled<T>(this T This) where T : IFeature
+        public static bool IsDisabled<T>(this T This)
+            where T : IFeature
         {
             return Feature<T>.IsDisabled;
         }

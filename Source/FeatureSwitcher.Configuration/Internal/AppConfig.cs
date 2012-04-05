@@ -1,10 +1,6 @@
-using FeatureSwitcher.Configuration;
-
-// ReSharper disable CheckNamespace
-namespace FeatureSwitcher.Behaviors.Internal
-// ReSharper restore CheckNamespace
+namespace FeatureSwitcher.Configuration.Internal
 {
-    class AppConfig : IControlFeatures
+    internal class AppConfig : IControlFeatures
     {
         const string FeatureSwitcherConfigurationGroupName = "featureSwitcher";
 

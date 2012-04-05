@@ -1,19 +1,21 @@
-using FeatureSwitcher.Configuration;
+using FeatureSwitcher.Configuration.Internal;
 
 namespace FeatureSwitcher
 {
-    public sealed class FeatureInContext<T, TContext> where T : IFeature where TContext : IContext
+    public sealed class FeatureInContextOf<T, TFeature>
+        where T : IContext
+        where TFeature : IFeature
     {
-        private readonly TContext _context;
+        private readonly T _context;
 
-        internal FeatureInContext(TContext context)
+        internal FeatureInContextOf(T context)
         {
             _context = context;
         }
 
         public bool IsEnabled
         {
-            get { return Control.IsEnabled<T, TContext>(_context); }
+            get { return FeatureConfiguration.For<T>().IsEnabled<TFeature>(_context); }
         }
 
         public bool IsDisabled
