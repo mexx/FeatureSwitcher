@@ -3,21 +3,21 @@ namespace FeatureSwitcher.Configuration.Internal
     internal sealed class ConfigureAppConfigFor<TContext> : IConfigureAppConfigFor<TContext>
         where TContext : IContext
     {
-        private readonly IConfigureIn<TContext, IControlFeatures> _control;
+        private readonly IConfigureIn<TContext, IProvideBehavior> _control;
         private readonly AppConfig _appConfig;
         private readonly IConfigureFeaturesFor<TContext> _configuration;
 
-        internal ConfigureAppConfigFor(IConfigureIn<TContext, IControlFeatures> control)
+        internal ConfigureAppConfigFor(IConfigureIn<TContext, IProvideBehavior> control)
             :this(control, new AppConfig())
         {
         }
 
-        internal ConfigureAppConfigFor(IConfigureIn<TContext, IControlFeatures> control, DefaultSection defaultSection, FeaturesSection featuresSection)
+        internal ConfigureAppConfigFor(IConfigureIn<TContext, IProvideBehavior> control, DefaultSection defaultSection, FeaturesSection featuresSection)
             : this(control, new AppConfig(defaultSection, featuresSection))
         {
         }
 
-        private ConfigureAppConfigFor(IConfigureIn<TContext, IControlFeatures> control, AppConfig appConfig)
+        private ConfigureAppConfigFor(IConfigureIn<TContext, IProvideBehavior> control, AppConfig appConfig)
         {
             _control = control;
             _appConfig = appConfig;
@@ -44,7 +44,7 @@ namespace FeatureSwitcher.Configuration.Internal
             get { return _configuration.NamedBy; }
         }
 
-        public IConfigureIn<TContext, IControlFeatures> ConfiguredBy
+        public IConfigureIn<TContext, IProvideBehavior> ConfiguredBy
         {
             get { return _configuration.ConfiguredBy; }
         }

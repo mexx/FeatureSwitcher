@@ -6,6 +6,6 @@ namespace FeatureSwitcher.Configuration
         IConfigureFeaturesFor<TContext> And { get; }
 
         IConfigureIn<TContext, IProvideNaming> NamedBy { get; }
-        IConfigureIn<TContext, IControlFeatures> ConfiguredBy { get; }
+        IConfigureIn<TContext, IProvideBehavior> ConfiguredBy { get; }
     }
 }

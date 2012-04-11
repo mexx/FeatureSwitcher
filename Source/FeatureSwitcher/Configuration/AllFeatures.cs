@@ -1,9 +1,9 @@
 namespace FeatureSwitcher.Configuration
 {
-    public sealed class AllFeatures : IControlFeatures
+    public sealed class AllFeatures : IProvideBehavior
     {
-        public static readonly IControlFeatures Enabled = new AllFeatures(true);
-        public static readonly IControlFeatures Disabled = new AllFeatures(false);
+        public static readonly IProvideBehavior Enabled = new AllFeatures(true);
+        public static readonly IProvideBehavior Disabled = new AllFeatures(false);
 
         private readonly bool _enabled;
 

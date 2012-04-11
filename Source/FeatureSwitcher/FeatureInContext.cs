@@ -1,4 +1,4 @@
-using FeatureSwitcher.Configuration.Internal;
+using FeatureSwitcher.Configuration;
 
 namespace FeatureSwitcher
 {
@@ -15,7 +15,7 @@ namespace FeatureSwitcher
 
         public bool IsEnabled
         {
-            get { return FeatureConfiguration.For<T>().IsEnabled<TFeature>(_context); }
+            get { return (FeatureConfiguration.For(_context) as IControlFeatures).IsEnabled<TFeature>(); }
         }
 
         public bool IsDisabled

@@ -1,6 +1,6 @@
 namespace FeatureSwitcher.Configuration.Internal
 {
-    internal class AppConfig : IControlFeatures
+    internal class AppConfig : IProvideBehavior
     {
         const string FeatureSwitcherConfigurationGroupName = "featureSwitcher";
 
