@@ -15,7 +15,7 @@ namespace FeatureSwitcher
 
         public bool IsEnabled
         {
-            get { return FeatureConfiguration.For<T>().IsEnabled<TFeature>(_context); }
+            get { return FeatureConfiguration.For(_context).IsEnabled<TFeature>(); }
         }
 
         public bool IsDisabled

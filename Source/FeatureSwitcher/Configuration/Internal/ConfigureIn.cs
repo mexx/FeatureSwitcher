@@ -12,7 +12,7 @@ namespace FeatureSwitcher.Configuration.Internal
 
         public IConfigureFeaturesFor<TContext> Custom(InContextOf<TContext, TControl> value)
         {
-            FeatureConfiguration.SettingsFor<TContext>().Set(value);
+            FeatureConfiguration.Set(value);
             return _featureConfigurationFor;
         }
 

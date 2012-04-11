@@ -13,9 +13,9 @@ namespace FeatureSwitcher.Configuration.Internal
             get { return new ConfigureIn<TContext, IProvideNaming>(this); }
         }
 
-        public IConfigureIn<TContext, IControlFeatures> ConfiguredBy
+        public IConfigureIn<TContext, IProvideBehavior> ConfiguredBy
         {
-            get { return new ConfigureIn<TContext, IControlFeatures>(this); }
+            get { return new ConfigureIn<TContext, IProvideBehavior>(this); }
         }
     }
 }

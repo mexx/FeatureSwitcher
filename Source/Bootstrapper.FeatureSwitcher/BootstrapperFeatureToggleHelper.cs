@@ -10,7 +10,7 @@ namespace Bootstrap.FeatureSwitcher
             return extensions.Extension(new FeatureToggleExtension(null));
         }
 
-        public static BootstrapperExtensions FeatureControl<T>(this BootstrapperExtensions extensions) where T:IControlFeatures, new()
+        public static BootstrapperExtensions FeatureControl<T>(this BootstrapperExtensions extensions) where T:IProvideBehavior, new()
         {
             return extensions.Extension(new FeatureToggleExtension(new T()));
         }

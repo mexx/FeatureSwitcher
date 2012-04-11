@@ -3,7 +3,7 @@ namespace FeatureSwitcher.Configuration
     /// <summary>
     /// Controls which features are enabled or disabled.
     /// </summary>
-    public interface IControlFeatures
+    public interface IProvideBehavior
     {
         /// <summary>
         /// Controls whether the feature is enabled or disabled.

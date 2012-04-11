@@ -1,26 +1,25 @@
 using Bootstrap.Extensions;
-using FeatureSwitcher;
 using FeatureSwitcher.Configuration;
 
 namespace Bootstrap.FeatureSwitcher
 {
     public class FeatureToggleExtension : IBootstrapperExtension
     {
-        private readonly IControlFeatures _behavior;
+        private readonly IProvideBehavior _behavior;
 
-        public FeatureToggleExtension(IControlFeatures behavior)
+        public FeatureToggleExtension(IProvideBehavior behavior)
         {
             _behavior = behavior;
         }
 
         public void Run()
         {
-            ByDefault.FeaturesAre.ConfiguredBy.Custom(_behavior ?? Bootstrapper.ContainerExtension.Resolve<IControlFeatures>());
+            ByDefault.FeaturesAre.ConfiguredBy.Custom(_behavior ?? Bootstrapper.ContainerExtension.Resolve<IProvideBehavior>());
         }
 
         public void Reset()
         {
-            ByDefault.FeaturesAre.ConfiguredBy.Custom((IControlFeatures) null);
+            ByDefault.FeaturesAre.ConfiguredBy.Custom((IProvideBehavior) null);
         }
     }
 }

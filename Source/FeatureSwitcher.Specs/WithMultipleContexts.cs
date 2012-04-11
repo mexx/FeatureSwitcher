@@ -5,9 +5,9 @@ namespace FeatureSwitcher.Specs
 {
     // ReSharper disable InconsistentNaming
     // ReSharper disable UnusedMember.Local
-    public class TestConfiguration : InContextOf<BusinessBranch, IControlFeatures>, InContextOf<BusinessBranch, IProvideNaming>
+    public class TestConfiguration : InContextOf<BusinessBranch, IProvideBehavior>, InContextOf<BusinessBranch, IProvideNaming>
     {
-        IControlFeatures InContextOf<BusinessBranch, IControlFeatures>.With(BusinessBranch context)
+        IProvideBehavior InContextOf<BusinessBranch, IProvideBehavior>.With(BusinessBranch context)
         {
             return AllFeatures.Enabled;
         }
@@ -32,6 +32,12 @@ namespace FeatureSwitcher.Specs
         Behaves_like<EnabledSimpleFeatureInHeadquatersBehavior> an_enabled_feature;
     }
 
+    public class With_multiple_contexts_unconfigured_should_fallback_to_configured_default : WithEnabledByDefaultConfiguration
+    {
+        Behaves_like<EnabledSimpleFeatureBehavior> an_enabled_feature;
+
+        Behaves_like<EnabledSimpleFeatureInHeadquatersBehavior> an_enabled_feature_in_headquarters;
+    }
     public class Syntax_sugar : WithCleanUp
     {
         Because of = () => ByDefault.FeaturesAre.
