@@ -42,17 +42,16 @@
     <Compile Include="Configuration\AllFeatures.cs" />
     <Compile Include="Configuration\Always.cs" />
     <Compile Include="Configuration\ByDefault.cs" />
-    <Compile Include="Configuration\Internal\ConfigurationFor.cs" />
+    <Compile Include="Configuration\ConfigurationFor.cs" />
+    <Compile Include="Configuration\ConfigureIn.cs" />
+    <Compile Include="Configuration\FeatureConfiguration.cs" />
+    <Compile Include="Configuration\FeatureConfigurationFor.cs" />
+    <Compile Include="Configuration\FeatureControl.cs" />
+    <Compile Include="Configuration\IControlFeatures.cs" />
     <Compile Include="Configuration\IConfigurationFor.cs" />
-    <Compile Include="Configuration\Internal\FeatureConfigurationFor.cs" />
-    <Compile Include="Configuration\Internal\ConfigureIn.cs" />
     <Compile Include="Configuration\Default.cs" />
-    <Compile Include="Configuration\Internal\FeatureConfiguration.cs" />
-    <Compile Include="Configuration\Internal\ControlContext.cs" />
     <Compile Include="Configuration\IConfigureIn.cs" />
     <Compile Include="Configuration\IConfigureFeaturesFor.cs" />
-    <Compile Include="Configuration\Internal\IControlContextsOfType.cs" />
-    <Compile Include="Configuration\Internal\IControlFeatureInContextsOfType.cs" />
     <Compile Include="Configuration\InContexts.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="DefaultContext.cs" />
@@ -65,7 +64,7 @@
     <Compile Include="IContext.cs" />
     <Compile Include="Configuration\ProvideNaming.cs" />
     <Compile Include="Configuration\IProvideNaming.cs" />
-    <Compile Include="Configuration\IControlFeatures.cs" />
+    <Compile Include="Configuration\IProvideBehavior.cs" />
     <Compile Include="IFeature.cs" />
     <Compile Include="Feature.cs" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-namespace FeatureSwitcher.Configuration.Internal
+namespace FeatureSwitcher.Configuration
 {
     internal class FeatureConfigurationFor<TContext> : IConfigureFeaturesFor<TContext>
         where TContext : IContext

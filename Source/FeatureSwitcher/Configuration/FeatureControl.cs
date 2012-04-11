@@ -1,6 +1,6 @@
-namespace FeatureSwitcher.Configuration.Internal
+namespace FeatureSwitcher.Configuration
 {
-    internal class FeatureControl : IControlFeatures
+    public sealed class FeatureControl : IControlFeatures
     {
         internal FeatureControl(IProvideBehavior behavior, IProvideNaming naming)
         {
@@ -11,8 +11,7 @@ namespace FeatureSwitcher.Configuration.Internal
         public IProvideBehavior Behavior { get; private set; }
         public IProvideNaming Naming { get; private set; }
 
-        public bool IsEnabled<TFeature>()
-            where TFeature : IFeature
+        bool IControlFeatures.IsEnabled<TFeature>()
         {
             return Behavior.IsEnabled(Naming.For<TFeature>());
         }

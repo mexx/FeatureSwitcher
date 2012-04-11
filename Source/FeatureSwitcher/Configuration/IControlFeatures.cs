@@ -1,4 +1,4 @@
-namespace FeatureSwitcher.Configuration.Internal
+namespace FeatureSwitcher.Configuration
 {
     internal interface IControlFeatures
     {

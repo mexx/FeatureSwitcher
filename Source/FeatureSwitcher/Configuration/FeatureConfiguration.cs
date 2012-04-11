@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace FeatureSwitcher.Configuration.Internal
+namespace FeatureSwitcher.Configuration
 {
-    internal static class FeatureConfiguration
+    public static class FeatureConfiguration
     {
         private static readonly IDictionary<Type, object> Behaviors = new Dictionary<Type, object>();
         private static readonly IDictionary<Type, object> Namings = new Dictionary<Type, object>();
@@ -28,7 +28,7 @@ namespace FeatureSwitcher.Configuration.Internal
                 configs.Remove(context);
         }
 
-        internal static FeatureControl For<T>(T context)
+        public static FeatureControl For<T>(T context)
             where T : IContext
         {
             return new FeatureControl(BehaviorFor(context), NamingFor(context));
