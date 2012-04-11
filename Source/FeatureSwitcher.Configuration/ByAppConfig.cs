@@ -1,5 +1,3 @@
-using FeatureSwitcher.Configuration.Internal;
-
 namespace FeatureSwitcher.Configuration
 {
     public static class ByAppConfig

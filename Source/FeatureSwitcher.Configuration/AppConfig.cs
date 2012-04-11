@@ -1,4 +1,4 @@
-namespace FeatureSwitcher.Configuration.Internal
+namespace FeatureSwitcher.Configuration
 {
     internal class AppConfig : IProvideBehavior
     {
@@ -46,7 +46,7 @@ namespace FeatureSwitcher.Configuration.Internal
         {
             try
             {
-                var sectionPath = string.Format("{0}/{1}", FeatureSwitcherConfigurationGroupName, sectionName);
+                var sectionPath = string.Format("{0}/{1}", _sectionGroupName, sectionName);
                 var section = (T)System.Configuration.ConfigurationManager.GetSection(sectionPath);
                 if (section != null)
                     return section;

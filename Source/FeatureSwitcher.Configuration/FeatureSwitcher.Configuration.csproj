@@ -38,8 +38,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppConfig.cs" />
     <Compile Include="ByAppConfig.cs" />
-    <Compile Include="Internal\ConfigureAppConfigFor.cs" />
+    <Compile Include="ConfigureAppConfigFor.cs" />
     <Compile Include="DefaultSection.cs" />
     <Compile Include="FeatureElementCollection.cs" />
     <Compile Include="FeaturesSection.cs" />
@@ -47,7 +48,6 @@
     <Compile Include="IConfigureAppConfigFor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SectionGroup.cs" />
-    <Compile Include="Internal\AppConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FeatureSwitcher\FeatureSwitcher.csproj">

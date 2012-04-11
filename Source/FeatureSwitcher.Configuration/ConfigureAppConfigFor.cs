@@ -1,4 +1,4 @@
-namespace FeatureSwitcher.Configuration.Internal
+namespace FeatureSwitcher.Configuration
 {
     internal sealed class ConfigureAppConfigFor<TContext> : IConfigureAppConfigFor<TContext>
         where TContext : IContext
