@@ -39,17 +39,17 @@ namespace FeatureSwitcher.Examples
                 NamedBy.TypeFullName().And.
                 AlwaysEnabled();
 
-            InContexts.OfType<BusinessBranch>().FeaturesAre.
+            InContexts.OfType<BusinessBranch>().FeaturesAre().
                 AlwaysDisabled();
 
-            InContexts.OfType<BusinessBranch>().FeaturesAre.
+            InContexts.OfType<BusinessBranch>().FeaturesAre().
                 AlwaysEnabled().And.
                 NamedBy.TypeFullName();
 
-            InContexts.OfType<BusinessBranch>().FeaturesAre.
+            InContexts.OfType<BusinessBranch>().FeaturesAre().
                 NamedBy.TypeName();
 
-            InContexts.OfType<BusinessBranch>().FeaturesAre.
+            InContexts.OfType<BusinessBranch>().FeaturesAre().
                 NamedBy.TypeName().And.
                 AlwaysEnabled();
 

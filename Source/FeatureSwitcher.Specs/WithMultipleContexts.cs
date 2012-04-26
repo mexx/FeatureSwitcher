@@ -40,15 +40,15 @@ namespace FeatureSwitcher.Specs
     public class WithMultipleContexts : WithCleanUp
     {
         Establish ctx = () =>
-                            {
-                                ByDefault.FeaturesAre.ConfiguredBy.AppConfig().IgnoreConfigurationErrors();
+        {
+            ByDefault.FeaturesAre.ConfiguredBy.AppConfig().IgnoreConfigurationErrors();
 
-                                InContexts.OfType<BusinessBranch>().FeaturesAre.
-                                    ConfiguredBy.Custom(new TestConfiguration()).And.
-                                    NamedBy.Custom(new TestConfiguration());
-                            };
+            InContexts.OfType<BusinessBranch>().FeaturesAre().
+                ConfiguredBy.Custom(new TestConfiguration()).And.
+                NamedBy.Custom(new TestConfiguration());
+        };
 
-        Cleanup cleanup = () => InContexts.OfType<BusinessBranch>().FeaturesAre.
+        Cleanup cleanup = () => InContexts.OfType<BusinessBranch>().FeaturesAre().
                                             HandledByDefault();
 
         Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
@@ -69,11 +69,11 @@ namespace FeatureSwitcher.Specs
         {
             ByDefault.FeaturesAre.NamedBy.TypeName();
 
-            InContexts.OfType<BusinessBranch>().FeaturesAre.
+            InContexts.OfType<BusinessBranch>().FeaturesAre().
                 ConfiguredBy.Custom(new TestFallbackConfiguration());
         };
 
-        Cleanup cleanup = () => InContexts.OfType<BusinessBranch>().FeaturesAre.
+        Cleanup cleanup = () => InContexts.OfType<BusinessBranch>().FeaturesAre().
                                             HandledByDefault();
 
         Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;

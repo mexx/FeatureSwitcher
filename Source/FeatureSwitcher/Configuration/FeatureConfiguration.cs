@@ -28,6 +28,12 @@ namespace FeatureSwitcher.Configuration
                 configs.Remove(context);
         }
 
+        public static IConfigureFeaturesFor<T> FeaturesAre<T>(this IConfigurationFor<T> This)
+            where T : IContext
+        {
+            return new FeatureConfigurationFor<T>();
+        }
+
         public static FeatureControl For<T>(T context)
             where T : IContext
         {

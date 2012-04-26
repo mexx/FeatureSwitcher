@@ -1,8 +1,9 @@
 namespace FeatureSwitcher.Configuration
 {
-    public interface IConfigurationFor<out TContext>
+// ReSharper disable UnusedTypeParameter
+    public interface IConfigurationFor<TContext>
+// ReSharper restore UnusedTypeParameter
         where TContext : IContext
     {
-        IConfigureFeaturesFor<TContext> FeaturesAre { get; }
     }
 }
