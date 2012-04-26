@@ -53,12 +53,12 @@ You can even filter a list of features very simple
 
 By default if no control feature behavior is provided all features are disabled. To provide an own behavior simply pass it in the fluent configuration.
 
-    // behavior is an implementation of IControlFeatures
+    // behavior is an implementation of IProvideBehavior
     ByDefault.FeaturesAre.ConfiguredBy.Custom(behavior);
 
 By default if no naming strategy is provided fullname of the type is used. To provide an own strategy simply pass it in the fluent configuration.
 
-    // strategy is an implementation of IControlFeatures
+    // strategy is an implementation of IProvideNaming
     ByDefault.FeaturesAre.NamedBy.Custom(strategy);
 
 # FeatureSwitcher supports contexts
@@ -76,7 +76,7 @@ In the code where you need to switch you create the desired context instance and
 
 To control the features in the context you can provide the behavior which supports the context.
 
-    // behavior is an implementation of InContextOf<BusinessBranch, IControlFeatures>
+    // behavior is an implementation of InContextOf<BusinessBranch, IProvideBehavior>
     InContexts.OfType<BusinessBranch>().FeaturesAre.ConfiguredBy.Custom(behavior);
 
 # Versioning
