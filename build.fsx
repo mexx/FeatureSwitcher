@@ -53,21 +53,17 @@ Target "Clean" (fun _ ->
 )
 
 Target "SetAssemblyInfo" (fun _ ->
-    ReplaceAssemblyInfoVersions
-        (fun p ->
-        {p with
-            AssemblyVersion = version;
-            AssemblyFileVersion = version;
-            AssemblyInformationalVersion = version;
-            OutputFileName = @".\Source\FeatureSwitcher\Properties\AssemblyInfo.cs"})
+    let replaceAssemblyInfoVersions project =
+        ReplaceAssemblyInfoVersions
+            (fun p ->
+            {p with
+                AssemblyVersion = version;
+                AssemblyFileVersion = version;
+                AssemblyInformationalVersion = version;
+                OutputFileName = sprintf @".\Source\%s\Properties\AssemblyInfo.cs" project})
 
-    ReplaceAssemblyInfoVersions
-        (fun p ->
-        {p with
-            AssemblyVersion = version;
-            AssemblyFileVersion = version;
-            AssemblyInformationalVersion = version;
-            OutputFileName = @".\Source\FeatureSwitcher.Configuration\Properties\AssemblyInfo.cs"})
+    ["FeatureSwitcher"; "FeatureSwitcher.Configuration"]
+        |> Seq.iter replaceAssemblyInfoVersions
 )
 
 Target "BuildApp" (fun _ ->
