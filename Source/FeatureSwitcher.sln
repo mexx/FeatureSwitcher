@@ -17,6 +17,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureSwitcher.Configurati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureSwitcher.Examples", "FeatureSwitcher.Examples\FeatureSwitcher.Examples.csproj", "{E4727D47-E8DA-4730-8B04-01014ECDE524}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BC6156A9-5095-4006-860C-E4D81C4ED025}"
+	ProjectSection(SolutionItems) = preProject
+		..\build.cmd = ..\build.cmd
+		..\build.fsx = ..\build.fsx
+		..\build.NoGit.cmd = ..\build.NoGit.cmd
+		..\Licence.txt = ..\Licence.txt
+		..\README.markdown = ..\README.markdown
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
