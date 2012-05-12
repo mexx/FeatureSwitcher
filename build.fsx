@@ -10,13 +10,14 @@ open System.IO
 (* properties *)
 let authors = ["Max Malook, Marco Rasp, Stefan Senff"]
 let projectName = "FeatureSwitcher"
-let NugetKey = if System.IO.File.Exists @".\key.txt" then ReadFileAsString @".\key.txt" else ""
+
+TraceEnvironmentVariables()
 
 let version =
     if hasBuildParam "version" then getBuildParam "version" else
     if isLocalBuild then getLastTag() else
     // version is set to the last tag retrieved from GitHub Rest API
-    let url = "http://github.com/api/v2/json/repos/show/mexx/FeatureSwitcher/tags"
+    let url = sprintf "http://github.com/api/v2/json/repos/show/mexx/%s/tags" projectName
     tracefn "Downloading tags from %s" url
     let tagsFile = REST.ExecuteGetCommand null null url
     let r = new Regex("[,{][\"]([^\"]*)[\"]")
@@ -25,30 +26,31 @@ let version =
         |> List.filter ((<>) "tags")
         |> List.max
 
+let NugetKey = getBuildParamOrDefault "nugetkey" ""
+
 (* Directories *)
+let targetPlatformDir = getTargetPlatformDir "v4.0.30319"
+let sourceDir = @".\Source\"
+let packagesDir = sourceDir + @"packages\"
+
 let buildDir = @".\Build\"
-let packagesDir = @".\Source\packages\"
-let docsDir = buildDir + @"Documentation\"
+let testDir = buildDir
 let testOutputDir = buildDir + @"Specs\"
 let nugetDir = buildDir + @"NuGet\"
-let testDir = buildDir
 let deployDir = @".\Release\"
-let targetPlatformDir = getTargetPlatformDir "v4.0.30319"
-let nugetLibDir = nugetDir + @"lib\"
 
 (* files *)
-let slnReferences = !! @".\Source\*.sln"
-let nugetPath = @".\Source\.nuget\NuGet.exe"
+let slnReferences = !! (sourceDir + @"*.sln")
+let nugetPath = sourceDir + @".nuget\NuGet.exe"
 
 (* tests *)
 let MSpecVersion = lazy ( GetPackageVersion packagesDir "Machine.Specifications" )
-let mspecTool = lazy( sprintf @".\Source\packages\Machine.Specifications.%s\tools\mspec-clr4.exe" (MSpecVersion.Force()) )
-
-(* behaviors *)
-let Behaviors = ["Configuration"]
+let mspecTool = lazy( sprintf @"%s\Machine.Specifications.%s\tools\mspec-clr4.exe" packagesDir (MSpecVersion.Force()) )
 
 (* Targets *)
-Target "Clean" (fun _ -> CleanDirs [buildDir; testDir; deployDir; docsDir; testOutputDir] )
+Target "Clean" (fun _ -> 
+    CleanDirs [buildDir; testDir; testOutputDir; nugetDir; deployDir]
+)
 
 Target "SetAssemblyInfo" (fun _ ->
     ReplaceAssemblyInfoVersions
@@ -68,10 +70,8 @@ Target "SetAssemblyInfo" (fun _ ->
             OutputFileName = @".\Source\FeatureSwitcher.Configuration\Properties\AssemblyInfo.cs"})
 )
 
-
 Target "BuildApp" (fun _ ->
-    slnReferences
-        |> MSBuildRelease buildDir "Build"
+    MSBuildRelease buildDir "Build" slnReferences
         |> Log "AppBuild-Output: "
 )
 
@@ -92,75 +92,42 @@ FinalTarget "DeployTestResults" (fun () ->
       |> Zip testOutputDir (sprintf "%sMSpecResults.zip" deployDir)
 )
 
-Target "GenerateDocumentation" (fun _ ->
-    !+ (buildDir + "Machine.Fakes.dll")
-      |> Scan
-      |> Docu (fun p ->
-          {p with
-              ToolPath = "./tools/docu/docu.exe"
-              TemplatesPath = "./tools/docu/templates"
-              OutputPath = docsDir })
-)
-
-Target "ZipDocumentation" (fun _ ->
-    !! (docsDir + "/**/*.*")
-      |> Zip docsDir (deployDir + sprintf "Documentation-%s.zip" version)
-)
-
 Target "BuildZip" (fun _ ->
     !+ (buildDir + "/**/*.*")
       -- "*.zip"
-      -- "**/*.Specs.*"
+      -- "**/*.Specs.dll"
+      -- "**/*.Specs.pdb"
         |> Scan
-        |> Zip buildDir (deployDir + sprintf "%s-%s.zip" projectName version)
+        |> Zip buildDir (deployDir @@ sprintf "%s-%s.zip" projectName version)
 )
 
 Target "BuildNuGet" (fun _ ->
-    CleanDirs [nugetDir; nugetLibDir]
+    let nugetLibDir = nugetDir @@ "lib" @@ "4.0"
 
-    [buildDir + "FeatureSwitcher.dll"]
-        |> CopyTo nugetLibDir
+    let buildPackage contents project description dependencies template = 
+        CleanDirs [nugetLibDir]
 
+        contents
+            |> CopyTo nugetLibDir
 
-    NuGet (fun p ->
-        {p with
-            ToolPath = nugetPath
-            Authors = authors
-            Project = projectName
-            Version = version
-            OutputPath = nugetDir
-            AccessKey = NugetKey
-            Publish = NugetKey <> "" })
-        @".\Source\FeatureSwitcher\FeatureSwitcher.nuspec"
+        NuGet (fun p ->
+            {p with
+                ToolPath = nugetPath
+                Authors = authors
+                Project = project
+                Description = description
+                Version = version
+                Dependencies = dependencies
+                OutputPath = nugetDir
+                AccessKey = NugetKey
+                Publish = NugetKey <> "" })
+            template
 
-    !! (nugetDir + "FeatureSwitcher.*.nupkg")
-      |> CopyTo deployDir
-)
+        !! (nugetDir + "FeatureSwitcher.*.nupkg")
+          |> CopyTo deployDir
 
-Target "BuildNuGetBehaviors" (fun _ ->
-    Behaviors
-      |> Seq.iter (fun (behavior) ->
-            CleanDirs [nugetDir; nugetLibDir]
-
-            [buildDir + sprintf "FeatureSwitcher.%s.dll" behavior]
-              |> CopyTo nugetLibDir
-
-            NuGet (fun p ->
-                {p with
-                    ToolPath = nugetPath
-                    Authors = authors
-                    Project = sprintf "%s.%s" projectName behavior
-                    Description = sprintf " This is the %s behavior." behavior
-                    Version = version
-                    OutputPath = nugetDir
-                    Dependencies =
-                        [projectName, RequireExactly (NormalizeVersion version)]
-                    AccessKey = NugetKey
-                    Publish = NugetKey <> "" })
-                (sprintf @".\Source\FeatureSwitcher.%s\FeatureSwitcher.%s.nuspec" behavior behavior)
-
-            !! (nugetDir + sprintf "FeatureSwitcher.%s.*.nupkg" behavior)
-              |> CopyTo deployDir)
+    buildPackage [buildDir @@ "FeatureSwitcher.dll"] "FeatureSwitcher" "" [] @".\Source\FeatureSwitcher\FeatureSwitcher.nuspec"
+    buildPackage [buildDir @@ "FeatureSwitcher.Configuration.dll"] "FeatureSwitcher.Configuration" "Configuration package." [projectName, RequireExactly (NormalizeVersion version)] @".\Source\FeatureSwitcher.Configuration\FeatureSwitcher.Configuration.nuspec"
 )
 
 Target "Default" DoNothing
@@ -172,10 +139,7 @@ Target "Deploy" DoNothing
   ==> "BuildApp"
   ==> "Test"
   ==> "BuildZip"
-//  ==> "GenerateDocumentation"
-//  ==> "ZipDocumentation"
   ==> "BuildNuGet"
-  ==> "BuildNuGetBehaviors"
   ==> "Deploy"
   ==> "Default"
 
