@@ -11,7 +11,7 @@ SET VERSION=
 
 IF NOT [%2]==[] (set VERSION="%~2")
 
-echo Installing NuGet
+echo Installing FAKE
 "Source\.nuget\NuGet.exe" "install" "FAKE" "-OutputDirectory" "Source\packages" "-Version" "1.64.5"
 
 "Source\packages\FAKE.1.64.5\tools\Fake.exe" "build.fsx" "target=%TARGET%" %VERSION%
