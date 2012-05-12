@@ -129,7 +129,7 @@ Target "BuildNuGet" (fun _ ->
             OutputPath = nugetDir
             AccessKey = NugetKey
             Publish = NugetKey <> "" })
-        "FeatureSwitcher.nuspec"
+        @".\Source\FeatureSwitcher\FeatureSwitcher.nuspec"
 
     !! (nugetDir + "FeatureSwitcher.*.nupkg")
       |> CopyTo deployDir
@@ -155,7 +155,7 @@ Target "BuildNuGetBehaviors" (fun _ ->
                         [projectName, RequireExactly (NormalizeVersion version)]
                     AccessKey = NugetKey
                     Publish = NugetKey <> "" })
-                "FeatureSwitcher.nuspec"
+                (sprintf @".\Source\FeatureSwitcher.%s\FeatureSwitcher.%s.nuspec" behavior behavior)
 
             !! (nugetDir + sprintf "FeatureSwitcher.%s.*.nupkg" behavior)
               |> CopyTo deployDir)
