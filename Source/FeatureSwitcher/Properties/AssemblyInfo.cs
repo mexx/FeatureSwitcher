@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FeatureSwitcher.Configuration")]
-[assembly: AssemblyDescription("A configuration framework for feature toggles/switches")]
+[assembly: AssemblyTitle("FeatureSwitcher")]
+[assembly: AssemblyDescription("A framework for feature toggles/switches")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("FeatureSwitcher")]
 [assembly: AssemblyProduct("FeatureSwitcher")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d7ab299b-7dd5-423a-81a9-217ea8c1478a")]
+[assembly: Guid("5a8365f3-ecf8-4e56-b0ed-612b5fbe7826")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -29,11 +29,6 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("0.5.0")]
 [assembly: AssemblyVersion("0.5.0")]
 [assembly: AssemblyFileVersion("0.5.0")]
 [assembly: AssemblyInformationalVersion("0.5.0")]
-
-[assembly: InternalsVisibleTo("FeatureSwitcher.Specs")]

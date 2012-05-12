@@ -10,7 +10,6 @@ open System.IO
 (* properties *)
 let authors = ["Max Malook, Marco Rasp, Stefan Senff"]
 let projectName = "FeatureSwitcher"
-let copyright = "Copyright - FeatureSwitcher 2012"
 let NugetKey = if System.IO.File.Exists @".\key.txt" then ReadFileAsString @".\key.txt" else ""
 
 let version =
@@ -25,9 +24,6 @@ let version =
         |> List.map (fun m -> m.Value)
         |> List.filter ((<>) "tags")
         |> List.max
-
-let title = if isLocalBuild then sprintf "%s (%s)" projectName <| getCurrentHash() else projectName
-
 
 (* Directories *)
 let buildDir = @".\Build\"
@@ -54,20 +50,26 @@ let Behaviors = ["Configuration"]
 (* Targets *)
 Target "Clean" (fun _ -> CleanDirs [buildDir; testDir; deployDir; docsDir; testOutputDir] )
 
+Target "SetAssemblyInfo" (fun _ ->
+    ReplaceAssemblyInfoVersions
+        (fun p ->
+        {p with
+            AssemblyVersion = version;
+            AssemblyFileVersion = version;
+            AssemblyInformationalVersion = version;
+            OutputFileName = @".\Source\FeatureSwitcher\Properties\AssemblyInfo.cs"})
+
+    ReplaceAssemblyInfoVersions
+        (fun p ->
+        {p with
+            AssemblyVersion = version;
+            AssemblyFileVersion = version;
+            AssemblyInformationalVersion = version;
+            OutputFileName = @".\Source\FeatureSwitcher.Configuration\Properties\AssemblyInfo.cs"})
+)
+
 
 Target "BuildApp" (fun _ ->
-    AssemblyInfo
-      (fun p ->
-        {p with
-            CodeLanguage = CSharp;
-            AssemblyVersion = version;
-            AssemblyTitle = title;
-            AssemblyDescription = "A framework for feature toggles/switches";
-            AssemblyCompany = projectName;
-            AssemblyCopyright = copyright;
-            Guid = "5a8365f3-ecf8-4e56-b0ed-612b5fbe7826";
-            OutputFileName = @".\Source\GlobalAssemblyInfo.cs"})
-
     slnReferences
         |> MSBuildRelease buildDir "Build"
         |> Log "AppBuild-Output: "
@@ -166,6 +168,7 @@ Target "Deploy" DoNothing
 
 // Build order
 "Clean"
+  ==> "SetAssemblyInfo"
   ==> "BuildApp"
   ==> "Test"
   ==> "BuildZip"

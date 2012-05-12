@@ -37,9 +37,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\GlobalAssemblyInfo.cs">
-      <Link>Properties\GlobalAssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="Configuration\AllFeatures.cs" />
     <Compile Include="Configuration\Always.cs" />
     <Compile Include="Configuration\ByDefault.cs" />
@@ -68,6 +65,7 @@
     <Compile Include="Configuration\IProvideBehavior.cs" />
     <Compile Include="IFeature.cs" />
     <Compile Include="Feature.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FeatureSwitcher.nuspec" />
