@@ -1,4 +1,4 @@
-#I @"Source\packages\Fake.1.64.5\tools"
+#I @"Source\packages\Fake.1.64.6\tools"
 #r "FakeLib.dll"
 
 open Fake
