@@ -3,11 +3,11 @@ using Machine.Specifications;
 
 namespace FeatureSwitcher.Specs
 {
+#pragma warning disable 169
     // ReSharper disable InconsistentNaming
-    // ReSharper disable UnusedMember.Local
     public class WithShortNameNamingConvention : WithDisabledByDefaultConfiguration
     {
-        Establish ctx = () => ByDefault.FeaturesAre.NamedBy.TypeName();
+        Establish ctx = () => Features.Are.NamedBy.TypeName();
     }
 
     public class When_disabled_by_default_and_feature_explicitly_enabled_by_short_name_in_configuration_feature : WithShortNameNamingConvention
@@ -23,6 +23,6 @@ namespace FeatureSwitcher.Specs
 
         Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
     }
-    // ReSharper restore UnusedMember.Local
     // ReSharper restore InconsistentNaming
+#pragma warning restore 169
 }

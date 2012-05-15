@@ -62,7 +62,9 @@ Target "SetAssemblyInfo" (fun _ ->
                 AssemblyInformationalVersion = version;
                 OutputFileName = sprintf @".\Source\%s\Properties\AssemblyInfo.cs" project})
 
-    ["FeatureSwitcher"; "FeatureSwitcher.Configuration"]
+    ["FeatureSwitcher";
+     "FeatureSwitcher.Configuration";
+     "FeatureSwitcher.Contexteer"]
         |> Seq.iter replaceAssemblyInfoVersions
 )
 
@@ -98,12 +100,12 @@ Target "BuildZip" (fun _ ->
 )
 
 Target "BuildNuGet" (fun _ ->
-    let nugetLibDir = nugetDir @@ "lib" @@ "4.0"
+    let buildPackage (project, description, dependencies) = 
+        let nugetLibDir = nugetDir @@ "lib" @@ "4.0"
 
-    let buildPackage contents project description dependencies = 
         CleanDirs [nugetLibDir]
 
-        contents
+        [buildDir @@ (sprintf "%s.dll" project)]
             |> CopyTo nugetLibDir
 
         NuGet (fun p ->
@@ -122,8 +124,12 @@ Target "BuildNuGet" (fun _ ->
         !! (nugetDir + "FeatureSwitcher.*.nupkg")
           |> CopyTo deployDir
 
-    buildPackage [buildDir @@ "FeatureSwitcher.dll"] "FeatureSwitcher" "" []
-    buildPackage [buildDir @@ "FeatureSwitcher.Configuration.dll"] "FeatureSwitcher.Configuration" "Configuration package." [projectName, RequireExactly (NormalizeVersion version)]
+    let coreDependency = "FeatureSwitcher", RequireExactly (NormalizeVersion version)
+
+    ["FeatureSwitcher", "", []
+     "FeatureSwitcher.Configuration", "Configuration package.", [coreDependency]
+     "FeatureSwitcher.Contexteer", "Contexteer package.", ["Contexteer", "0.1.1"; coreDependency]]
+        |> Seq.iter buildPackage
 )
 
 Target "Default" DoNothing

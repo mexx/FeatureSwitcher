@@ -4,10 +4,16 @@ namespace FeatureSwitcher.Configuration
 {
     public sealed class ProvideNaming : IProvideNaming
     {
-        private readonly Func<Type, string> _nameFor;
+        public static IProvideNaming ByTypeName { get; private set; }
+        public static IProvideNaming ByTypeFullName { get; private set; }
 
-        public static readonly IProvideNaming ByTypeName = new ProvideNaming(x => x.Name);
-        public static readonly IProvideNaming ByTypeFullName = new ProvideNaming(x => x.FullName);
+        static ProvideNaming()
+        {
+            ByTypeFullName = new ProvideNaming(x => x.FullName);
+            ByTypeName = new ProvideNaming(x => x.Name);
+        }
+
+        private readonly Func<Type, string> _nameFor;
 
         private ProvideNaming(Func<Type, string> nameFor)
         {

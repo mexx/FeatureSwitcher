@@ -1,3 +1,5 @@
+using Contexteer;
+
 namespace FeatureSwitcher.Specs
 {
     public class BusinessBranch : IContext

@@ -3,11 +3,11 @@ using Machine.Specifications;
 
 namespace FeatureSwitcher.Specs
 {
+#pragma warning disable 169
     // ReSharper disable InconsistentNaming
-    // ReSharper disable UnusedMember.Local
     public class WithoutBehavior : WithCleanUp
     {
-        Establish ctx = () => ByDefault.FeaturesAre.AlwaysDisabled();
+        Establish ctx = () => Features.Are.AlwaysDisabled();
     }
 
     public class Without_behavior_simple_feature : WithoutBehavior
@@ -19,6 +19,6 @@ namespace FeatureSwitcher.Specs
     {
         Behaves_like<DisabledComplexFeatureBehavior> a_disabled_feature;
     }
-    // ReSharper restore UnusedMember.Local
     // ReSharper restore InconsistentNaming
+#pragma warning restore 169
 }

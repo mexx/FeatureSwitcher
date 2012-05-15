@@ -4,14 +4,14 @@ using Machine.Specifications;
 
 namespace FeatureSwitcher.Specs
 {
+#pragma warning disable 169
     // ReSharper disable InconsistentNaming
-    // ReSharper disable UnusedMember.Local
     public class Without_configuration : WithCleanUp
     {
-        Establish ctx = () => ByDefault.FeaturesAre.ConfiguredBy.AppConfig();
+        Establish ctx = () => Features.Are.ConfiguredBy.AppConfig();
 
         // ReSharper disable UnusedVariable
-        Because of = () => _exception = Catch.Exception(() => { var isEnabled=Feature<Simple>.IsEnabled; });
+        Because of = () => _exception = Catch.Exception(() => { var isEnabled=Feature<Simple>.Is().Enabled; });
         // ReSharper restore UnusedVariable
 
         It should_throw_a_configuration_errors_exception = () => _exception.ShouldBeOfType<System.Configuration.ConfigurationErrorsException>();
@@ -21,7 +21,7 @@ namespace FeatureSwitcher.Specs
 
     public class Without_configuration_feature : WithCleanUp
     {
-        Establish ctx = () => ByDefault.FeaturesAre.ConfiguredBy.AppConfig().IgnoreConfigurationErrors();
+        Establish ctx = () => Features.Are.ConfiguredBy.AppConfig().IgnoreConfigurationErrors();
 
         Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
     }
@@ -35,7 +35,7 @@ namespace FeatureSwitcher.Specs
         {
             DefaultSection = new DefaultSection();
             FeaturesSection = new FeaturesSection();
-            ByDefault.FeaturesAre.ConfiguredBy.AppConfig(DefaultSection, FeaturesSection);
+            Features.Are.ConfiguredBy.AppConfig(DefaultSection, FeaturesSection);
         };
     }
 
@@ -91,6 +91,6 @@ namespace FeatureSwitcher.Specs
 
         Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
     }
-    // ReSharper restore UnusedMember.Local
     // ReSharper restore InconsistentNaming
+#pragma warning restore 169
 }
