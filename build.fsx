@@ -104,7 +104,7 @@ Target "BuildZip" (fun _ ->
 Target "BuildNuGet" (fun _ ->
     let nugetLibDir = nugetDir @@ "lib" @@ "4.0"
 
-    let buildPackage contents project description dependencies template = 
+    let buildPackage contents project description dependencies = 
         CleanDirs [nugetLibDir]
 
         contents
@@ -121,13 +121,13 @@ Target "BuildNuGet" (fun _ ->
                 OutputPath = nugetDir
                 AccessKey = NugetKey
                 Publish = NugetKey <> "" })
-            template
+            (sprintf @".\Source\%s\Package.nuspec" project)
 
         !! (nugetDir + "FeatureSwitcher.*.nupkg")
           |> CopyTo deployDir
 
-    buildPackage [buildDir @@ "FeatureSwitcher.dll"] "FeatureSwitcher" "" [] @".\Source\FeatureSwitcher\FeatureSwitcher.nuspec"
-    buildPackage [buildDir @@ "FeatureSwitcher.Configuration.dll"] "FeatureSwitcher.Configuration" "Configuration package." [projectName, RequireExactly (NormalizeVersion version)] @".\Source\FeatureSwitcher.Configuration\FeatureSwitcher.Configuration.nuspec"
+    buildPackage [buildDir @@ "FeatureSwitcher.dll"] "FeatureSwitcher" "" []
+    buildPackage [buildDir @@ "FeatureSwitcher.Configuration.dll"] "FeatureSwitcher.Configuration" "Configuration package." [projectName, RequireExactly (NormalizeVersion version)]
 )
 
 Target "Default" DoNothing

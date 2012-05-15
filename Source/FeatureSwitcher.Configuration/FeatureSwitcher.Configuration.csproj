@@ -57,7 +57,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="FeatureSwitcher.Configuration.nuspec" />
+    <None Include="Package.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
