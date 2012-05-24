@@ -1,18 +1,20 @@
+using Contexteer;
+using Contexteer.Configuration;
 using FeatureSwitcher.Configuration;
 using Machine.Specifications;
 
 namespace FeatureSwitcher.Specs
 {
+#pragma warning disable 169
     // ReSharper disable InconsistentNaming
-    // ReSharper disable UnusedMember.Local
-    public class TestConfiguration : InContextOf<BusinessBranch, IProvideBehavior>, InContextOf<BusinessBranch, IProvideNaming>
+    public class TestConfiguration
     {
-        IProvideBehavior InContextOf<BusinessBranch, IProvideBehavior>.With(BusinessBranch context)
+        public static IProvideBehavior Behavior(BusinessBranch context)
         {
             return AllFeatures.Enabled;
         }
 
-        IProvideNaming InContextOf<BusinessBranch, IProvideNaming>.With(BusinessBranch context)
+        public static IProvideNaming Naming(BusinessBranch context)
         {
             return ProvideNaming.ByTypeName;
         }
@@ -25,7 +27,7 @@ namespace FeatureSwitcher.Specs
             if (feature == typeof(Simple).Name)
                 return true;
 
-            return FeatureConfiguration.For(Context.Default).Behavior.IsEnabled(feature);
+            return FeatureConfiguration.For(Default.Context).Behavior.IsEnabled(feature);
         }
 
         public string For<TFeature>() where TFeature : IFeature
@@ -33,22 +35,22 @@ namespace FeatureSwitcher.Specs
             if (typeof(TFeature) == typeof(Complex))
                 return typeof(Complex).FullName;
 
-            return FeatureConfiguration.For(Context.Default).Naming.For<TFeature>();
+            return FeatureConfiguration.For(Default.Context).Naming.For<TFeature>();
         }
     }
 
     public class WithMultipleContexts : WithCleanUp
     {
         Establish ctx = () =>
-                            {
-                                ByDefault.FeaturesAre.ConfiguredBy.AppConfig().IgnoreConfigurationErrors();
+        {
+            Features.Are.ConfiguredBy.AppConfig().IgnoreConfigurationErrors();
 
-                                InContexts.OfType<BusinessBranch>().FeaturesAre.
-                                    ConfiguredBy.Custom(new TestConfiguration()).And.
-                                    NamedBy.Custom(new TestConfiguration());
-                            };
+            In<BusinessBranch>.Contexts.FeaturesAre().
+                ConfiguredBy.Custom(TestConfiguration.Behavior).And.
+                NamedBy.Custom(TestConfiguration.Naming);
+        };
 
-        Cleanup cleanup = () => InContexts.OfType<BusinessBranch>().FeaturesAre.
+        Cleanup cleanup = () => In<BusinessBranch>.Contexts.FeaturesAre().
                                             HandledByDefault();
 
         Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
@@ -67,13 +69,13 @@ namespace FeatureSwitcher.Specs
     {
         Establish ctx = () =>
         {
-            ByDefault.FeaturesAre.NamedBy.TypeName();
+            Features.Are.NamedBy.TypeName();
 
-            InContexts.OfType<BusinessBranch>().FeaturesAre.
+            In<BusinessBranch>.Contexts.FeaturesAre().
                 ConfiguredBy.Custom(new TestFallbackConfiguration());
         };
 
-        Cleanup cleanup = () => InContexts.OfType<BusinessBranch>().FeaturesAre.
+        Cleanup cleanup = () => In<BusinessBranch>.Contexts.FeaturesAre().
                                             HandledByDefault();
 
         Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
@@ -83,7 +85,7 @@ namespace FeatureSwitcher.Specs
 
     public class Syntax_sugar : WithCleanUp
     {
-        Because of = () => ByDefault.FeaturesAre.
+        Because of = () => Features.Are.
             NamedBy.TypeName().And.
             NamedBy.TypeFullName().And.
             ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).And.
@@ -104,6 +106,6 @@ namespace FeatureSwitcher.Specs
 
         It should_not_fail = () => true.ShouldBeTrue();
     }
-    // ReSharper restore UnusedMember.Local
     // ReSharper restore InconsistentNaming
+#pragma warning restore 169
 }

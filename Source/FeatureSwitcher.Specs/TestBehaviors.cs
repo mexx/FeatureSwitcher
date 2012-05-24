@@ -8,65 +8,61 @@ namespace FeatureSwitcher.Specs
     [Behaviors]
     public class EnabledSimpleFeatureBehavior
     {
-        It should_be_enabled_as_generic = () => Feature<Simple>.IsEnabled.ShouldBeTrue();
+        It should_be_enabled_as_generic = () => Feature<Simple>.Is().Enabled.ShouldBeTrue();
 
-        It should_be_enabled_as_instance = () => new Simple().IsEnabled().ShouldBeTrue();
+        It should_be_enabled_as_instance = () => new Simple().Is().Enabled.ShouldBeTrue();
 
-        It should_be_not_disabled_as_generic = () => Feature<Simple>.IsDisabled.ShouldBeFalse();
+        It should_be_not_disabled_as_generic = () => Feature<Simple>.Is().Disabled.ShouldBeFalse();
 
-        It should_be_not_disabled_as_instance = () => new Simple().IsDisabled().ShouldBeFalse();
+        It should_be_not_disabled_as_instance = () => new Simple().Is().Disabled.ShouldBeFalse();
     }
     
     [Behaviors]
     public class EnabledSimpleFeatureInHeadquatersBehavior
     {
-        It should_be_enabled_as_generic = () => InContext.Of(BusinessBranch.Headquarters).Feature<Simple>().IsEnabled.ShouldBeTrue();
+        It should_be_enabled_as_generic = () => Feature<Simple>.Is().EnabledInContextOf(BusinessBranch.Headquarters).ShouldBeTrue();
 
-        It should_be_enabled_as_instance = () => InContext.Of(BusinessBranch.Headquarters).Feature(new Simple()).IsEnabled.ShouldBeTrue();
+        It should_be_enabled_as_instance = () => new Simple().Is().EnabledInContextOf(BusinessBranch.Headquarters).ShouldBeTrue();
 
-        It should_be_enabled_as_instance_convinience = () => InContext.Of(BusinessBranch.Headquarters).FeatureIsEnabled(new Simple()).ShouldBeTrue();
+        It should_be_not_disabled_as_generic = () => Feature<Simple>.Is().DisabledInContextOf(BusinessBranch.Headquarters).ShouldBeFalse();
 
-        It should_be_not_disabled_as_generic = () => InContext.Of(BusinessBranch.Headquarters).Feature<Simple>().IsDisabled.ShouldBeFalse();
-
-        It should_be_not_disabled_as_instance = () => InContext.Of(BusinessBranch.Headquarters).Feature(new Simple()).IsDisabled.ShouldBeFalse();
-
-        It should_be_not_disabled_as_instance_convinience = () => InContext.Of(BusinessBranch.Headquarters).FeatureIsDisabled(new Simple()).ShouldBeFalse();
+        It should_be_not_disabled_as_instance = () => new Simple().Is().DisabledInContextOf(BusinessBranch.Headquarters).ShouldBeFalse();
     }
     
     [Behaviors]
     public class DisabledSimpleFeatureBehavior
     {
-        It should_be_disabled_as_generic = () => Feature<Simple>.IsDisabled.ShouldBeTrue();
+        It should_be_disabled_as_generic = () => Feature<Simple>.Is().Disabled.ShouldBeTrue();
 
-        It should_be_disabled_as_instance = () => new Simple().IsDisabled().ShouldBeTrue();
+        It should_be_disabled_as_instance = () => new Simple().Is().Disabled.ShouldBeTrue();
 
-        It should_be_not_enabled_as_generic = () => Feature<Simple>.IsEnabled.ShouldBeFalse();
+        It should_be_not_enabled_as_generic = () => Feature<Simple>.Is().Enabled.ShouldBeFalse();
 
-        It should_be_not_enabled_as_instance = () => new Simple().IsEnabled().ShouldBeFalse();
+        It should_be_not_enabled_as_instance = () => new Simple().Is().Enabled.ShouldBeFalse();
     }
 
     [Behaviors]
     public class EnabledComplexFeatureBehavior
     {
-        It should_be_enabled_as_generic = () => Feature<Complex>.IsEnabled.ShouldBeTrue();
+        It should_be_enabled_as_generic = () => Feature<Complex>.Is().Enabled.ShouldBeTrue();
 
-        It should_be_enabled_as_instance = () => new Complex().IsEnabled().ShouldBeTrue();
+        It should_be_enabled_as_instance = () => new Complex().Is().Enabled.ShouldBeTrue();
 
-        It should_be_not_disabled_as_generic = () => Feature<Complex>.IsDisabled.ShouldBeFalse();
+        It should_be_not_disabled_as_generic = () => Feature<Complex>.Is().Disabled.ShouldBeFalse();
 
-        It should_be_not_disabled_as_instance = () => new Complex().IsDisabled().ShouldBeFalse();
+        It should_be_not_disabled_as_instance = () => new Complex().Is().Disabled.ShouldBeFalse();
     }
 
     [Behaviors]
     public class DisabledComplexFeatureBehavior
     {
-        It should_be_disabled_as_generic = () => Feature<Complex>.IsDisabled.ShouldBeTrue();
+        It should_be_disabled_as_generic = () => Feature<Complex>.Is().Disabled.ShouldBeTrue();
 
-        It should_be_disabled_as_instance = () => new Complex().IsDisabled().ShouldBeTrue();
+        It should_be_disabled_as_instance = () => new Complex().Is().Disabled.ShouldBeTrue();
 
-        It should_be_not_enabled_as_generic = () => Feature<Complex>.IsEnabled.ShouldBeFalse();
+        It should_be_not_enabled_as_generic = () => Feature<Complex>.Is().Enabled.ShouldBeFalse();
 
-        It should_be_not_enabled_as_instance = () => new Complex().IsEnabled().ShouldBeFalse();
+        It should_be_not_enabled_as_instance = () => new Complex().Is().Enabled.ShouldBeFalse();
     }
     // ReSharper restore UnusedMember.Local
     // ReSharper restore InconsistentNaming

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureSwitcher.Configurati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureSwitcher.Examples", "FeatureSwitcher.Examples\FeatureSwitcher.Examples.csproj", "{E4727D47-E8DA-4730-8B04-01014ECDE524}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureSwitcher.Contexteer", "FeatureSwitcher.Contexteer\FeatureSwitcher.Contexteer.csproj", "{F1B48637-D35E-4CEC-9611-DB8EC36C65B1}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BC6156A9-5095-4006-860C-E4D81C4ED025}"
 	ProjectSection(SolutionItems) = preProject
 		..\build.cmd = ..\build.cmd
@@ -46,6 +48,10 @@ Global
 		{E4727D47-E8DA-4730-8B04-01014ECDE524}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4727D47-E8DA-4730-8B04-01014ECDE524}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4727D47-E8DA-4730-8B04-01014ECDE524}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1B48637-D35E-4CEC-9611-DB8EC36C65B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1B48637-D35E-4CEC-9611-DB8EC36C65B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1B48637-D35E-4CEC-9611-DB8EC36C65B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1B48637-D35E-4CEC-9611-DB8EC36C65B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

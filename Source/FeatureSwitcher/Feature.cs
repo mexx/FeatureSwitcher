@@ -1,26 +1,17 @@
+using FeatureSwitcher.Configuration;
+
 namespace FeatureSwitcher
 {
     /// <summary>
-    /// Represents the feature.
+    /// Extension methods for <typeparamref name="TFeature"/>.
     /// </summary>
-    /// <typeparam name="T">The type of the feature.</typeparam>
-    public static class Feature<T>
-        where T : IFeature
+    /// <typeparam name="TFeature">The type of the feature.</typeparam>
+    public static class Feature<TFeature>
+        where TFeature : IFeature
     {
-        /// <summary>
-        /// Gets whether the feature is enabled
-        /// </summary>
-        public static bool IsEnabled
+        public static IStateOf<TFeature> Is()
         {
-            get { return InContext.Of(Context.Default).Feature<T>().IsEnabled; }
-        }
-
-        /// <summary>
-        /// Gets whether the feature is disabled
-        /// </summary>
-        public static bool IsDisabled
-        {
-            get { return !IsEnabled; }
+            return new StateOf<TFeature>(ProvideState.Control);
         }
     }
 
@@ -29,22 +20,10 @@ namespace FeatureSwitcher
     /// </summary>
     public static class Feature
     {
-        /// <summary>
-        /// Gets whether the feature is enabled
-        /// </summary>
-        public static bool IsEnabled<T>(this T This)
-            where T : IFeature
+        public static IStateOf<TFeature> Is<TFeature>(this TFeature This)
+            where TFeature : IFeature
         {
-            return Feature<T>.IsEnabled;
-        }
-
-        /// <summary>
-        /// Gets whether the feature is disabled
-        /// </summary>
-        public static bool IsDisabled<T>(this T This)
-            where T : IFeature
-        {
-            return Feature<T>.IsDisabled;
+            return Feature<TFeature>.Is();
         }
     }
 }

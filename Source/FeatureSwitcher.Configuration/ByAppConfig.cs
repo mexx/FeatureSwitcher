@@ -2,16 +2,14 @@ namespace FeatureSwitcher.Configuration
 {
     public static class ByAppConfig
     {
-        public static IConfigureAppConfigFor<TContext> AppConfig<TContext>(this IConfigureIn<TContext, IProvideBehavior> This)
-            where TContext : IContext
+        public static IConfigureAppConfig AppConfig(this IConfigureBehavior This)
         {
-            return new ConfigureAppConfigFor<TContext>(This);
+            return new ConfigureAppConfig(This);
         }
 
-        internal static IConfigureAppConfigFor<TContext> AppConfig<TContext>(this IConfigureIn<TContext, IProvideBehavior> This, DefaultSection defaultSection, FeaturesSection featuresSection)
-            where TContext : IContext
+        internal static IConfigureAppConfig AppConfig(this IConfigureBehavior This, DefaultSection defaultSection, FeaturesSection featuresSection)
         {
-            return new ConfigureAppConfigFor<TContext>(This, defaultSection, featuresSection);
+            return new ConfigureAppConfig(This, defaultSection, featuresSection);
         }
     }
 }

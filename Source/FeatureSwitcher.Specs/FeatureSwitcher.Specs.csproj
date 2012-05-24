@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Contexteer, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Contexteer.0.1.1\lib\4.0\Contexteer.dll</HintPath>
+    </Reference>
     <Reference Include="Machine.Specifications, Version=0.5.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Machine.Specifications.0.5.6.0\lib\net40\Machine.Specifications.dll</HintPath>
     </Reference>
@@ -59,6 +63,10 @@
     <ProjectReference Include="..\FeatureSwitcher.Configuration\FeatureSwitcher.Configuration.csproj">
       <Project>{7622325E-609D-47F4-B7D8-E0172A1A2BDF}</Project>
       <Name>FeatureSwitcher.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FeatureSwitcher.Contexteer\FeatureSwitcher.Contexteer.csproj">
+      <Project>{F1B48637-D35E-4CEC-9611-DB8EC36C65B1}</Project>
+      <Name>FeatureSwitcher.Contexteer</Name>
     </ProjectReference>
     <ProjectReference Include="..\FeatureSwitcher\FeatureSwitcher.csproj">
       <Project>{3A2D3A93-5B05-4003-BBAB-13D5E20824EC}</Project>

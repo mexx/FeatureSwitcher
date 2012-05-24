@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Contexteer;
+using Contexteer.Configuration;
 using FeatureSwitcher.Configuration;
 
 namespace FeatureSwitcher.Examples
@@ -24,75 +27,81 @@ namespace FeatureSwitcher.Examples
     {
         static void Main(string[] args)
         {
-            
-            ByDefault.FeaturesAre.
+            Features.Are.
+                AlwaysEnabled();
+            In<BusinessBranch>.Contexts.FeaturesAre().
+                AlwaysEnabled();
+            In<BusinessBranch>.Contexts.FeaturesAre().
                 AlwaysEnabled();
 
-            ByDefault.FeaturesAre.
+            Features.Are.
+                AlwaysEnabled();
+
+            Features.Are.
                 AlwaysDisabled().And.
                 NamedBy.TypeName();
 
-            ByDefault.FeaturesAre.
+            Features.Are.
                 NamedBy.TypeFullName();
 
-            ByDefault.FeaturesAre.
+            Features.Are.
                 NamedBy.TypeFullName().And.
                 AlwaysEnabled();
 
-            InContexts.OfType<BusinessBranch>().FeaturesAre.
+            In<BusinessBranch>.Contexts.FeaturesAre().
                 AlwaysDisabled();
 
-            InContexts.OfType<BusinessBranch>().FeaturesAre.
+            In<BusinessBranch>.Contexts.FeaturesAre().
                 AlwaysEnabled().And.
                 NamedBy.TypeFullName();
 
-            InContexts.OfType<BusinessBranch>().FeaturesAre.
+            In<BusinessBranch>.Contexts.FeaturesAre().
                 NamedBy.TypeName();
 
-            InContexts.OfType<BusinessBranch>().FeaturesAre.
+            In<BusinessBranch>.Contexts.FeaturesAre().
                 NamedBy.TypeName().And.
                 AlwaysEnabled();
 
-            ByDefault.FeaturesAre.
+            Features.Are.
                 ConfiguredBy.AppConfig().And.
                 NamedBy.TypeName();
 
-            ByDefault.FeaturesAre.
+            Features.Are.
                 ConfiguredBy.AppConfig().UsingConfigSectionGroup("featureSwitcher.hq").And.
                 NamedBy.TypeName();
 
-            ByDefault.FeaturesAre.
+            Features.Are.
                 ConfiguredBy.AppConfig().IgnoreConfigurationErrors().And.
                 NamedBy.TypeName();
 
-            ByDefault.FeaturesAre.
+            Features.Are.
                 ConfiguredBy.AppConfig().UsingConfigSectionGroup("featureSwitcher.hq").IgnoreConfigurationErrors().And.
                 NamedBy.TypeName();
 
-            ByDefault.FeaturesAre.
+            Features.Are.
                 ConfiguredBy.AppConfig().IgnoreConfigurationErrors().UsingConfigSectionGroup("featureSwitcher.hq").And.
                 NamedBy.TypeName();
 
-            ByDefault.FeaturesAre.
+            Features.Are.
                 ConfiguredBy.AppConfig().UsingConfigSectionGroup("featureSwitcher.hq");
 
-            ByDefault.FeaturesAre.
+            Features.Are.
                 NamedBy.TypeFullName();
 
-            ByDefault.FeaturesAre.
+            Features.Are.
                 NamedBy.TypeFullName().And.
                 ConfiguredBy.AppConfig().UsingConfigSectionGroup("featureSwitcher.hq");
 
-            ByDefault.FeaturesAre.
+            Features.Are.
                 HandledByDefault();
 
-            ByDefault.FeaturesAre.
+            Features.Are.
                 ConfiguredBy.AppConfig().IgnoreConfigurationErrors();
 
-            if (Feature<BlueBackground>.IsEnabled)
+            if (Feature<BlueBackground>.Is().Enabled)
                 Console.BackgroundColor = ConsoleColor.Blue;
 
-            Console.WriteLine("Myth feature is {0}", Feature<Myth>.IsEnabled ? "enabled" : "disabled");
+            Console.WriteLine("Myth feature is {0}", Feature<Myth>.Is().Enabled ? "enabled" : "disabled");
             if (Debugger.IsAttached)
                 Console.ReadLine();
 
@@ -100,24 +109,24 @@ namespace FeatureSwitcher.Examples
             var branch = BusinessBranch.HQ;
             var named = new TestNamed();
 
-            var a = Feature<TestNamed>.IsEnabled;
-            var c = InContext.Of(branch).Feature<TestNamed>().IsEnabled;
+            var a = Feature<TestNamed>.Is().Enabled;
+            var c = Feature<TestNamed>.Is().EnabledInContextOf(branch);
 
-            var d = named.IsEnabled();
-            var f = InContext.Of(branch).Feature(named).IsEnabled;
+            var d = named.Is().Enabled;
+            var f = named.Is().EnabledInContextOf(branch);
 
             var features = new IFeature[] {new Myth(), new BlueBackground()};
             foreach (var feature in features.
-                Where(Feature.IsEnabled).
-                Where(InContext.Of(branch).FeatureIsEnabled))
+                Where(x => x.Is().Enabled).
+                Where(x => x.Is().EnabledInContextOf(branch)))
             {
-                feature.IsEnabled();
+                var b = feature.Is().Enabled;
             }
-
-            foreach (var feature in features.
-                Select(InContext.Of(branch).Feature))
+            foreach (var feature in features.Select(Feature.Is).
+                Where(x => x.Enabled).
+                Where(x => x.EnabledInContextOf(branch)))
             {
-                var b = feature.IsEnabled;
+                var b = feature.Enabled;
             }
         }
     }

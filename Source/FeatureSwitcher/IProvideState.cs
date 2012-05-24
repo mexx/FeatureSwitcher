@@ -1,6 +1,6 @@
-namespace FeatureSwitcher.Configuration
+namespace FeatureSwitcher
 {
-    internal interface IControlFeatures
+    public interface IProvideState
     {
         bool IsEnabled<TFeature>()
             where TFeature : IFeature;

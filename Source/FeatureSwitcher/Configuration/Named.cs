@@ -2,14 +2,12 @@ namespace FeatureSwitcher.Configuration
 {
     public static class Named
     {
-        public static IConfigureFeaturesFor<TContext> TypeFullName<TContext>(this IConfigureIn<TContext, IProvideNaming> This)
-            where TContext : IContext
+        public static IConfigureFeatures TypeFullName(this IConfigureNaming This)
         {
             return This.Custom(ProvideNaming.ByTypeFullName);
         }
 
-        public static IConfigureFeaturesFor<TContext> TypeName<TContext>(this IConfigureIn<TContext, IProvideNaming> This)
-            where TContext : IContext
+        public static IConfigureFeatures TypeName(this IConfigureNaming This)
         {
             return This.Custom(ProvideNaming.ByTypeName);
         }

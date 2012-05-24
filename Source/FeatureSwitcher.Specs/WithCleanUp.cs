@@ -3,12 +3,12 @@ using Machine.Specifications;
 
 namespace FeatureSwitcher.Specs
 {
+#pragma warning disable 169
     // ReSharper disable InconsistentNaming
-    // ReSharper disable UnusedMember.Local
     public class WithCleanUp
     {
-        Cleanup clean = () => ByDefault.FeaturesAre.HandledByDefault();
+        Cleanup clean = () => Features.Are.HandledByDefault();
     }
-    // ReSharper restore UnusedMember.Local
     // ReSharper restore InconsistentNaming
+#pragma warning restore 169
 }

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Contexteer;
+using Contexteer.Configuration;
 
 namespace FeatureSwitcher.Configuration
 {
@@ -8,7 +10,7 @@ namespace FeatureSwitcher.Configuration
         private static readonly IDictionary<Type, object> Behaviors = new Dictionary<Type, object>();
         private static readonly IDictionary<Type, object> Namings = new Dictionary<Type, object>();
 
-        internal static void Set<T, TControl>(InContextOf<T, TControl> value)
+        internal static void Set<T, TControl>(Func<T, TControl> value)
             where T : IContext
         {
             IDictionary<Type, object> configs;
@@ -28,22 +30,28 @@ namespace FeatureSwitcher.Configuration
                 configs.Remove(context);
         }
 
-        public static FeatureControl For<T>(T context)
+        public static IConfigureFeaturesFor<TContext> FeaturesAre<TContext>(this IConfigure<TContext> This)
+            where TContext : IContext
+        {
+            return new FeatureConfigurationFor<TContext>();
+        }
+
+        public static ProvideState For<T>(T context)
             where T : IContext
         {
-            return new FeatureControl(BehaviorFor(context), NamingFor(context));
+            return new ProvideState(BehaviorFor(context), NamingFor(context));
         }
 
         private static IProvideBehavior BehaviorFor<T>(T context)
             where T : IContext
         {
-            return GetBehavior(context) ?? GetBehavior(Context.Default) ?? AllFeatures.Disabled;
+            return GetBehavior(context) ?? GetBehavior(Default.Context) ?? ProvideState.ConfiguredBehavior;
         }
 
         private static IProvideNaming NamingFor<T>(T context)
             where T : IContext
         {
-            return GetNaming(context) ?? GetNaming(Context.Default) ?? ProvideNaming.ByTypeFullName;
+            return GetNaming(context) ?? GetNaming(Default.Context) ?? ProvideState.ConfiguredNaming;
         }
 
         private static IProvideBehavior GetBehavior<T>(T context) where T : IContext
@@ -53,8 +61,8 @@ namespace FeatureSwitcher.Configuration
             if (!Behaviors.TryGetValue(contextType, out behavior))
                 return null;
 
-            var inContextOf = behavior as InContextOf<T, IProvideBehavior>;
-            return inContextOf != null ? inContextOf.With(context) : null;
+            var inContextOf = behavior as Func<T, IProvideBehavior>;
+            return inContextOf != null ? inContextOf(context) : null;
         }
 
         private static IProvideNaming GetNaming<T>(T context) where T : IContext
@@ -64,8 +72,8 @@ namespace FeatureSwitcher.Configuration
             if (!Namings.TryGetValue(contextType, out naming))
                 return null;
 
-            var inContextOf = naming as InContextOf<T, IProvideNaming>;
-            return inContextOf != null ? inContextOf.With(context) : null;
+            var inContextOf = naming as Func<T, IProvideNaming>;
+            return inContextOf != null ? inContextOf(context) : null;
         }
     }
 }

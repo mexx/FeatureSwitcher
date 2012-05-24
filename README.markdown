@@ -77,7 +77,7 @@ In the code where you need to switch you create the desired context instance and
 To control the features in the context you can provide the behavior which supports the context.
 
     // behavior is an implementation of InContextOf<BusinessBranch, IProvideBehavior>
-    InContexts.OfType<BusinessBranch>().FeaturesAre.ConfiguredBy.Custom(behavior);
+    InContexts.OfType<BusinessBranch>().FeaturesAre().ConfiguredBy.Custom(behavior);
 
 # Versioning
 
