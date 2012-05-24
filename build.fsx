@@ -43,9 +43,15 @@ let deployDir = @".\Release\"
 let slnReferences = !! (sourceDir + @"*.sln")
 let nugetPath = sourceDir + @".nuget\NuGet.exe"
 
+let GetVersionOf package =
+    let version = lazy ( GetPackageVersion packagesDir package )
+    version.Force()
+
+let DependOn package =
+    package, GetVersionOf package
+
 (* tests *)
-let MSpecVersion = lazy ( GetPackageVersion packagesDir "Machine.Specifications" )
-let mspecTool = lazy( sprintf @"%s\Machine.Specifications.%s\tools\mspec-clr4.exe" packagesDir (MSpecVersion.Force()) )
+let mspecTool = lazy( sprintf @"%s\Machine.Specifications.%s\tools\mspec-clr4.exe" packagesDir (GetVersionOf "Machine.Specifications") )
 
 (* Targets *)
 Target "Clean" (fun _ -> 
@@ -101,7 +107,8 @@ Target "BuildZip" (fun _ ->
 
 Target "BuildNuGet" (fun _ ->
     let buildPackage (project, description, dependencies) = 
-        let nugetLibDir = nugetDir @@ "lib" @@ "4.0"
+        let projectNugetDir = nugetDir @@ project
+        let nugetLibDir = projectNugetDir @@ "lib" @@ "4.0"
 
         CleanDirs [nugetLibDir]
 
@@ -116,19 +123,19 @@ Target "BuildNuGet" (fun _ ->
                 Description = description
                 Version = version
                 Dependencies = dependencies
-                OutputPath = nugetDir
+                OutputPath = projectNugetDir
                 AccessKey = NugetKey
                 Publish = NugetKey <> "" })
             (sprintf @".\Source\%s\Package.nuspec" project)
 
-        !! (nugetDir + "FeatureSwitcher.*.nupkg")
+        !! (nugetDir @@ (sprintf "%s.*.nupkg" project))
           |> CopyTo deployDir
 
     let coreDependency = "FeatureSwitcher", RequireExactly (NormalizeVersion version)
 
     ["FeatureSwitcher", "", []
      "FeatureSwitcher.Configuration", "Configuration package.", [coreDependency]
-     "FeatureSwitcher.Contexteer", "Contexteer package.", ["Contexteer", "0.1.1"; coreDependency]]
+     "FeatureSwitcher.Contexteer", "Contexteer package.", [DependOn "Contexteer"; coreDependency]]
         |> Seq.iter buildPackage
 )
 
