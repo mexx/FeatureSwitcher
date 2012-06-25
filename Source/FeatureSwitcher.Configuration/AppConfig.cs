@@ -14,11 +14,6 @@ namespace FeatureSwitcher.Configuration
         {
         }
 
-        public AppConfig(bool ignoreConfigurationErrors)
-            : this(null, null, FeatureSwitcherConfigurationGroupName, ignoreConfigurationErrors)
-        {
-        }
-
         internal AppConfig(DefaultSection defaultSection, FeaturesSection featuresSection)
             : this(defaultSection, featuresSection, FeatureSwitcherConfigurationGroupName, false)
         {
