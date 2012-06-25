@@ -9,7 +9,7 @@ namespace FeatureSwitcher.Configuration
         public static IProvideBehavior ConfiguredBehavior
         {
             get { return _configuredBehavior ?? AllFeatures.Disabled; }
-            set { _configuredBehavior = value; }
+            internal set { _configuredBehavior = value; }
         }
 
         private static IProvideNaming _configuredNaming;
@@ -17,7 +17,7 @@ namespace FeatureSwitcher.Configuration
         public static IProvideNaming ConfiguredNaming
         {
             get { return _configuredNaming ?? ProvideNaming.ByTypeFullName; }
-            set { _configuredNaming = value; }
+            internal set { _configuredNaming = value; }
         }
 
         internal static ProvideState Control

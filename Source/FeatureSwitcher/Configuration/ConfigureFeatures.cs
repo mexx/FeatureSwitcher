@@ -2,28 +2,28 @@ namespace FeatureSwitcher.Configuration
 {
     internal class ConfigureFeatures : IConfigureFeatures, IConfigureNaming, IConfigureBehavior
     {
-        public IConfigureFeatures And
+        IConfigureFeatures IConfigureFeatures.And
         {
             get { return this; }
         }
 
-        public IConfigureNaming NamedBy
+        IConfigureNaming IConfigureFeatures.NamedBy
         {
             get { return this; }
         }
 
-        public IConfigureBehavior ConfiguredBy
+        IConfigureBehavior IConfigureFeatures.ConfiguredBy
         {
             get { return this; }
         }
 
-        public IConfigureFeatures Custom(IProvideNaming naming)
+        IConfigureFeatures IConfigureNaming.Custom(IProvideNaming naming)
         {
             ProvideState.ConfiguredNaming = naming;
             return this;
         }
 
-        public IConfigureFeatures Custom(IProvideBehavior behavior)
+        IConfigureFeatures IConfigureBehavior.Custom(IProvideBehavior behavior)
         {
             ProvideState.ConfiguredBehavior = behavior;
             return this;

@@ -63,7 +63,7 @@ namespace FeatureSwitcher.Configuration
             return new T();
         }
 
-        public bool IsEnabled(string feature)
+        bool IProvideBehavior.IsEnabled(string feature)
         {
             var featureElement = FeaturesSection.Features[feature];
 
@@ -75,7 +75,7 @@ namespace FeatureSwitcher.Configuration
             return new AppConfig(_default, _features, _sectionGroupName, true);
         }
 
-        public AppConfig UseConfigSectionGroup(string name)
+        internal AppConfig UseConfigSectionGroup(string name)
         {
             return new AppConfig(_default, _features, name, _ignoreConfigurationErrors);
         }

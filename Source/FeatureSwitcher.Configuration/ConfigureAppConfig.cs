@@ -23,27 +23,27 @@ namespace FeatureSwitcher.Configuration
             _configuration = _control.Custom(_appConfig);
         }
 
-        public IConfigureAppConfig IgnoreConfigurationErrors()
+        IConfigureAppConfig IConfigureAppConfig.IgnoreConfigurationErrors()
         {
             return new ConfigureAppConfig(_control, _appConfig.IgnoreConfigurationErrors());
         }
 
-        public IConfigureAppConfig UsingConfigSectionGroup(string name)
+        IConfigureAppConfig IConfigureAppConfig.UsingConfigSectionGroup(string name)
         {
             return new ConfigureAppConfig(_control, _appConfig.UseConfigSectionGroup(name));
         }
 
-        public IConfigureFeatures And
+        IConfigureFeatures IConfigureFeatures.And
         {
             get { return _configuration; }
         }
 
-        public IConfigureNaming NamedBy
+        IConfigureNaming IConfigureFeatures.NamedBy
         {
             get { return _configuration.NamedBy; }
         }
 
-        public IConfigureBehavior ConfiguredBy
+        IConfigureBehavior IConfigureFeatures.ConfiguredBy
         {
             get { return _configuration.ConfiguredBy; }
         }
