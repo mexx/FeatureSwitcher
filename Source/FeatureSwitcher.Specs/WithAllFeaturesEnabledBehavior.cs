@@ -12,12 +12,12 @@ namespace FeatureSwitcher.Specs
 
     public class With_all_features_enabled_behavior_simple_feature : WithAllFeaturesEnabledBehavior
     {
-        Behaves_like<EnabledSimpleFeatureBehavior> an_enabled_feature;
+        Behaves_like<Enabled<Simple>> an_enabled_feature;
     }
 
     public class With_all_features_enabled_behavior_complex_feature : WithAllFeaturesEnabledBehavior
     {
-        Behaves_like<EnabledComplexFeatureBehavior> an_enabled_feature;
+        Behaves_like<Enabled<Complex>> an_enabled_feature;
     }
 
     public class WithAllFeaturesDisabledBehavior : WithCleanUp
@@ -27,12 +27,12 @@ namespace FeatureSwitcher.Specs
 
     public class With_all_features_disabled_behavior_simple_feature : WithAllFeaturesDisabledBehavior
     {
-        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
+        Behaves_like<Disabled<Simple>> a_disabled_feature;
     }
 
     public class With_all_features_disabled_behavior_complex_feature : WithAllFeaturesDisabledBehavior
     {
-        Behaves_like<DisabledComplexFeatureBehavior> a_disabled_feature;
+        Behaves_like<Disabled<Complex>> a_disabled_feature;
     }
     // ReSharper restore InconsistentNaming
 #pragma warning restore 169

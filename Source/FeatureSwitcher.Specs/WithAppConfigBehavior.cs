@@ -23,7 +23,7 @@ namespace FeatureSwitcher.Specs
     {
         Establish ctx = () => Features.Are.ConfiguredBy.AppConfig().IgnoreConfigurationErrors();
 
-        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
+        Behaves_like<Disabled<Simple>> a_disabled_feature;
     }
 
     public class WithConfiguration : WithCleanUp
@@ -41,7 +41,7 @@ namespace FeatureSwitcher.Specs
 
     public class With_default_configuration_feature : WithConfiguration
     {
-        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
+        Behaves_like<Disabled<Simple>> a_disabled_feature;
     }
 
     public class WithEnabledByDefaultConfiguration : WithConfiguration
@@ -56,40 +56,40 @@ namespace FeatureSwitcher.Specs
 
     public class When_enabled_by_default_in_configuration_feature : WithEnabledByDefaultConfiguration
     {
-        Behaves_like<EnabledSimpleFeatureBehavior> an_enabled_feature;
+        Behaves_like<Enabled<Simple>> an_enabled_feature;
     }
 
     public class When_disabled_by_default_in_configuration_feature : WithDisabledByDefaultConfiguration
     {
-        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
+        Behaves_like<Disabled<Simple>> a_disabled_feature;
     }
 
     public class When_enabled_by_default_and_feature_explicitly_disabled_in_configuration_feature : WithEnabledByDefaultConfiguration
     {
         Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Simple.FullName, Enabled = false });
 
-        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
+        Behaves_like<Disabled<Simple>> a_disabled_feature;
     }
 
     public class When_disabled_by_default_and_feature_explicitly_enabled_in_configuration_feature : WithDisabledByDefaultConfiguration
     {
         Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Simple.FullName, Enabled = true });
 
-        Behaves_like<EnabledSimpleFeatureBehavior> an_enabled_feature;
+        Behaves_like<Enabled<Simple>> an_enabled_feature;
     }
 
     public class When_enabled_by_default_and_feature_not_explicitly_disabled_in_configuration_feature : WithEnabledByDefaultConfiguration
     {
         Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Complex.FullName, Enabled = false });
 
-        Behaves_like<EnabledSimpleFeatureBehavior> an_enabled_feature;
+        Behaves_like<Enabled<Simple>> an_enabled_feature;
     }
 
     public class When_disabled_by_default_and_feature_not_explicitly_enabled_in_configuration_feature : WithDisabledByDefaultConfiguration
     {
         Establish ctx = () => FeaturesSection.Features.Add(new FeatureElement { Name = Complex.FullName, Enabled = true });
 
-        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
+        Behaves_like<Disabled<Simple>> a_disabled_feature;
     }
     // ReSharper restore InconsistentNaming
 #pragma warning restore 169

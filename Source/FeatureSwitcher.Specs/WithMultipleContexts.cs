@@ -39,7 +39,7 @@ namespace FeatureSwitcher.Specs
         }
     }
 
-    public class WithMultipleContexts : WithCleanUp
+    public class With_multiple_contexts : WithCleanUp
     {
         Establish ctx = () =>
         {
@@ -53,16 +53,16 @@ namespace FeatureSwitcher.Specs
         Cleanup cleanup = () => In<BusinessBranch>.Contexts.FeaturesAre().
                                             HandledByDefault();
 
-        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
+        Behaves_like<Disabled<Simple>> a_disabled_feature;
 
-        Behaves_like<EnabledSimpleFeatureInHeadquatersBehavior> an_enabled_feature_in_headquarters;
+        Behaves_like<EnabledInHeadquaters<Simple>> an_enabled_feature_in_headquarters;
     }
 
     public class With_multiple_contexts_unconfigured_should_fallback_to_configured_default : WithEnabledByDefaultConfiguration
     {
-        Behaves_like<EnabledSimpleFeatureBehavior> an_enabled_feature;
+        Behaves_like<Enabled<Simple>> an_enabled_feature;
 
-        Behaves_like<EnabledSimpleFeatureInHeadquatersBehavior> an_enabled_feature_in_headquarters;
+        Behaves_like<EnabledInHeadquaters<Simple>> an_enabled_feature_in_headquarters;
     }
 
     public class With_multiple_contexts_unconfigured_naming_should_fallback_to_configured_default : WithCleanUp
@@ -78,9 +78,9 @@ namespace FeatureSwitcher.Specs
         Cleanup cleanup = () => In<BusinessBranch>.Contexts.FeaturesAre().
                                             HandledByDefault();
 
-        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
+        Behaves_like<Disabled<Simple>> a_disabled_feature;
 
-        Behaves_like<EnabledSimpleFeatureInHeadquatersBehavior> an_enabled_feature_in_headquarters;
+        Behaves_like<EnabledInHeadquaters<Simple>> an_enabled_feature_in_headquarters;
     }
 
     // ReSharper restore InconsistentNaming

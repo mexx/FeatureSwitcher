@@ -12,12 +12,12 @@ namespace FeatureSwitcher.Specs
 
     public class Without_behavior_simple_feature : WithoutBehavior
     {
-        Behaves_like<DisabledSimpleFeatureBehavior> a_disabled_feature;
+        Behaves_like<Disabled<Simple>> a_disabled_feature;
     }
 
     public class Without_behavior_complex_feature : WithoutBehavior
     {
-        Behaves_like<DisabledComplexFeatureBehavior> a_disabled_feature;
+        Behaves_like<Disabled<Complex>> a_disabled_feature;
     }
     // ReSharper restore InconsistentNaming
 #pragma warning restore 169
