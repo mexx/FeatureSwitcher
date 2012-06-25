@@ -51,9 +51,10 @@
     <Compile Include="SyntaxSugar.cs" />
     <Compile Include="TestContexts.cs" />
     <Compile Include="TestBehaviors.cs" />
-    <Compile Include="WithAllFeaturesEnabledBehavior.cs" />
+    <Compile Include="WithAllFeaturesDisabled.cs" />
+    <Compile Include="WithAllFeaturesEnabled.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WithAppConfigBehavior.cs" />
+    <Compile Include="WithAppConfig.cs" />
     <Compile Include="TestFeatures.cs" />
     <Compile Include="WithCleanUp.cs" />
     <Compile Include="WithMultipleContexts.cs" />
