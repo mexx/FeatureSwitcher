@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SyntaxSugar.cs" />
     <Compile Include="TestContexts.cs" />
     <Compile Include="TestBehaviors.cs" />
     <Compile Include="WithAllFeaturesEnabledBehavior.cs" />
