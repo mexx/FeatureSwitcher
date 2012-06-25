@@ -42,7 +42,6 @@
     <Compile Include="Configuration\Always.cs" />
     <Compile Include="Configuration\ConfigureFeatures.cs" />
     <Compile Include="Configuration\Features.cs" />
-    <Compile Include="Configuration\FeatureControl.cs" />
     <Compile Include="Configuration\IConfigureBehavior.cs" />
     <Compile Include="Configuration\IConfigureNaming.cs" />
     <Compile Include="IProvideState.cs" />
