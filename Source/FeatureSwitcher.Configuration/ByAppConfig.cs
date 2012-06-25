@@ -6,10 +6,5 @@ namespace FeatureSwitcher.Configuration
         {
             return new ConfigureAppConfig(This);
         }
-
-        internal static IConfigureAppConfig AppConfig(this IConfigureBehavior This, DefaultSection defaultSection, FeaturesSection featuresSection)
-        {
-            return new ConfigureAppConfig(This, defaultSection, featuresSection);
-        }
     }
 }

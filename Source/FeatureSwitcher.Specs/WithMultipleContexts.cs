@@ -88,17 +88,17 @@ namespace FeatureSwitcher.Specs
         Because of = () => Features.Are.
             NamedBy.TypeName().And.
             NamedBy.TypeFullName().And.
-            ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).And.
-            ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).IgnoreConfigurationErrors().And.
-            ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).IgnoreConfigurationErrors().UsingConfigSectionGroup("test").And.
+            ConfiguredBy.AppConfig().And.
+            ConfiguredBy.AppConfig().IgnoreConfigurationErrors().And.
+            ConfiguredBy.AppConfig().IgnoreConfigurationErrors().UsingConfigSectionGroup("test").And.
             AlwaysDisabled().And.
             AlwaysEnabled().And.
             NamedBy.TypeName().
             NamedBy.TypeFullName().
-            ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).
+            ConfiguredBy.AppConfig().
             NamedBy.TypeName().
-            ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).IgnoreConfigurationErrors().
-            ConfiguredBy.AppConfig(new DefaultSection(), new FeaturesSection()).IgnoreConfigurationErrors().UsingConfigSectionGroup("test").
+            ConfiguredBy.AppConfig().IgnoreConfigurationErrors().
+            ConfiguredBy.AppConfig().IgnoreConfigurationErrors().UsingConfigSectionGroup("test").
             NamedBy.TypeFullName().
             AlwaysDisabled().
             AlwaysEnabled().

@@ -35,7 +35,7 @@ namespace FeatureSwitcher.Specs
         {
             DefaultSection = new DefaultSection();
             FeaturesSection = new FeaturesSection();
-            Features.Are.ConfiguredBy.AppConfig(DefaultSection, FeaturesSection);
+            Features.Are.ConfiguredBy.Custom(new AppConfig(DefaultSection, FeaturesSection));
         };
     }
 
