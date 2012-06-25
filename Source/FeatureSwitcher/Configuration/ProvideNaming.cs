@@ -15,7 +15,7 @@ namespace FeatureSwitcher.Configuration
 
         private readonly Func<Type, string> _nameFor;
 
-        private ProvideNaming(Func<Type, string> nameFor)
+        public ProvideNaming(Func<Type, string> nameFor)
         {
             _nameFor = nameFor;
         }
