@@ -45,10 +45,8 @@ namespace FeatureSwitcher.Configuration
                 var section = (T)System.Configuration.ConfigurationManager.GetSection(sectionPath);
                 if (section != null)
                     return section;
-                if (_ignoreConfigurationErrors)
-                    return new T();
-
-                throw new System.Configuration.ConfigurationErrorsException(string.Format("Section {0} not found.", sectionPath));
+                if (!_ignoreConfigurationErrors)
+                    throw new System.Configuration.ConfigurationErrorsException(string.Format("Section {0} not found.", sectionPath));
             }
             catch (System.Configuration.ConfigurationErrorsException)
             {
