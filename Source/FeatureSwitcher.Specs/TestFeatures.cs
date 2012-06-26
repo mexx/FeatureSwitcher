@@ -22,6 +22,10 @@ namespace FeatureSwitcher.Specs
             get { return typeof (Complex).FullName; }
         }
     }
+
+    public class Basic : IFeature
+    {
+    }
     // ReSharper restore UnusedMember.Local
     // ReSharper restore InconsistentNaming
 }

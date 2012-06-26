@@ -39,19 +39,21 @@ namespace FeatureSwitcher.Configuration
         public static ProvideState For<T>(T context)
             where T : IContext
         {
-            return new ProvideState(BehaviorFor(context), NamingFor(context));
+            return new ProvideState(BehaviorsFor(context), NamingsFor(context));
         }
 
-        private static IProvideBehavior BehaviorFor<T>(T context)
+        private static IEnumerable<IProvideBehavior> BehaviorsFor<T>(T context)
             where T : IContext
         {
-            return GetBehavior(context) ?? GetBehavior(Default.Context) ?? ProvideState.ConfiguredBehavior;
+            yield return GetBehavior(context);
+            yield return GetBehavior(Default.Context);
         }
 
-        private static IProvideNaming NamingFor<T>(T context)
+        private static IEnumerable<IProvideNaming> NamingsFor<T>(T context)
             where T : IContext
         {
-            return GetNaming(context) ?? GetNaming(Default.Context) ?? ProvideState.ConfiguredNaming;
+            yield return GetNaming(context);
+            yield return GetNaming(Default.Context);
         }
 
         private static IProvideBehavior GetBehavior<T>(T context) where T : IContext
