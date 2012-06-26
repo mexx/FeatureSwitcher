@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SyntaxSugar.cs" />
+    <Compile Include="TestConfigurationPartial.cs" />
     <Compile Include="TestContexts.cs" />
     <Compile Include="TestBehaviors.cs" />
     <Compile Include="WithAllFeaturesDisabled.cs" />
