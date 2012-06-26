@@ -11,11 +11,6 @@ namespace FeatureSwitcher.Configuration
         {
         }
 
-        internal ConfigureAppConfig(IConfigureBehavior control, DefaultSection defaultSection, FeaturesSection featuresSection)
-            : this(control, new AppConfig(defaultSection, featuresSection))
-        {
-        }
-
         private ConfigureAppConfig(IConfigureBehavior control, AppConfig appConfig)
         {
             _control = control;
