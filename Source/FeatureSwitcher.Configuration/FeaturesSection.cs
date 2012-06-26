@@ -10,7 +10,6 @@ namespace FeatureSwitcher.Configuration
         /// List of features.
         /// </summary>
         [ConfigurationProperty(FeaturesProperty, IsDefaultCollection = true)]
-        [ConfigurationCollection(typeof(FeatureElement), AddItemName = FeatureElementCollection.ItemProperty, CollectionType = ConfigurationElementCollectionType.BasicMap)]
         public FeatureElementCollection Features
         {
             get { return (FeatureElementCollection)base[FeaturesProperty]; }

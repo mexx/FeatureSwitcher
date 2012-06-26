@@ -5,7 +5,7 @@ namespace FeatureSwitcher.Configuration
     [ConfigurationCollection(typeof(FeatureElement), AddItemName = ItemProperty, CollectionType = ConfigurationElementCollectionType.BasicMap)]
     public sealed class FeatureElementCollection : ConfigurationElementCollection
     {
-        internal const string ItemProperty = "feature";
+        private const string ItemProperty = "feature";
 
         public new FeatureElement this[string name]
         {
