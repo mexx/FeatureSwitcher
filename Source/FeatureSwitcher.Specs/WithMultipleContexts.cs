@@ -18,15 +18,6 @@ namespace FeatureSwitcher.Specs
         Behaves_like<Disabled<Complex>> a_disabled_feature;
     }
 
-    public class WithContextCleanUp : WithCleanUp
-    {
-        Cleanup cleanup = () =>
-        {
-            In<Default>.Contexts.FeaturesAre().HandledByDefault();
-            In<BusinessBranch>.Contexts.FeaturesAre().HandledByDefault();
-        };
-    }
-
     public class With_partial_configuration_and_contexts : WithContextCleanUp
     {
         Establish ctx = () =>
