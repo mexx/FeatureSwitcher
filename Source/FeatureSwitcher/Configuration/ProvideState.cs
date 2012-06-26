@@ -42,7 +42,8 @@ namespace FeatureSwitcher.Configuration
         public bool IsEnabled<TFeature>()
             where TFeature : IFeature
         {
-            return Behavior.IsEnabled(Naming.For<TFeature>()).GetValueOrDefault();
+            var feature = Naming.For<TFeature>() ?? ProvideNaming.ByTypeFullName.For<TFeature>();
+            return Behavior.IsEnabled(feature).GetValueOrDefault();
         }
     }
 }

@@ -45,6 +45,9 @@ namespace FeatureSwitcher.Specs
 
         bool? IProvideBehavior.IsEnabled(string feature)
         {
+            if (feature == null)
+                return true;
+
             if (feature == typeof(Simple).Name)
                 return true;
 
