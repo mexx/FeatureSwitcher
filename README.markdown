@@ -2,7 +2,7 @@
 
 FeatureSwitcher is little framework build to support you when you want to introduce feature switches/toggles in your code.
 
-If needed it provides multi tenancy support. [more info](#Multi_tenancy_context_support)
+If needed it provides multi tenancy support. [more info](#Multi-tenancy--context-support)
 
 ## How to use it
 
@@ -53,11 +53,11 @@ You can provide own behavior and naming strategy for contexts also by passing it
 
 ### NuGet package manager
 
-Type
-
-	install-package FeatureSwitcher.Configuration
-
-into the package management console.
+There are three packages
+ 
+* FeatureSwitcher - needed to do all the magic
+* FeatureSwitcher.Configuration - needed to configure the magic
+* FeatureSwitcher.Contexteer - needed to add context magic
 
 ### Build from source
 
