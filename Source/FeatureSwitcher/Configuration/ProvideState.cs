@@ -6,8 +6,8 @@ namespace FeatureSwitcher.Configuration
 {
     public sealed class ProvideState : IProvideState
     {
-        internal static IProvideBehavior ConfiguredBehavior { get; set; }
-        internal static IProvideNaming ConfiguredNaming { get; set; }
+        internal static IProvideBehavior[] ConfiguredBehaviors { get; set; }
+        internal static IProvideNaming[] ConfiguredNamings { get; set; }
 
         internal static ProvideState Control
         {
@@ -24,14 +24,14 @@ namespace FeatureSwitcher.Configuration
             if (namings == null)
                 throw new ArgumentNullException("namings");
 
-            _behaviors = behaviors.Concat(new[] { ConfiguredBehavior, AllFeatures.Disabled }).Where(x => x != null).ToList();
-            _namings = namings.Concat(new[] { ConfiguredNaming, ProvideNaming.ByTypeFullName }).Where(x1 => x1 != null).ToList();
+            _behaviors = behaviors.Concat(ConfiguredBehaviors ?? new IProvideBehavior[0]).Concat(new[] { AllFeatures.Disabled }).Where(x => x != null).ToList();
+            _namings = namings.Concat(ConfiguredNamings ?? new IProvideNaming[0]).Concat(new[] { ProvideNaming.ByTypeFullName }).Where(x => x != null).ToList();
         }
 
         private string GetName<TFeature>()
             where TFeature : IFeature
         {
-            return _namings.Select(x => x.For<TFeature>()).First(x1 => x1 != null);
+            return _namings.Select(x => x.For<TFeature>()).First(x => x != null);
         }
 
         public bool IsEnabled<TFeature>()

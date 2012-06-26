@@ -2,6 +2,6 @@ namespace FeatureSwitcher.Configuration
 {
     public interface IConfigureNaming
     {
-        IConfigureFeatures Custom(IProvideNaming naming);
+        IConfigureFeatures Custom(params IProvideNaming[] naming);
     }
 }

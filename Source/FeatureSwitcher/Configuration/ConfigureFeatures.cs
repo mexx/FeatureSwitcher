@@ -17,15 +17,15 @@ namespace FeatureSwitcher.Configuration
             get { return this; }
         }
 
-        IConfigureFeatures IConfigureNaming.Custom(IProvideNaming naming)
+        IConfigureFeatures IConfigureNaming.Custom(params IProvideNaming[] naming)
         {
-            ProvideState.ConfiguredNaming = naming;
+            ProvideState.ConfiguredNamings = naming;
             return this;
         }
 
-        IConfigureFeatures IConfigureBehavior.Custom(IProvideBehavior behavior)
+        IConfigureFeatures IConfigureBehavior.Custom(params IProvideBehavior[] behavior)
         {
-            ProvideState.ConfiguredBehavior = behavior;
+            ProvideState.ConfiguredBehaviors = behavior;
             return this;
         }
     }
