@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Contexteer;
 using Contexteer.Configuration;
 
@@ -10,7 +11,7 @@ namespace FeatureSwitcher.Configuration
         private static readonly IDictionary<Type, object> Behaviors = new Dictionary<Type, object>();
         private static readonly IDictionary<Type, object> Namings = new Dictionary<Type, object>();
 
-        internal static void Set<T, TControl>(Func<T, TControl> value)
+        internal static void Set<T, TControl>(Func<T, TControl[]> value)
             where T : IContext
         {
             IDictionary<Type, object> configs;
@@ -45,37 +46,39 @@ namespace FeatureSwitcher.Configuration
         private static IEnumerable<IProvideBehavior> BehaviorsFor<T>(T context)
             where T : IContext
         {
-            yield return GetBehavior(context);
-            yield return GetBehavior(Default.Context);
+            return GetBehaviors(context).Concat(GetBehaviors(Default.Context));
         }
 
         private static IEnumerable<IProvideNaming> NamingsFor<T>(T context)
             where T : IContext
         {
-            yield return GetNaming(context);
-            yield return GetNaming(Default.Context);
+            return GetNamings(context).Concat(GetNamings(Default.Context));
         }
 
-        private static IProvideBehavior GetBehavior<T>(T context) where T : IContext
+        private static IEnumerable<IProvideBehavior> GetBehaviors<T>(T context)
+            where T : IContext
         {
             var contextType = typeof(T);
             object behavior;
             if (!Behaviors.TryGetValue(contextType, out behavior))
-                return null;
+                return new IProvideBehavior[0];
 
-            var inContextOf = behavior as Func<T, IProvideBehavior>;
-            return inContextOf != null ? inContextOf(context) : null;
+            var inContextOf = behavior as Func<T, IProvideBehavior[]>;
+            var provideBehaviors = inContextOf != null ? inContextOf(context) : null;
+            return provideBehaviors ?? new IProvideBehavior[0];
         }
 
-        private static IProvideNaming GetNaming<T>(T context) where T : IContext
+        private static IEnumerable<IProvideNaming> GetNamings<T>(T context)
+            where T : IContext
         {
             var contextType = typeof(T);
             object naming;
             if (!Namings.TryGetValue(contextType, out naming))
-                return null;
+                return new IProvideNaming[0];
 
-            var inContextOf = naming as Func<T, IProvideNaming>;
-            return inContextOf != null ? inContextOf(context) : null;
+            var inContextOf = naming as Func<T, IProvideNaming[]>;
+            var provideNamings = inContextOf != null ? inContextOf(context) : null;
+            return provideNamings ?? new IProvideNaming[0];
         }
     }
 }

@@ -36,26 +36,26 @@ namespace FeatureSwitcher.Configuration
             get { return this; }
         }
 
-        public IConfigureFeaturesFor<TContext> Custom(Func<TContext, IProvideNaming> naming)
+        IConfigureFeaturesFor<TContext> IConfigureNamingFor<TContext>.Custom(Func<TContext, IProvideNaming[]> naming)
         {
             FeatureConfiguration.Set(naming);
             return this;
         }
 
-        public IConfigureFeatures Custom(IProvideNaming naming)
-        {
-            return Custom(ctx => naming);
-        }
-
-        public IConfigureFeaturesFor<TContext> Custom(Func<TContext, IProvideBehavior> behavior)
+        IConfigureFeaturesFor<TContext> IConfigureBehaviorFor<TContext>.Custom(Func<TContext, IProvideBehavior[]> behavior)
         {
             FeatureConfiguration.Set(behavior);
             return this;
         }
 
-        public IConfigureFeatures Custom(IProvideBehavior behavior)
+        IConfigureFeatures IConfigureNaming.Custom(params IProvideNaming[] naming)
         {
-            return Custom(ctx => behavior);
+            return (this as IConfigureNamingFor<TContext>).Custom(ctx => naming);
+        }
+
+        IConfigureFeatures IConfigureBehavior.Custom(params IProvideBehavior[] behavior)
+        {
+            return (this as IConfigureBehaviorFor<TContext>).Custom(ctx => behavior);
         }
     }
 }
