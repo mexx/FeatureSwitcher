@@ -49,6 +49,25 @@ namespace FeatureSwitcher.Specs
         Behaves_like<DisabledInDefault<Complex>> a_disabled_feature_complex_in_default;
         Behaves_like<DisabledInHeadquaters<Complex>> a_disabled_feature_complex_in_headquarters;
     }
+
+    public class When_complex_chaining : WithCleanUp
+    {
+        Establish ctx = () =>
+            Features.Are
+                .ConfiguredBy.Custom(
+                    new AppConfig(true).Features,
+                    TestConfigurationPartial<Simple>.Instance,
+                    new AppConfig(true).Default).And
+                .NamedBy.Custom(
+                    TestConfigurationPartial<Simple>.Instance,
+                    ProvideNaming.ByTypeFullName);
+
+        Behaves_like<Enabled<Simple>> an_enabled_feature_simple;
+
+        Behaves_like<Disabled<Basic>> a_disabled_feature_basic;
+
+        Behaves_like<Disabled<Complex>> a_disabled_feature_complex;
+    }
     // ReSharper restore InconsistentNaming
 #pragma warning restore 169
 }

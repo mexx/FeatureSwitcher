@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConfig.cs" />
+    <Compile Include="AppConfigDefault.cs" />
+    <Compile Include="AppConfigFeatures.cs" />
+    <Compile Include="AppConfigSettings.cs" />
     <Compile Include="ByAppConfig.cs" />
     <Compile Include="ConfigureAppConfig.cs" />
     <Compile Include="DefaultSection.cs" />

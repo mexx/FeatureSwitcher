@@ -2,75 +2,81 @@ namespace FeatureSwitcher.Configuration
 {
     public class AppConfig : IProvideBehavior
     {
-        const string FeatureSwitcherConfigurationGroupName = "featureSwitcher";
+        public IProvideBehavior Default
+        {
+            get { return AppConfigDefault; }
+        }
+
+        public IProvideBehavior Features
+        {
+            get { return AppConfigFeatures; }
+        }
 
         private readonly DefaultSection _default;
         private readonly FeaturesSection _features;
-        private readonly bool _ignoreConfigurationErrors;
-        private readonly string _sectionGroupName;
+        private readonly AppConfigSettings _settings;
 
         public AppConfig()
-            : this(null, null, FeatureSwitcherConfigurationGroupName, false)
+            : this(new AppConfigSettings())
+        {
+        }
+
+        public AppConfig(string sectionGroupName)
+            : this(new AppConfigSettings().WithSectionGroupName(sectionGroupName))
+        {            
+        }
+
+        public AppConfig(bool ignoreConfigurationErrors)
+            : this(new AppConfigSettings().WithIgnoreConfigurationErrors(ignoreConfigurationErrors))
+        {
+        }
+
+        public AppConfig(string sectionGroupName, bool ignoreConfigurationErrors)
+            : this(new AppConfigSettings().WithSectionGroupName(sectionGroupName).WithIgnoreConfigurationErrors(ignoreConfigurationErrors))
+        {
+        }
+
+        public AppConfig(AppConfigSettings settings)
+            : this(null, null, settings)
         {
         }
 
         public AppConfig(DefaultSection defaultSection, FeaturesSection featuresSection)
-            : this(defaultSection, featuresSection, FeatureSwitcherConfigurationGroupName, false)
+            : this(defaultSection, featuresSection, new AppConfigSettings())
         {
         }
 
-        private AppConfig(DefaultSection defaultSection, FeaturesSection featuresSection, string sectionGroupName, bool ignoreConfigurationErrors)
+        private AppConfig(DefaultSection defaultSection, FeaturesSection featuresSection, AppConfigSettings settings)
         {
             _default = defaultSection;
             _features = featuresSection;
-            _sectionGroupName = sectionGroupName;
-            _ignoreConfigurationErrors = ignoreConfigurationErrors;
+            _settings = settings;
         }
 
         private DefaultSection DefaultSection
         {
-            get { return _default ?? ConfigurationManagerSection<DefaultSection>(SectionGroup.DefaultProperty); }
+            get { return _default ?? SectionGroup.GetDefaultSection(_settings.SectionGroupName, _settings.IgnoreConfigurationErrors); }
         }
 
         private FeaturesSection FeaturesSection
         {
-            get { return _features ?? ConfigurationManagerSection<FeaturesSection>(SectionGroup.FeaturesProperty); }
-        }
-
-        private T ConfigurationManagerSection<T>(string sectionName) where T : System.Configuration.ConfigurationElement, new ()
-        {
-            try
-            {
-                var sectionPath = string.Format("{0}/{1}", _sectionGroupName, sectionName);
-                var section = (T)System.Configuration.ConfigurationManager.GetSection(sectionPath);
-                if (section != null)
-                    return section;
-                if (!_ignoreConfigurationErrors)
-                    throw new System.Configuration.ConfigurationErrorsException(string.Format("Section {0} not found.", sectionPath));
-            }
-            catch (System.Configuration.ConfigurationErrorsException)
-            {
-                if (!_ignoreConfigurationErrors)
-                    throw;
-            }
-            return new T();
+            get { return _features ?? SectionGroup.GetFeaturesSection(_settings.SectionGroupName, _settings.IgnoreConfigurationErrors); }
         }
 
         bool? IProvideBehavior.IsEnabled(string feature)
         {
-            var featureElement = FeaturesSection.Features[feature];
-
-            return featureElement != null ? featureElement.Enabled : DefaultSection.FeaturesEnabled;
+            return AppConfigFeatures.IsEnabled(feature).GetValueOrDefault(
+                AppConfigDefault.IsEnabled(feature).GetValueOrDefault());
         }
 
-        internal AppConfig IgnoreConfigurationErrors()
+        private IProvideBehavior AppConfigDefault
         {
-            return new AppConfig(_default, _features, _sectionGroupName, true);
+            get { return new AppConfigDefault(DefaultSection); }
         }
 
-        internal AppConfig UseConfigSectionGroup(string name)
+        private IProvideBehavior AppConfigFeatures
         {
-            return new AppConfig(_default, _features, name, _ignoreConfigurationErrors);
+            get { return new AppConfigFeatures(FeaturesSection); }
         }
     }
 }

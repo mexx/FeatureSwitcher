@@ -3,29 +3,29 @@ namespace FeatureSwitcher.Configuration
     internal sealed class ConfigureAppConfig : IConfigureAppConfig
     {
         private readonly IConfigureBehavior _control;
-        private readonly AppConfig _appConfig;
+        private readonly AppConfigSettings _appConfigSettings;
         private readonly IConfigureFeatures _configuration;
 
         internal ConfigureAppConfig(IConfigureBehavior control)
-            :this(control, new AppConfig())
+            :this(control, new AppConfigSettings())
         {
         }
 
-        private ConfigureAppConfig(IConfigureBehavior control, AppConfig appConfig)
+        private ConfigureAppConfig(IConfigureBehavior control, AppConfigSettings appConfigSettings)
         {
             _control = control;
-            _appConfig = appConfig;
-            _configuration = _control.Custom(_appConfig);
+            _appConfigSettings = appConfigSettings;
+            _configuration = _control.Custom(new AppConfig(_appConfigSettings));
         }
 
         IConfigureAppConfig IConfigureAppConfig.IgnoreConfigurationErrors()
         {
-            return new ConfigureAppConfig(_control, _appConfig.IgnoreConfigurationErrors());
+            return new ConfigureAppConfig(_control, _appConfigSettings.WithIgnoreConfigurationErrors(true));
         }
 
         IConfigureAppConfig IConfigureAppConfig.UsingConfigSectionGroup(string name)
         {
-            return new ConfigureAppConfig(_control, _appConfig.UseConfigSectionGroup(name));
+            return new ConfigureAppConfig(_control, _appConfigSettings.WithSectionGroupName(name));
         }
 
         IConfigureFeatures IConfigureFeatures.And
