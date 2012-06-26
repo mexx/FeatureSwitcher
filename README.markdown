@@ -2,7 +2,7 @@
 
 FeatureSwitcher is little framework build to support you when you want to introduce feature switches/toggles in your code.
 
-If needed it provides multi tenancy support. [more info](#Multi-tenancy--context-support)
+If needed it provides multi tenancy support. [more info](#multi-tenancy--context-support)
 
 ## How to use it
 
