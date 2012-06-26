@@ -22,7 +22,7 @@ namespace FeatureSwitcher.Specs
 
     public class TestFallbackConfiguration : IProvideBehavior, IProvideNaming
     {
-        public bool IsEnabled(string feature)
+        public bool? IsEnabled(string feature)
         {
             if (feature == typeof(Simple).Name)
                 return true;
@@ -37,6 +37,38 @@ namespace FeatureSwitcher.Specs
 
             return FeatureConfiguration.For(Default.Context).Naming.For<TFeature>();
         }
+    }
+
+    public class PartialConfiguration : IProvideBehavior, IProvideNaming
+    {
+        public static readonly PartialConfiguration Instance = new PartialConfiguration();
+
+        bool? IProvideBehavior.IsEnabled(string feature)
+        {
+            if (feature == typeof(Simple).Name)
+                return true;
+
+            return null;
+        }
+
+        string IProvideNaming.For<TFeature>()
+        {
+            if (typeof(TFeature) == typeof(Simple))
+                return typeof(Simple).Name;
+            
+            return null;
+        }
+    }
+
+    public class With_partial_configuration : WithCleanUp
+    {
+        Establish ctx = () => Features.Are.
+            ConfiguredBy.Custom(PartialConfiguration.Instance).And.
+            NamedBy.Custom(PartialConfiguration.Instance);
+
+        Behaves_like<Enabled<Simple>> an_enabled_feature;
+
+        Behaves_like<Disabled<Complex>> a_disabled_feature;
     }
 
     public class With_multiple_contexts : WithCleanUp

@@ -18,7 +18,7 @@ namespace FeatureSwitcher.Configuration
             _enabled = enabled;
         }
 
-        bool IProvideBehavior.IsEnabled(string feature)
+        bool? IProvideBehavior.IsEnabled(string feature)
         {
             return _enabled;
         }

@@ -56,7 +56,7 @@ namespace FeatureSwitcher.Configuration
             return new T();
         }
 
-        bool IProvideBehavior.IsEnabled(string feature)
+        bool? IProvideBehavior.IsEnabled(string feature)
         {
             var featureElement = FeaturesSection.Features[feature];
 
