@@ -59,6 +59,7 @@
     <Compile Include="WithAppConfig.cs" />
     <Compile Include="TestFeatures.cs" />
     <Compile Include="WithCleanUp.cs" />
+    <Compile Include="WithInheritance.cs" />
     <Compile Include="WithMultipleContexts.cs" />
     <Compile Include="WithNamingConvention.cs" />
     <Compile Include="WithoutBehavior.cs" />

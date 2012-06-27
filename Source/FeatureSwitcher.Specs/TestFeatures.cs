@@ -2,6 +2,10 @@ namespace FeatureSwitcher.Specs
 {
     // ReSharper disable InconsistentNaming
     // ReSharper disable UnusedMember.Local
+    public interface IComponent : IFeature
+    {        
+    }
+
     public class Simple : IFeature
     {
         public static string FullName
@@ -15,7 +19,7 @@ namespace FeatureSwitcher.Specs
         }
     }
 
-    public class Complex : IFeature
+    public class Complex : IComponent
     {
         public static string FullName
         {

@@ -1,3 +1,4 @@
+using System.Reflection;
 using FeatureSwitcher.Configuration;
 
 namespace FeatureSwitcher
@@ -23,7 +24,9 @@ namespace FeatureSwitcher
         public static IStateOf<TFeature> Is<TFeature>(this TFeature This)
             where TFeature : IFeature
         {
-            return Feature<TFeature>.Is();
+            var closedFeatureType = typeof (Feature<>).MakeGenericType(new[] {This.GetType()});
+            var methodInfo = closedFeatureType.GetMethod("Is", BindingFlags.Static | BindingFlags.Public);
+            return (IStateOf<TFeature>) methodInfo.Invoke(null, new object[0]);
         }
     }
 }

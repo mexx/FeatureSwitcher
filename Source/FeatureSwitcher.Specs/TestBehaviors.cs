@@ -6,6 +6,14 @@ namespace FeatureSwitcher.Specs
     // ReSharper disable InconsistentNaming
     // ReSharper disable UnusedMember.Local
     [Behaviors]
+    public class Enabled<TBase, TFeature> where TFeature : TBase, new() where TBase : IFeature
+    {
+        It should_be_enabled_as_instance = () => ((TBase)new TFeature()).Is().Enabled.ShouldBeTrue();
+
+        It should_be_not_disabled_as_instance = () => ((TBase)new TFeature()).Is().Disabled.ShouldBeFalse();
+    }
+
+    [Behaviors]
     public class Enabled<TFeature> where TFeature : IFeature, new()
     {
         It should_be_enabled_as_generic = () => Feature<TFeature>.Is().Enabled.ShouldBeTrue();
