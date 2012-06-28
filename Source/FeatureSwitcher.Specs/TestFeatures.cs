@@ -6,7 +6,7 @@ namespace FeatureSwitcher.Specs
     {        
     }
 
-    public class Simple : IFeature
+    public class Simple : IComponent
     {
         public static string FullName
         {
@@ -27,7 +27,7 @@ namespace FeatureSwitcher.Specs
         }
     }
 
-    public class Basic : IFeature
+    public class Basic : IComponent
     {
     }
     // ReSharper restore UnusedMember.Local

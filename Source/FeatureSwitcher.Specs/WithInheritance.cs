@@ -10,7 +10,5 @@ namespace FeatureSwitcher.Specs
             NamedBy.Custom(TestConfigurationPartial<Complex>.Instance);
 
         Behaves_like<Enabled<Complex>> an_enabled_feature;
-
-        Behaves_like<Enabled<IComponent, Complex>> an_enabled_feature_as_component;
     }
 }
