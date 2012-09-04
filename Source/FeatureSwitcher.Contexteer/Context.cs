@@ -12,9 +12,7 @@ namespace FeatureSwitcher
         {
             var featureType = This.GetType().GetGenericArguments().First();
             var provideState = FeatureConfiguration.For(context);
-            var methodInfo = provideState.GetType().GetMethod("IsEnabled");
-            var closedMethodInfo = methodInfo.MakeGenericMethod(new[]{featureType});
-            return (bool)closedMethodInfo.Invoke(provideState, new object[0]);
+            return State.Of<TFeature>(featureType).With(provideState).Enabled;
         }
 
         public static bool DisabledInContextOf<TFeature, TContext>(this IStateOf<TFeature> This, TContext context)

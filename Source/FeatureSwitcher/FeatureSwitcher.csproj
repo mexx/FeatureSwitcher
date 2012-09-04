@@ -55,6 +55,7 @@
     <Compile Include="IFeature.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="Configuration\ProvideState.cs" />
+    <Compile Include="State.cs" />
     <Compile Include="StateOf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
