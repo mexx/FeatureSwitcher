@@ -48,21 +48,42 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SyntaxSugar.cs" />
-    <Compile Include="TestConfigurationPartial.cs" />
-    <Compile Include="TestContexts.cs" />
-    <Compile Include="TestBehaviors.cs" />
-    <Compile Include="WithChaining.cs" />
-    <Compile Include="WithAllFeaturesDisabled.cs" />
-    <Compile Include="WithAllFeaturesEnabled.cs" />
+    <Compile Include="Behaviors\Disabled.cs" />
+    <Compile Include="Behaviors\DisabledInDefault.cs" />
+    <Compile Include="Behaviors\DisabledInHeadquaters.cs" />
+    <Compile Include="Behaviors\Enabled.cs" />
+    <Compile Include="Behaviors\EnabledInBranchOffice.cs" />
+    <Compile Include="Behaviors\EnabledInDefault.cs" />
+    <Compile Include="Behaviors\EnabledInHeadquaters.cs" />
+    <Compile Include="Domain\Complex.cs" />
+    <Compile Include="Domain\IComponent.cs" />
+    <Compile Include="Domain\Simple.cs" />
+    <Compile Include="Domain\Basic.cs" />
+    <Compile Include="When_all_features_are_disabled.cs" />
+    <Compile Include="When_all_features_are_enabled.cs" />
+    <Compile Include="When_application_configuration_unchanged.cs" />
+    <Compile Include="When_chaining_application_configuration_and_partial_configurations.cs" />
+    <Compile Include="When_chaining_multiple_partial_configurations.cs" />
+    <Compile Include="When_chaining_multiple_partial_configurations_and_contexts.cs" />
+    <Compile Include="When_features_are_disabled_by_default_section.cs" />
+    <Compile Include="When_features_are_disabled_by_default_section_and_simple_feature_explicitly_enabled_by_features_section.cs" />
+    <Compile Include="When_features_are_enabled_by_default_section.cs" />
+    <Compile Include="When_features_are_enabled_by_default_section_and_simple_feature_explicitly_disabled_by_features_section.cs" />
+    <Compile Include="When_application_configuration_ignores_errors.cs" />
+    <Compile Include="When_naming_is_not_configured_in_context_and_configured_general.cs" />
+    <Compile Include="When_application_configuration_does_not_ignore_errors.cs" />
+    <Compile Include="When_using_partial_configuration.cs" />
+    <Compile Include="When_using_partial_configuration_and_contexts.cs" />
+    <Compile Include="Contexts\WithFeaturesDisabledByDefaultSection.cs" />
+    <Compile Include="Contexts\WithFeaturesEnabledByDefaultSection.cs" />
+    <Compile Include="When_using_without_configuration.cs" />
+    <Compile Include="When_using_syntax_sugar.cs" />
+    <Compile Include="Domain\EnableByName.cs" />
+    <Compile Include="Domain\BusinessBranch.cs" />
+    <Compile Include="Behaviors\DisabledInBranchOffice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WithAppConfig.cs" />
-    <Compile Include="TestFeatures.cs" />
-    <Compile Include="WithCleanUp.cs" />
-    <Compile Include="WithInheritance.cs" />
-    <Compile Include="WithMultipleContexts.cs" />
-    <Compile Include="WithNamingConvention.cs" />
-    <Compile Include="WithoutBehavior.cs" />
+    <Compile Include="Contexts\WithApplicationConfiguration.cs" />
+    <Compile Include="Contexts\WithCleanUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FeatureSwitcher.Configuration\FeatureSwitcher.Configuration.csproj">
@@ -81,6 +102,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
