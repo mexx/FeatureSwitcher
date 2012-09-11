@@ -6,16 +6,16 @@ namespace FeatureSwitcher
 {
     public static class Context
     {
-        public static bool EnabledInContextOf<TFeature, TContext>(this IStateOf<TFeature> This, TContext context)
+        public static bool EnabledInContextOf<TFeature, TContext>(this Feature.Switch.IKnowStateOf<TFeature> This, TContext context)
             where TFeature : IFeature
             where TContext : IContext
         {
             var featureType = This.GetType().GetGenericArguments().First();
             var provideState = FeatureConfiguration.For(context);
-            return State.Of<TFeature>(featureType).With(provideState).Enabled;
+            return Feature.Switch.For<TFeature>(featureType).With(provideState).Enabled;
         }
 
-        public static bool DisabledInContextOf<TFeature, TContext>(this IStateOf<TFeature> This, TContext context)
+        public static bool DisabledInContextOf<TFeature, TContext>(this Feature.Switch.IKnowStateOf<TFeature> This, TContext context)
             where TFeature : IFeature
             where TContext : IContext
         {

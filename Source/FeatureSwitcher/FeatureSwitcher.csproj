@@ -44,19 +44,31 @@
     <Compile Include="Configuration\Features.cs" />
     <Compile Include="Configuration\IConfigureBehavior.cs" />
     <Compile Include="Configuration\IConfigureNaming.cs" />
-    <Compile Include="IProvideState.cs" />
+    <Compile Include="Configuration\IProvideState.cs" />
+    <Compile Include="Feature.Switch.StateOf.cs">
+      <DependentUpon>Feature.Switch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Feature.Switch.cs">
+      <DependentUpon>Feature.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Feature.Switch.IAmFor.cs">
+      <DependentUpon>Feature.Switch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Feature.Switch.IKnowStateOf.cs">
+      <DependentUpon>Feature.Switch.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\Defaults.cs" />
     <Compile Include="Configuration\IConfigureFeatures.cs" />
-    <Compile Include="IStateOf.cs" />
     <Compile Include="Configuration\Named.cs" />
     <Compile Include="Configuration\ProvideNaming.cs" />
     <Compile Include="Configuration\IProvideNaming.cs" />
     <Compile Include="Configuration\IProvideBehavior.cs" />
+    <Compile Include="Feature.Switch.Of.cs">
+      <DependentUpon>Feature.Switch.cs</DependentUpon>
+    </Compile>
     <Compile Include="IFeature.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="Configuration\ProvideState.cs" />
-    <Compile Include="State.cs" />
-    <Compile Include="StateOf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
