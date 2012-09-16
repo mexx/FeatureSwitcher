@@ -14,15 +14,15 @@ namespace FeatureSwitcher.Specs
                             {
                                 Features.Are.
                                     ConfiguredBy.Custom(EnableByName<Simple>.Instance).And.
-                                    NamedBy.Custom(EnableByName<Simple>.Instance);
+                                    NamedBy.Custom(EnableByName<Simple>.Instance.For);
 
                                 In<Default>.Contexts.FeaturesAre().
                                     ConfiguredBy.Custom(EnableByName<Basic>.Instance).And.
-                                    NamedBy.Custom(EnableByName<Basic>.Instance);
+                                    NamedBy.Custom(EnableByName<Basic>.Instance.For);
 
                                 In<BusinessBranch>.Contexts.FeaturesAre().
                                     ConfiguredBy.Custom(EnableByName<Complex>.Instance).And.
-                                    NamedBy.Custom(EnableByName<Complex>.Instance);
+                                    NamedBy.Custom(EnableByName<Complex>.Instance.For);
                             };
 
         Behaves_like<Disabled<Basic>> a_disabled_feature_basic;

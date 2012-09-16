@@ -19,7 +19,7 @@ namespace FeatureSwitcher.Configuration
             var controlType = typeof(TControl);
             if (typeof(IProvideBehavior).IsAssignableFrom(controlType))
                 configs = Behaviors;
-            else if (typeof(IProvideNaming).IsAssignableFrom(controlType))
+            else if (typeof(Feature.NameOf).IsAssignableFrom(controlType))
                 configs = Namings;
             else
                 throw new NotSupportedException();
@@ -49,7 +49,7 @@ namespace FeatureSwitcher.Configuration
             return GetBehaviors(context).Concat(GetBehaviors(Default.Context));
         }
 
-        private static IEnumerable<IProvideNaming> NamingsFor<T>(T context)
+        private static IEnumerable<Feature.NameOf> NamingsFor<T>(T context)
             where T : IContext
         {
             return GetNamings(context).Concat(GetNamings(Default.Context));
@@ -68,17 +68,17 @@ namespace FeatureSwitcher.Configuration
             return provideBehaviors ?? new IProvideBehavior[0];
         }
 
-        private static IEnumerable<IProvideNaming> GetNamings<T>(T context)
+        private static IEnumerable<Feature.NameOf> GetNamings<T>(T context)
             where T : IContext
         {
             var contextType = typeof(T);
             object naming;
             if (!Namings.TryGetValue(contextType, out naming))
-                return new IProvideNaming[0];
+                return new Feature.NameOf[0];
 
-            var inContextOf = naming as Func<T, IProvideNaming[]>;
+            var inContextOf = naming as Func<T, Feature.NameOf[]>;
             var provideNamings = inContextOf != null ? inContextOf(context) : null;
-            return provideNamings ?? new IProvideNaming[0];
+            return provideNamings ?? new Feature.NameOf[0];
         }
     }
 }

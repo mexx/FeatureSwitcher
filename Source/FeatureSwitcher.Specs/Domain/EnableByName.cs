@@ -1,8 +1,9 @@
+using System;
 using FeatureSwitcher.Configuration;
 
 namespace FeatureSwitcher.Specs.Domain
 {
-    public class EnableByName<T> : IProvideBehavior, IProvideNaming
+    public class EnableByName<T> : IProvideBehavior
     {
         public readonly static EnableByName<T> Instance = new EnableByName<T>();
 
@@ -17,9 +18,9 @@ namespace FeatureSwitcher.Specs.Domain
             return null;
         }
 
-        public string For<TFeature>() where TFeature : IFeature
+        public string For(Type featureType)
         {
-            if (typeof(TFeature) == typeof(T))
+            if (featureType == typeof(T))
                 return typeof(T).Name;
 
             return null;

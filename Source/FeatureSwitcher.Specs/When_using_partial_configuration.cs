@@ -10,7 +10,7 @@ namespace FeatureSwitcher.Specs
     {
         Establish ctx = () => Features.Are.
                                   ConfiguredBy.Custom(EnableByName<Simple>.Instance).And.
-                                  NamedBy.Custom(EnableByName<Simple>.Instance);
+                                  NamedBy.Custom(EnableByName<Simple>.Instance.For);
 
         Behaves_like<Disabled<Basic>> a_disabled_basic_feature;
         Behaves_like<DisabledInDefault<Basic>> a_disabled_basic_feature_in_default;

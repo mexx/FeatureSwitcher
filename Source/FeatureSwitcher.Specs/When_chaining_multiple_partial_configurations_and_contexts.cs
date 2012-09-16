@@ -14,7 +14,7 @@ namespace FeatureSwitcher.Specs
                             {
                                 Features.Are
                                     .ConfiguredBy.Custom(EnableByName<Simple>.Instance, EnableByName<Complex>.Instance).And
-                                    .NamedBy.Custom(EnableByName<Simple>.Instance, EnableByName<Complex>.Instance);
+                                    .NamedBy.Custom(EnableByName<Simple>.Instance.For, EnableByName<Complex>.Instance.For);
 
                                 In<Default>.Contexts.FeaturesAre()
                                     .AlwaysDisabled().And
@@ -22,7 +22,7 @@ namespace FeatureSwitcher.Specs
 
                                 In<BusinessBranch>.Contexts.FeaturesAre()
                                     .ConfiguredBy.Custom(EnableByName<Basic>.Instance).And
-                                    .NamedBy.Custom(EnableByName<Basic>.Instance);
+                                    .NamedBy.Custom(EnableByName<Basic>.Instance.For);
                             };
 
         Behaves_like<Enabled<Simple>> an_enabled_feature_simple;

@@ -17,9 +17,9 @@ namespace FeatureSwitcher.Configuration
             get { return this; }
         }
 
-        IConfigureFeatures IConfigureNaming.Custom(params IProvideNaming[] naming)
+        IConfigureFeatures IConfigureNaming.Custom(params Feature.NameOf[] nameOfs)
         {
-            ProvideState.ConfiguredNamings = naming;
+            ProvideState.ConfiguredNamings = nameOfs;
             return this;
         }
 
