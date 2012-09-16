@@ -1,6 +1,6 @@
 namespace FeatureSwitcher.Configuration
 {
-    public class AppConfigFeatures : IProvideBehavior
+    public class AppConfigFeatures
     {
         private readonly FeaturesSection _features;
 
@@ -9,7 +9,7 @@ namespace FeatureSwitcher.Configuration
             _features = features;
         }
 
-        bool? IProvideBehavior.IsEnabled(string feature)
+        public bool? IsEnabled(string feature)
         {
             if (_features == null)
                 return null;

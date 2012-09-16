@@ -14,7 +14,7 @@ namespace FeatureSwitcher.Specs
             Features.Are.NamedBy.TypeName();
 
             In<BusinessBranch>.Contexts.FeaturesAre().
-                ConfiguredBy.Custom(EnableByName<Simple>.Instance);
+                ConfiguredBy.Custom(EnableByName<Simple>.Instance.IsEnabled);
         };
 
 

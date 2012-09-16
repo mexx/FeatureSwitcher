@@ -15,7 +15,7 @@ namespace FeatureSwitcher.Configuration
         {
             _control = control;
             _appConfigSettings = appConfigSettings;
-            _configuration = _control.Custom(new AppConfig(_appConfigSettings));
+            _configuration = _control.Custom(new AppConfig(_appConfigSettings).IsEnabled);
         }
 
         IConfigureAppConfig IConfigureAppConfig.IgnoreConfigurationErrors()

@@ -2,6 +2,6 @@ namespace FeatureSwitcher.Configuration
 {
     public interface IConfigureBehavior
     {
-        IConfigureFeatures Custom(params IProvideBehavior[] behavior);
+        IConfigureFeatures Custom(params Feature.Behavior[] behaviors);
     }
 }

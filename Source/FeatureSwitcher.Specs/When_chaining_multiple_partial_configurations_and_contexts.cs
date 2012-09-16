@@ -13,7 +13,7 @@ namespace FeatureSwitcher.Specs
         Establish ctx = () =>
                             {
                                 Features.Are
-                                    .ConfiguredBy.Custom(EnableByName<Simple>.Instance, EnableByName<Complex>.Instance).And
+                                    .ConfiguredBy.Custom(EnableByName<Simple>.Instance.IsEnabled, EnableByName<Complex>.Instance.IsEnabled).And
                                     .NamedBy.Custom(EnableByName<Simple>.Instance.For, EnableByName<Complex>.Instance.For);
 
                                 In<Default>.Contexts.FeaturesAre()
@@ -21,7 +21,7 @@ namespace FeatureSwitcher.Specs
                                     .NamedBy.TypeFullName();
 
                                 In<BusinessBranch>.Contexts.FeaturesAre()
-                                    .ConfiguredBy.Custom(EnableByName<Basic>.Instance).And
+                                    .ConfiguredBy.Custom(EnableByName<Basic>.Instance.IsEnabled).And
                                     .NamedBy.Custom(EnableByName<Basic>.Instance.For);
                             };
 

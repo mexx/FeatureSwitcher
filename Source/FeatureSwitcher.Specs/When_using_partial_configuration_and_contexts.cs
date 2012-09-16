@@ -13,15 +13,15 @@ namespace FeatureSwitcher.Specs
         Establish ctx = () =>
                             {
                                 Features.Are.
-                                    ConfiguredBy.Custom(EnableByName<Simple>.Instance).And.
+                                    ConfiguredBy.Custom(EnableByName<Simple>.Instance.IsEnabled).And.
                                     NamedBy.Custom(EnableByName<Simple>.Instance.For);
 
                                 In<Default>.Contexts.FeaturesAre().
-                                    ConfiguredBy.Custom(EnableByName<Basic>.Instance).And.
+                                    ConfiguredBy.Custom(EnableByName<Basic>.Instance.IsEnabled).And.
                                     NamedBy.Custom(EnableByName<Basic>.Instance.For);
 
                                 In<BusinessBranch>.Contexts.FeaturesAre().
-                                    ConfiguredBy.Custom(EnableByName<Complex>.Instance).And.
+                                    ConfiguredBy.Custom(EnableByName<Complex>.Instance.IsEnabled).And.
                                     NamedBy.Custom(EnableByName<Complex>.Instance.For);
                             };
 

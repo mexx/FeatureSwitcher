@@ -39,12 +39,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\AllFeatures.cs" />
-    <Compile Include="Configuration\Always.cs" />
     <Compile Include="Configuration\ConfigureFeatures.cs" />
     <Compile Include="Configuration\Features.cs" />
     <Compile Include="Configuration\IConfigureBehavior.cs" />
     <Compile Include="Configuration\IConfigureNaming.cs" />
     <Compile Include="Configuration\IProvideState.cs" />
+    <Compile Include="Feature.Behavior.cs">
+      <DependentUpon>Feature.cs</DependentUpon>
+    </Compile>
     <Compile Include="Feature.Configuration.cs">
       <DependentUpon>Feature.cs</DependentUpon>
     </Compile>
@@ -63,10 +65,8 @@
     <Compile Include="Feature.Switch.IKnowStateOf.cs">
       <DependentUpon>Feature.Switch.cs</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\Defaults.cs" />
     <Compile Include="Configuration\IConfigureFeatures.cs" />
     <Compile Include="Configuration\Named.cs" />
-    <Compile Include="Configuration\IProvideBehavior.cs" />
     <Compile Include="Feature.Switch.Of.cs">
       <DependentUpon>Feature.Switch.cs</DependentUpon>
     </Compile>

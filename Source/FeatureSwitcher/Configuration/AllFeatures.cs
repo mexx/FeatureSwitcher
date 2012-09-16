@@ -1,26 +1,31 @@
 namespace FeatureSwitcher.Configuration
 {
-    public sealed class AllFeatures : IProvideBehavior
+    public static class AllFeatures
     {
-        public static IProvideBehavior Enabled { get; private set; }
-        public static IProvideBehavior Disabled { get; private set; }
+        public static Feature.Behavior Enabled { get; private set; }
+        public static Feature.Behavior Disabled { get; private set; }
 
         static AllFeatures()
         {
-            Enabled = new AllFeatures(true);
-            Disabled = new AllFeatures(false);
+            Enabled = name => true;
+            Disabled = name => false;
         }
 
-        private readonly bool _enabled;
-
-        private AllFeatures(bool enabled)
+        public static IConfigureFeatures AlwaysEnabled(this IConfigureFeatures This)
         {
-            _enabled = enabled;
+            return This.ConfiguredBy.Custom(Enabled);
         }
 
-        bool? IProvideBehavior.IsEnabled(string feature)
+        public static IConfigureFeatures AlwaysDisabled(this IConfigureFeatures This)
         {
-            return _enabled;
+            return This.ConfiguredBy.Custom(Disabled);
+        }
+
+        public static IConfigureFeatures HandledByDefault(this IConfigureFeatures This)
+        {
+            return This.
+                ConfiguredBy.Custom(null).And.
+                NamedBy.Custom(null);
         }
     }
 }

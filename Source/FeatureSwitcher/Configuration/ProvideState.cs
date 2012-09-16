@@ -6,25 +6,25 @@ namespace FeatureSwitcher.Configuration
 {
     public sealed class ProvideState : IProvideState
     {
-        internal static IProvideBehavior[] ConfiguredBehaviors { get; set; }
+        internal static Feature.Behavior[] ConfiguredBehaviors { get; set; }
         internal static Feature.NameOf[] ConfiguredNamings { get; set; }
 
         internal static ProvideState Control
         {
-            get { return new ProvideState(new IProvideBehavior[0], new Feature.NameOf[0]); }
+            get { return new ProvideState(new Feature.Behavior[0], new Feature.NameOf[0]); }
         }
 
-        private readonly IEnumerable<IProvideBehavior> _behaviors;
+        private readonly IEnumerable<Feature.Behavior> _behaviors;
         private readonly IEnumerable<Feature.NameOf> _namings;
 
-        public ProvideState(IEnumerable<IProvideBehavior> behaviors, IEnumerable<Feature.NameOf> namings)
+        public ProvideState(IEnumerable<Feature.Behavior> behaviors, IEnumerable<Feature.NameOf> namings)
         {
             if (behaviors == null)
                 throw new ArgumentNullException("behaviors");
             if (namings == null)
                 throw new ArgumentNullException("namings");
 
-            _behaviors = behaviors.Concat(ConfiguredBehaviors ?? new IProvideBehavior[0]).Concat(new[] { AllFeatures.Disabled }).Where(x => x != null).ToList();
+            _behaviors = behaviors.Concat(ConfiguredBehaviors ?? new Feature.Behavior[0]).Concat(new[] { AllFeatures.Disabled }).Where(x => x != null).ToList();
             _namings = namings.Concat(ConfiguredNamings ?? new Feature.NameOf[0]).Concat(new[] { Named.ByFullName }).Where(x => x != null).ToList();
         }
 
@@ -38,7 +38,7 @@ namespace FeatureSwitcher.Configuration
             where TFeature : IFeature
         {
             var feature = GetName<TFeature>();
-            return _behaviors.Select(x => x.IsEnabled(feature)).First(x => x.HasValue).GetValueOrDefault();
+            return _behaviors.Select(x => x(feature)).First(x => x.HasValue).GetValueOrDefault();
         }
     }
 }

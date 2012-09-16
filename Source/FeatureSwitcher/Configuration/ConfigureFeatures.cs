@@ -23,9 +23,9 @@ namespace FeatureSwitcher.Configuration
             return this;
         }
 
-        IConfigureFeatures IConfigureBehavior.Custom(params IProvideBehavior[] behavior)
+        IConfigureFeatures IConfigureBehavior.Custom(params Feature.Behavior[] behaviors)
         {
-            ProvideState.ConfiguredBehaviors = behavior;
+            ProvideState.ConfiguredBehaviors = behaviors;
             return this;
         }
     }

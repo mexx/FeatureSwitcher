@@ -1,9 +1,8 @@
 using System;
-using FeatureSwitcher.Configuration;
 
 namespace FeatureSwitcher.Specs.Domain
 {
-    public class EnableByName<T> : IProvideBehavior
+    public class EnableByName<T>
     {
         public readonly static EnableByName<T> Instance = new EnableByName<T>();
 

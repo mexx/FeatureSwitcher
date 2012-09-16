@@ -1,6 +1,6 @@
 namespace FeatureSwitcher.Configuration
 {
-    public class AppConfigDefault : IProvideBehavior
+    public class AppConfigDefault
     {
         private readonly DefaultSection _defaultSection;
 
@@ -9,7 +9,7 @@ namespace FeatureSwitcher.Configuration
             _defaultSection = defaultSection;
         }
 
-        bool? IProvideBehavior.IsEnabled(string feature)
+        public bool? IsEnabled(string feature)
         {
             if (_defaultSection == null)
                 return null;

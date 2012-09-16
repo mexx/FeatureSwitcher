@@ -12,7 +12,7 @@ namespace FeatureSwitcher.Specs
                         Features.Are
                             .ConfiguredBy.Custom(
                                 new AppConfig(true).Features,
-                                EnableByName<Simple>.Instance,
+                                EnableByName<Simple>.Instance.IsEnabled,
                                 new AppConfig(true).Default).And
                             .NamedBy.Custom(
                                 EnableByName<Simple>.Instance.For,

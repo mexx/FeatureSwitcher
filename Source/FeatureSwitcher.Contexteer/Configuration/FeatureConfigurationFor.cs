@@ -42,9 +42,9 @@ namespace FeatureSwitcher.Configuration
             return this;
         }
 
-        IConfigureFeaturesFor<TContext> IConfigureBehaviorFor<TContext>.Custom(Func<TContext, IProvideBehavior[]> behavior)
+        IConfigureFeaturesFor<TContext> IConfigureBehaviorFor<TContext>.Custom(Func<TContext, Feature.Behavior[]> behaviors)
         {
-            FeatureConfiguration.Set(behavior);
+            FeatureConfiguration.Set(behaviors);
             return this;
         }
 
@@ -53,9 +53,9 @@ namespace FeatureSwitcher.Configuration
             return (this as IConfigureNamingFor<TContext>).Custom(ctx => nameOfs);
         }
 
-        IConfigureFeatures IConfigureBehavior.Custom(params IProvideBehavior[] behavior)
+        IConfigureFeatures IConfigureBehavior.Custom(params Feature.Behavior[] behaviors)
         {
-            return (this as IConfigureBehaviorFor<TContext>).Custom(ctx => behavior);
+            return (this as IConfigureBehaviorFor<TContext>).Custom(ctx => behaviors);
         }
     }
 }

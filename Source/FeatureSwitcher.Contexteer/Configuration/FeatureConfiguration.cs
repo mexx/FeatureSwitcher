@@ -17,7 +17,7 @@ namespace FeatureSwitcher.Configuration
             IDictionary<Type, object> configs;
             
             var controlType = typeof(TControl);
-            if (typeof(IProvideBehavior).IsAssignableFrom(controlType))
+            if (typeof(Feature.Behavior).IsAssignableFrom(controlType))
                 configs = Behaviors;
             else if (typeof(Feature.NameOf).IsAssignableFrom(controlType))
                 configs = Namings;
@@ -43,7 +43,7 @@ namespace FeatureSwitcher.Configuration
             return new Feature.Configuration(new ProvideState(BehaviorsFor(context), NamingsFor(context)));
         }
 
-        private static IEnumerable<IProvideBehavior> BehaviorsFor<T>(T context)
+        private static IEnumerable<Feature.Behavior> BehaviorsFor<T>(T context)
             where T : IContext
         {
             return GetBehaviors(context).Concat(GetBehaviors(Default.Context));
@@ -55,17 +55,17 @@ namespace FeatureSwitcher.Configuration
             return GetNamings(context).Concat(GetNamings(Default.Context));
         }
 
-        private static IEnumerable<IProvideBehavior> GetBehaviors<T>(T context)
+        private static IEnumerable<Feature.Behavior> GetBehaviors<T>(T context)
             where T : IContext
         {
             var contextType = typeof(T);
             object behavior;
             if (!Behaviors.TryGetValue(contextType, out behavior))
-                return new IProvideBehavior[0];
+                return new Feature.Behavior[0];
 
-            var inContextOf = behavior as Func<T, IProvideBehavior[]>;
+            var inContextOf = behavior as Func<T, Feature.Behavior[]>;
             var provideBehaviors = inContextOf != null ? inContextOf(context) : null;
-            return provideBehaviors ?? new IProvideBehavior[0];
+            return provideBehaviors ?? new Feature.Behavior[0];
         }
 
         private static IEnumerable<Feature.NameOf> GetNamings<T>(T context)

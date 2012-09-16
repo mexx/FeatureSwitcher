@@ -1,15 +1,15 @@
 namespace FeatureSwitcher.Configuration
 {
-    public class AppConfig : IProvideBehavior
+    public class AppConfig
     {
-        public IProvideBehavior Default
+        public Feature.Behavior Default
         {
-            get { return AppConfigDefault; }
+            get { return AppConfigDefault.IsEnabled; }
         }
 
-        public IProvideBehavior Features
+        public Feature.Behavior Features
         {
-            get { return AppConfigFeatures; }
+            get { return AppConfigFeatures.IsEnabled; }
         }
 
         private readonly DefaultSection _default;
@@ -63,18 +63,17 @@ namespace FeatureSwitcher.Configuration
             get { return _features ?? SectionGroup.GetFeaturesSection(_settings.SectionGroupName, _settings.IgnoreConfigurationErrors); }
         }
 
-        bool? IProvideBehavior.IsEnabled(string feature)
+        public bool? IsEnabled(string feature)
         {
-            return AppConfigFeatures.IsEnabled(feature).GetValueOrDefault(
-                AppConfigDefault.IsEnabled(feature).GetValueOrDefault());
+            return Features(feature).GetValueOrDefault(Default(feature).GetValueOrDefault());
         }
 
-        private IProvideBehavior AppConfigDefault
+        private AppConfigDefault AppConfigDefault
         {
             get { return new AppConfigDefault(DefaultSection); }
         }
 
-        private IProvideBehavior AppConfigFeatures
+        private AppConfigFeatures AppConfigFeatures
         {
             get { return new AppConfigFeatures(FeaturesSection); }
         }
