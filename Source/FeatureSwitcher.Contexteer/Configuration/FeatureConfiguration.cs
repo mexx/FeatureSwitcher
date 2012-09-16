@@ -37,10 +37,10 @@ namespace FeatureSwitcher.Configuration
             return new FeatureConfigurationFor<TContext>();
         }
 
-        public static ProvideState For<T>(T context)
+        public static Feature.Configuration For<T>(T context)
             where T : IContext
         {
-            return new ProvideState(BehaviorsFor(context), NamingsFor(context));
+            return new Feature.Configuration(new ProvideState(BehaviorsFor(context), NamingsFor(context)));
         }
 
         private static IEnumerable<IProvideBehavior> BehaviorsFor<T>(T context)

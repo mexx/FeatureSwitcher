@@ -1,5 +1,3 @@
-using FeatureSwitcher.Configuration;
-
 namespace FeatureSwitcher
 {
     public static partial class Feature
@@ -9,7 +7,7 @@ namespace FeatureSwitcher
             public interface IAmFor<out T>
                 where T : IFeature
             {
-                IKnowStateOf<T> With(IProvideState provideState);
+                IKnowStateOf<T> With(Configuration configuration);
             }
         }
     }

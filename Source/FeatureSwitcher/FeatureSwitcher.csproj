@@ -45,6 +45,9 @@
     <Compile Include="Configuration\IConfigureBehavior.cs" />
     <Compile Include="Configuration\IConfigureNaming.cs" />
     <Compile Include="Configuration\IProvideState.cs" />
+    <Compile Include="Feature.Configuration.cs">
+      <DependentUpon>Feature.cs</DependentUpon>
+    </Compile>
     <Compile Include="Feature.Switch.StateOf.cs">
       <DependentUpon>Feature.Switch.cs</DependentUpon>
     </Compile>

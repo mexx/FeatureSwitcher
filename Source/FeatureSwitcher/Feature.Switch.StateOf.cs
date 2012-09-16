@@ -1,6 +1,3 @@
-using System;
-using FeatureSwitcher.Configuration;
-
 namespace FeatureSwitcher
 {
     public static partial class Feature
@@ -10,19 +7,16 @@ namespace FeatureSwitcher
             public class StateOf<T> : IKnowStateOf<T>
                 where T : IFeature
             {
-                private readonly IProvideState _provideState;
+                private readonly Configuration _configuration;
 
-                public StateOf(IProvideState provideState)
+                public StateOf(Configuration configuration)
                 {
-                    if (provideState == null)
-                        throw new ArgumentNullException("provideState");
-
-                    _provideState = provideState;
+                    _configuration = configuration;
                 }
 
                 public bool Enabled
                 {
-                    get { return _provideState.IsEnabled<T>(); }
+                    get { return _configuration.IsEnabled<T>(); }
                 }
 
                 public bool Disabled

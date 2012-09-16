@@ -1,5 +1,3 @@
-using FeatureSwitcher.Configuration;
-
 namespace FeatureSwitcher
 {
     /// <summary>
@@ -10,7 +8,7 @@ namespace FeatureSwitcher
         public static Switch.IKnowStateOf<T> Is<T>(this T This)
             where T : IFeature
         {
-            return Switch.For<T>(This.GetType()).With(ProvideState.Control);
+            return Switch.For<T>(This.GetType()).With(Configuration.Current);
         }
     }
 
@@ -23,7 +21,7 @@ namespace FeatureSwitcher
     {
         public static Feature.Switch.IKnowStateOf<T> Is()
         {
-            return Feature.Switch.For<T>().With(ProvideState.Control);
+            return Feature.Switch.For<T>().With(Feature.Configuration.Current);
         }
     }
 }

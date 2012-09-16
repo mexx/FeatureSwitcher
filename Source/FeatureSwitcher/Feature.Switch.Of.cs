@@ -1,5 +1,3 @@
-using FeatureSwitcher.Configuration;
-
 namespace FeatureSwitcher
 {
     public static partial class Feature
@@ -9,9 +7,9 @@ namespace FeatureSwitcher
             public class Of<T> : IAmFor<T>
                 where T : IFeature
             {
-                public IKnowStateOf<T> With(IProvideState provideState)
+                public IKnowStateOf<T> With(Configuration configuration)
                 {
-                    return new StateOf<T>(provideState);
+                    return new StateOf<T>(configuration);
                 }
             }
         }

@@ -11,8 +11,8 @@ namespace FeatureSwitcher
             where TContext : IContext
         {
             var featureType = This.GetType().GetGenericArguments().First();
-            var provideState = FeatureConfiguration.For(context);
-            return Feature.Switch.For<TFeature>(featureType).With(provideState).Enabled;
+            var configuration = FeatureConfiguration.For(context);
+            return Feature.Switch.For<IFeature>(featureType).With(configuration).Enabled;
         }
 
         public static bool DisabledInContextOf<TFeature, TContext>(this Feature.Switch.IKnowStateOf<TFeature> This, TContext context)
