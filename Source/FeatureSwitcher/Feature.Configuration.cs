@@ -5,35 +5,54 @@ namespace FeatureSwitcher
 {
     public static partial class Feature
     {
-        public class Configuration : IProvideState
+        public class Configuration
         {
-            private readonly IProvideState _provideState;
+            private readonly NameOf _nameOf;
+            private readonly Behavior _behavior;
+            private readonly Configuration _fallback;
             public static Configuration Default { get; private set; }
             public static Configuration Current { get { return Provider(); } }
             public static Func<Configuration> Provider { get; set; }
 
             static Configuration()
             {
-                Default = new Configuration();
+                Default = new Configuration(Named.ByFullName, AllFeatures.Disabled, null);
                 Provider = () => Default;
             }
 
-            public Configuration()
-                : this(null)
+            public Configuration(NameOf nameOf, Behavior behavior, Configuration fallback)
             {
+                _nameOf = nameOf;
+                _behavior = behavior;
+                _fallback = fallback;
             }
 
-            public Configuration(IProvideState provideState)
+            private Configuration Fallback { get { return (_fallback ?? Default); } }
+
+            public NameOf NamingConvention
             {
-                _provideState = provideState;
+                get
+                {
+                    if (_nameOf == null)
+                        return Fallback.NamingConvention;
+                    return type => _nameOf(type) ?? Fallback.NamingConvention(type);
+                }
             }
 
-            public IProvideState ProvideState { get { return _provideState ?? FeatureSwitcher.Configuration.ProvideState.Control; } }
-            
-            public bool IsEnabled<TFeature>() 
+            public Behavior Behavior
+            {
+                get
+                {
+                    if (_behavior == null)
+                        return Fallback.Behavior;
+                    return x => _behavior(x) ?? Fallback.Behavior(x);
+                }
+            }
+
+            public bool IsEnabled<TFeature>()
                 where TFeature : IFeature
             {
-                return ProvideState.IsEnabled<TFeature>();
+                return Behavior(NamingConvention(typeof(TFeature))).GetValueOrDefault();
             }
         }
     }

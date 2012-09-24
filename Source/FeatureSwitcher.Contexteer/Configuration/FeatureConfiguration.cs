@@ -40,7 +40,7 @@ namespace FeatureSwitcher.Configuration
         public static Feature.Configuration For<T>(T context)
             where T : IContext
         {
-            return new Feature.Configuration(new ProvideState(BehaviorsFor(context), NamingsFor(context)));
+            return new Feature.Configuration(type => NamingsFor(context).Select(x=>x(type)).FirstOrDefault(x=>x!=null), name => BehaviorsFor(context).Select(x=>x(name)).FirstOrDefault(x=>x.HasValue), Feature.Configuration.Current);
         }
 
         private static IEnumerable<Feature.Behavior> BehaviorsFor<T>(T context)
