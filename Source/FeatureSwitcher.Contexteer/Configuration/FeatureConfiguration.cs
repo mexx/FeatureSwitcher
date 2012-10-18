@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Contexteer;
 using Contexteer.Configuration;
 
@@ -8,77 +5,30 @@ namespace FeatureSwitcher.Configuration
 {
     public static class FeatureConfiguration
     {
-        private static readonly IDictionary<Type, object> Behaviors = new Dictionary<Type, object>();
-        private static readonly IDictionary<Type, object> Namings = new Dictionary<Type, object>();
-
-        internal static void Set<T, TControl>(Func<T, TControl[]> value)
-            where T : IContext
-        {
-            IDictionary<Type, object> configs;
-            
-            var controlType = typeof(TControl);
-            if (typeof(Feature.Behavior).IsAssignableFrom(controlType))
-                configs = Behaviors;
-            else if (typeof(Feature.NameOf).IsAssignableFrom(controlType))
-                configs = Namings;
-            else
-                throw new NotSupportedException();
-            
-            var context = typeof(T);
-            if (value != null)
-                configs[context] = value;
-            else
-                configs.Remove(context);
-        }
-
-        public static IConfigureFeaturesFor<TContext> FeaturesAre<TContext>(this IConfigure<TContext> This)
+        public static IConfigureFeaturesFor<TContext> FeaturesAre<TContext>(this ConfigurationOf<TContext> This)
             where TContext : IContext
         {
-            return new FeatureConfigurationFor<TContext>();
+            var result = new FeatureConfigurationFor<TContext>();
+            This.Set(typeof (FeatureConfiguration), result);
+            return result;
         }
 
         public static Feature.Configuration For<T>(T context)
             where T : IContext
         {
-            return new Feature.Configuration(type => NamingsFor(context).Select(x=>x(type)).FirstOrDefault(x=>x!=null), name => BehaviorsFor(context).Select(x=>x(name)).FirstOrDefault(x=>x.HasValue), Feature.Configuration.Current);
+            FeatureConfigurationFor<T> configuration;
+            if (In<T>.Contexts.TryGet(typeof (FeatureConfiguration), out configuration))
+                return configuration.For(context);
+
+            return IsDefault(context)
+                       ? Feature.Configuration.Current
+                       : For(Default.Context);
         }
 
-        private static IEnumerable<Feature.Behavior> BehaviorsFor<T>(T context)
+        private static bool IsDefault<T>(T context)
             where T : IContext
         {
-            return GetBehaviors(context).Concat(GetBehaviors(Default.Context));
-        }
-
-        private static IEnumerable<Feature.NameOf> NamingsFor<T>(T context)
-            where T : IContext
-        {
-            return GetNamings(context).Concat(GetNamings(Default.Context));
-        }
-
-        private static IEnumerable<Feature.Behavior> GetBehaviors<T>(T context)
-            where T : IContext
-        {
-            var contextType = typeof(T);
-            object behavior;
-            if (!Behaviors.TryGetValue(contextType, out behavior))
-                return new Feature.Behavior[0];
-
-            var inContextOf = behavior as Func<T, Feature.Behavior[]>;
-            var provideBehaviors = inContextOf != null ? inContextOf(context) : null;
-            return provideBehaviors ?? new Feature.Behavior[0];
-        }
-
-        private static IEnumerable<Feature.NameOf> GetNamings<T>(T context)
-            where T : IContext
-        {
-            var contextType = typeof(T);
-            object naming;
-            if (!Namings.TryGetValue(contextType, out naming))
-                return new Feature.NameOf[0];
-
-            var inContextOf = naming as Func<T, Feature.NameOf[]>;
-            var provideNamings = inContextOf != null ? inContextOf(context) : null;
-            return provideNamings ?? new Feature.NameOf[0];
+            return ReferenceEquals(Default.Context, context);
         }
     }
 }
