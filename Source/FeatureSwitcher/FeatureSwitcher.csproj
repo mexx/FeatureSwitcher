@@ -38,8 +38,16 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\AllFeatures.cs" />
+    <Compile Include="Configuration\Features.OfAnyType.cs">
+      <DependentUpon>Features.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\Features.ConfigurationBuilder.cs">
+      <DependentUpon>Features.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\Features.cs" />
+    <Compile Include="Configuration\Features.OfType.cs">
+      <DependentUpon>Features.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\IConfigureBehavior.cs" />
     <Compile Include="Configuration\IConfigureNaming.cs" />
     <Compile Include="Feature.Behavior.cs">
@@ -64,7 +72,6 @@
       <DependentUpon>Feature.Switch.cs</DependentUpon>
     </Compile>
     <Compile Include="Configuration\IConfigureFeatures.cs" />
-    <Compile Include="Configuration\Named.cs" />
     <Compile Include="Feature.Switch.Of.cs">
       <DependentUpon>Feature.Switch.cs</DependentUpon>
     </Compile>

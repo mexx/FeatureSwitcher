@@ -1,65 +1,42 @@
-using System.Linq;
-
 namespace FeatureSwitcher.Configuration
 {
-    public static class Features
+    public static partial class Features
     {
         public static IConfigureFeatures Are
         {
             get
             {
-                var result = new FeaturesAre(Feature.Configuration.Default);
-                Feature.Configuration.Provider = () => result.Configuration;
+                var result = new ConfigurationBuilder(Feature.Configuration.Default);
+                Feature.Configuration.Provider = result.Build;
                 return result;
             }
         }
 
-        public class FeaturesAre : IConfigureFeatures, IConfigureNaming, IConfigureBehavior
+        public static IConfigureFeatures AlwaysEnabled(this IConfigureFeatures This)
         {
-            private readonly Feature.Configuration _fallback;
-            private Feature.NameOf _nameOf;
-            private Feature.Behavior _behavior;
+            return This.ConfiguredBy.Custom(OfAnyType.Enabled);
+        }
 
-            public FeaturesAre(Feature.Configuration fallback)
-            {
-                _fallback = fallback;
-            }
+        public static IConfigureFeatures AlwaysDisabled(this IConfigureFeatures This)
+        {
+            return This.ConfiguredBy.Custom(OfAnyType.Disabled);
+        }
 
-            public Feature.Configuration Configuration
-            {
-                get { return new Feature.Configuration(_nameOf, _behavior, _fallback); }
-            }
+        public static IConfigureFeatures TypeFullName(this IConfigureNaming This)
+        {
+            return This.Custom(OfAnyType.NamedByTypeFullName);
+        }
 
-            IConfigureFeatures IConfigureFeatures.And
-            {
-                get { return this; }
-            }
+        public static IConfigureFeatures TypeName(this IConfigureNaming This)
+        {
+            return This.Custom(OfAnyType.NamedByTypeName);
+        }
 
-            IConfigureNaming IConfigureFeatures.NamedBy
-            {
-                get { return this; }
-            }
-
-            IConfigureBehavior IConfigureFeatures.ConfiguredBy
-            {
-                get { return this; }
-            }
-
-            IConfigureFeatures IConfigureNaming.Custom(params Feature.NameOf[] nameOfs)
-            {
-                _nameOf = null;
-                if (nameOfs != null)
-                    _nameOf = type => nameOfs.Select(x => x(type)).FirstOrDefault(x => x != null);
-                return this;
-            }
-
-            IConfigureFeatures IConfigureBehavior.Custom(params Feature.Behavior[] behaviors)
-            {
-                _behavior = null;
-                if (behaviors != null)
-                    _behavior = feature => behaviors.Select(x => x(feature)).FirstOrDefault(x => x.HasValue);
-                return this;
-            }
+        public static IConfigureFeatures HandledByDefault(this IConfigureFeatures This)
+        {
+            return This.
+                ConfiguredBy.Custom(null).And.
+                NamedBy.Custom(null);
         }
     }
 }

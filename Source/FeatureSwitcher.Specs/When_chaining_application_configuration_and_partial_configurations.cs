@@ -16,7 +16,7 @@ namespace FeatureSwitcher.Specs
                                 new AppConfig(true).Default).And
                             .NamedBy.Custom(
                                 EnableByName<Simple>.Instance.For,
-                                Named.ByFullName);
+                                Features.OfAnyType.NamedByTypeFullName);
 
         Behaves_like<Disabled<Basic>> a_disabled_basic_feature;
         Behaves_like<DisabledInDefault<Basic>> a_disabled_basic_feature_in_default;

@@ -7,18 +7,19 @@ namespace FeatureSwitcher
     {
         public class Configuration
         {
-            private readonly NameOf _nameOf;
-            private readonly Behavior _behavior;
-            private readonly Configuration _fallback;
             public static Configuration Default { get; private set; }
             public static Configuration Current { get { return Provider(); } }
             public static Func<Configuration> Provider { get; set; }
 
             static Configuration()
             {
-                Default = new Configuration(Named.ByFullName, AllFeatures.Disabled, null);
+                Default = new Configuration(Features.OfAnyType.NamedByTypeFullName, Features.OfAnyType.Disabled, null);
                 Provider = () => Default;
             }
+
+            private readonly NameOf _nameOf;
+            private readonly Behavior _behavior;
+            private readonly Configuration _fallback;
 
             public Configuration(NameOf nameOf, Behavior behavior, Configuration fallback)
             {
