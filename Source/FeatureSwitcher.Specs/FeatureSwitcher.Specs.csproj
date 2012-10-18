@@ -62,6 +62,7 @@
     <Compile Include="When_all_features_are_disabled.cs" />
     <Compile Include="When_all_features_are_enabled.cs" />
     <Compile Include="When_application_configuration_unchanged.cs" />
+    <Compile Include="When_behavior_is_not_configured_in_context_and_configured_general.cs" />
     <Compile Include="When_chaining_application_configuration_and_partial_configurations.cs" />
     <Compile Include="When_chaining_multiple_partial_configurations.cs" />
     <Compile Include="When_chaining_multiple_partial_configurations_and_contexts.cs" />
