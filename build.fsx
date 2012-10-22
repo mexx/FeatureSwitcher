@@ -12,7 +12,7 @@ TraceEnvironmentVariables()
 let version = if isLocalBuild then getBuildParamOrDefault "version" "0.0.0.1" else buildVersion
 let packageVersion = getBuildParamOrDefault "packageVersion" version
 
-let NugetKey = getBuildParamOrDefault "nugetkey" ""
+let NugetKey = getBuildParamOrDefault "nuget.key" ""
 
 (* Directories *)
 let targetPlatformDir = getTargetPlatformDir "v4.0.30319"
