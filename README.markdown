@@ -6,28 +6,26 @@ If needed it provides multi tenancy support. [more info](#multi-tenancy--context
 
 ## How to use it
 
-Create a class that names your feature and implements the IFeature interface.
+Create a class that names your feature and mark it with the `IFeature` interface.
 
 	class Sample : IFeature {}
 
-In the code where you need the switch simply ask FeatureSwitcher if your feature is enabled or disabled
+Ask whether `Feature<Sample>.Is().Enabled` or `Feature<Sample>.Is().Disabled`.
 
-	Feature<Sample>.Is().Enabled
-	Feature<Sample>.Is().Disabled
-
-If your have an instance of your feature and want to check it is enabled or disabled
-
+With an instance of your feature 
+	
 	var sample = new Sample();
-	sample.Is().Enabled
-	sample.Is().Disabled
 
-By default all features are disabled. You can provide an own behavior simply by pass it into the configuration.
+Ask whether `sample.Is().Enabled` or `sample.Is().Disabled`.
 
-	Features.Are.ConfiguredBy.Custom(new MyBehavior());
+### Configuration
 
-By default fullname of the type is used to name a feature. To provide an own naming strategy simply pass it into the configuration.
+By default all features are disabled and named by fullname of the type.
+You can provide an own behavior or naming strategy simply by pass it into the configuration.
 
-	Features.Are.NamedBy.Custom(new MyNaming());
+	Features.Are
+		.ConfiguredBy.Custom(behavior).And
+		.NamedBy.Custom(namingConvention);
 
 ### Multi tenancy / context support
 
@@ -45,9 +43,9 @@ And for an instance of your feature
 
 You can provide own behavior and naming strategy for contexts also by passing it into the configuration.
 
-	In<BusinessBranch>.Contexts.FeaturesAre().ConfiguredBy(ctx => new MyBehavior(ctx));
-
-	In<BusinessBranch>.Contexts.FeaturesAre().NamedBy(ctx => new MyNaming(ctx));
+	In<BusinessBranch>.Contexts.FeaturesAre()
+		.ConfiguredBy(behavior).And
+		.NamedBy(naming);
 
 ## How to get it
 
