@@ -1,14 +1,7 @@
 #I @"Source\packages\Fake.1.64.6\tools"
 #r "FakeLib.dll"
-#r "System.Web.Extensions.dll"
 
 open Fake
-open Fake.Git
-open System.Collections.Generic
-open System.Linq
-open System.Text.RegularExpressions
-open System.IO
-open System.Web.Script.Serialization
 
 (* properties *)
 let authors = ["Max Malook, Marco Rasp, Stefan Senff"]
@@ -16,18 +9,8 @@ let projectName = "FeatureSwitcher"
 
 TraceEnvironmentVariables()
 
-let version =
-    if hasBuildParam "version" then getBuildParam "version" else
-    if isLocalBuild then getLastTag() else
-    // version is set to the last tag retrieved from GitHub Rest API
-    // see http://developer.github.com/v3/repos/ for reference
-    let url = sprintf "https://api.github.com/repos/mexx/%s/tags" projectName
-    tracefn "Downloading tags from %s" url
-    let tagsFile = REST.ExecuteGetCommand null null url
-    let tags = (new JavaScriptSerializer()).DeserializeObject(tagsFile) :?> System.Object array
-    [ for tag in tags -> tag :?> Dictionary<string, System.Object> ]
-        |> List.map (fun m -> m.Item("name") :?> string)
-        |> List.max
+let version = if isLocalBuild then getBuildParamOrDefault "version" "0.0.0.1" else buildVersion
+let packageVersion = getBuildParamOrDefault "packageVersion" version
 
 let NugetKey = getBuildParamOrDefault "nugetkey" ""
 
@@ -124,7 +107,7 @@ Target "BuildNuGet" (fun _ ->
                 Authors = authors
                 Project = project
                 Description = description
-                Version = version
+                Version = packageVersion
                 Dependencies = dependencies
                 OutputPath = projectNugetDir
                 AccessKey = NugetKey
