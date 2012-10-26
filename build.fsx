@@ -98,7 +98,9 @@ Target "BuildNuGet" (fun _ ->
 
         CleanDirs [nugetLibDir]
 
-        [buildDir @@ (sprintf "%s.dll" project)]
+        !+ (buildDir @@ (sprintf "%s.dll" project))
+          ++ (buildDir @@ (sprintf "%s.xml" project))
+            |> Scan
             |> CopyTo nugetLibDir
 
         NuGet (fun p ->
