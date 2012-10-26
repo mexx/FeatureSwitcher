@@ -114,7 +114,7 @@ Target "BuildNuGet" (fun _ ->
                 Publish = NugetKey <> "" })
             (sprintf @".\Source\%s\Package.nuspec" project)
 
-        !! (nugetDir @@ (sprintf "%s.*.nupkg" project))
+        !! (projectNugetDir @@ (sprintf "%s.*.nupkg" project))
           |> CopyTo deployDir
 
     let coreDependency = "FeatureSwitcher", RequireExactly packageVersion
