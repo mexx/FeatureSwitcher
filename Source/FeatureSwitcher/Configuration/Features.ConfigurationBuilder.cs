@@ -4,20 +4,31 @@ namespace FeatureSwitcher.Configuration
 {
     public static partial class Features
     {
+        /// <summary>
+        /// Builder for features configuration.
+        /// </summary>
         public class ConfigurationBuilder : IConfigureFeatures, IConfigureNaming, IConfigureBehavior
         {
             private readonly Feature.Configuration _fallback;
-            private Feature.NameOf _nameOf;
+            private Feature.NameOf _namingConvention;
             private Feature.Behavior _behavior;
 
+            /// <summary>
+            /// Constructs new builder with specified <paramref name="fallback"/> configuration.
+            /// </summary>
+            /// <param name="fallback">The fallback configuration to use.</param>
             public ConfigurationBuilder(Feature.Configuration fallback)
             {
                 _fallback = fallback;
             }
 
+            /// <summary>
+            /// Builds the configuration.
+            /// </summary>
+            /// <returns>the configuration.</returns>
             public Feature.Configuration Build()
             {
-                return new Feature.Configuration(_nameOf, _behavior, _fallback);
+                return new Feature.Configuration(_namingConvention, _behavior, _fallback);
             }
 
             IConfigureFeatures IConfigureFeatures.And
@@ -35,11 +46,11 @@ namespace FeatureSwitcher.Configuration
                 get { return this; }
             }
 
-            IConfigureFeatures IConfigureNaming.Custom(params Feature.NameOf[] nameOfs)
+            IConfigureFeatures IConfigureNaming.Custom(params Feature.NameOf[] namingConventions)
             {
-                _nameOf = null;
-                if (nameOfs != null)
-                    _nameOf = type => nameOfs.Select(x => x(type)).FirstOrDefault(x => x != null);
+                _namingConvention = null;
+                if (namingConventions != null)
+                    _namingConvention = type => namingConventions.Select(x => x(type)).FirstOrDefault(x => x != null);
                 return this;
             }
 

@@ -5,10 +5,22 @@ namespace FeatureSwitcher
 {
     public static partial class Feature
     {
+        /// <summary>
+        /// Provides the configuration for feature switches.
+        /// </summary>
         public class Configuration
         {
+            /// <summary>
+            /// Gets the default configuration, where all features are named by full name of the type and disabled.
+            /// </summary>
             public static Configuration Default { get; private set; }
+            /// <summary>
+            /// Gets the current configuration.
+            /// </summary>
             public static Configuration Current { get { return Provider(); } }
+            /// <summary>
+            /// Gets and sets the function to use to determine the current configuration.
+            /// </summary>
             public static Func<Configuration> Provider { get; set; }
 
             static Configuration()
@@ -17,29 +29,41 @@ namespace FeatureSwitcher
                 Provider = () => Default;
             }
 
-            private readonly NameOf _nameOf;
+            private readonly NameOf _namingConvention;
             private readonly Behavior _behavior;
             private readonly Configuration _fallback;
 
-            public Configuration(NameOf nameOf, Behavior behavior, Configuration fallback)
+            /// <summary>
+            /// Constructs a configuration for feature switches.
+            /// </summary>
+            /// <param name="namingConvention">The naming convention to use.</param>
+            /// <param name="behavior">The behavior to use.</param>
+            /// <param name="fallback">The fallback configuration to use.</param>
+            public Configuration(NameOf namingConvention, Behavior behavior, Configuration fallback)
             {
-                _nameOf = nameOf;
+                _namingConvention = namingConvention;
                 _behavior = behavior;
                 _fallback = fallback;
             }
 
             private Configuration Fallback { get { return (_fallback ?? Default); } }
 
+            /// <summary>
+            /// Gets the naming convention for this configuration.
+            /// </summary>
             public NameOf NamingConvention
             {
                 get
                 {
-                    if (_nameOf == null)
+                    if (_namingConvention == null)
                         return Fallback.NamingConvention;
-                    return type => _nameOf(type) ?? Fallback.NamingConvention(type);
+                    return type => _namingConvention(type) ?? Fallback.NamingConvention(type);
                 }
             }
 
+            /// <summary>
+            /// Gets the behavior for this configuration.
+            /// </summary>
             public Behavior Behavior
             {
                 get
@@ -50,6 +74,11 @@ namespace FeatureSwitcher
                 }
             }
 
+            /// <summary>
+            /// Determines whether the <typeparamref name="TFeature"/> is enabled or disabled.
+            /// </summary>
+            /// <typeparam name="TFeature">The type of the feature.</typeparam>
+            /// <returns><c>true</c> if feature is enabled, <c>false</c> if not.</returns>
             public bool IsEnabled<TFeature>()
                 where TFeature : IFeature
             {
