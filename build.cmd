@@ -11,10 +11,12 @@ SET VERSION=
 
 IF NOT [%2]==[] (set VERSION="%~2")
 
-echo Installing FAKE
-"Source\.nuget\NuGet.exe" "install" "FAKE" "-OutputDirectory" "Source\packages" "-Version" "1.64.6"
+SET FAKE_VERSION=1.64.10
 
-"Source\packages\FAKE.1.64.6\tools\Fake.exe" "build.fsx" "target=%TARGET%" %VERSION%
+echo Installing FAKE %FAKE_VERSION%
+"Source\.nuget\NuGet.exe" "install" "FAKE" "-OutputDirectory" "Source\packages" "-Version" "%FAKE_VERSION%"
+
+"Source\packages\FAKE.%FAKE_VERSION%\tools\Fake.exe" "build.fsx" "target=%TARGET%" %VERSION%
 
 rem Bail if we're running a TeamCity build.
 if defined TEAMCITY_PROJECT_NAME goto Quit
