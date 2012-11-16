@@ -10,7 +10,7 @@ FeatureSwitcher is little framework build to support you when you want to introd
     <owners>@authors@</owners>
     <language>en-US</language>
     <summary>A framework for feature toggles/switches. @summary@</summary>
-<!--    <iconUrl>http://github.com/mexx/FeatureSwitcher/raw/dev/FeatureSwitcher.png</iconUrl> -->
+    <iconUrl>http://github.com/mexx/FeatureSwitcher/raw/dev/Icons/FeatureSwitcher_32x32.png</iconUrl>
     <projectUrl>http://github.com/mexx/FeatureSwitcher</projectUrl>
     <licenseUrl>http://github.com/mexx/FeatureSwitcher/raw/dev/License.txt</licenseUrl>
     <tags>feature toggle switch context business businessfeature featureswitch featuretoggle fluent</tags>

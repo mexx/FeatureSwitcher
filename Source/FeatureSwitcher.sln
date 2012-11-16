@@ -26,6 +26,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\README.markdown = ..\README.markdown
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Icons", "Icons", "{6B36F51F-0480-4824-83B5-E0059CA3960C}"
+	ProjectSection(SolutionItems) = preProject
+		..\Icons\FeatureSwitcher_256x256.png = ..\Icons\FeatureSwitcher_256x256.png
+		..\Icons\FeatureSwitcher_32x32.png = ..\Icons\FeatureSwitcher_32x32.png
+		..\Icons\FeatureSwitcher_48x48.png = ..\Icons\FeatureSwitcher_48x48.png
+		..\Icons\FeatureSwitcher_64x64.png = ..\Icons\FeatureSwitcher_64x64.png
+		..\Icons\README.markdown = ..\Icons\README.markdown
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
