@@ -33,9 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Contexteer, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Contexteer, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Contexteer.1.0.0-rc1\lib\4.0\Contexteer.dll</HintPath>
+      <HintPath>..\packages\Contexteer.1.0.0\lib\4.0\Contexteer.dll</HintPath>
     </Reference>
     <Reference Include="Machine.Specifications, Version=0.5.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
