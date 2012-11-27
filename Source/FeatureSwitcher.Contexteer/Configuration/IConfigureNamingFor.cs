@@ -15,6 +15,6 @@ namespace FeatureSwitcher.Configuration
         /// </summary>
         /// <param name="namingConventions">The naming conventions to use.</param>
         /// <returns>the extension point for features configuration in contexts of type <typeparamref name="TContext"/>.</returns>
-        IConfigureFeaturesFor<TContext> Custom(Func<TContext, Feature.NameOf[]> namingConventions);
+        IConfigureFeaturesFor<TContext> Custom(Func<TContext, Feature.NamingConvention[]> namingConventions);
     }
 }

@@ -13,16 +13,16 @@ namespace FeatureSwitcher.Specs
         Establish ctx = () =>
                             {
                                 Features.Are
-                                    .ConfiguredBy.Custom(EnableByName<Simple>.Instance.IsEnabled, EnableByName<Complex>.Instance.IsEnabled).And
-                                    .NamedBy.Custom(EnableByName<Simple>.Instance.For, EnableByName<Complex>.Instance.For);
+                                    .ConfiguredBy.Custom(EnableByName<Simple>.IsEnabled, EnableByName<Complex>.IsEnabled).And
+                                    .NamedBy.Custom(Features.OfType<Simple>.NamedByTypeName, Features.OfType<Complex>.NamedByTypeName);
 
                                 In<Default>.Contexts.FeaturesAre()
-                                    .AlwaysDisabled().And
+                                    .ConfiguredBy.Custom(Features.OfType<Simple>.Disabled, Features.OfType<Basic>.Disabled, Features.OfAnyType.Enabled).And
                                     .NamedBy.TypeFullName();
 
                                 In<BusinessBranch>.Contexts.FeaturesAre()
-                                    .ConfiguredBy.Custom(EnableByName<Basic>.Instance.IsEnabled).And
-                                    .NamedBy.Custom(EnableByName<Basic>.Instance.For);
+                                    .ConfiguredBy.Custom(EnableByName<Basic>.IsEnabled).And
+                                    .NamedBy.Custom(Features.OfType<Basic>.NamedByTypeName);
                             };
 
         Behaves_like<Enabled<Simple>> an_enabled_feature_simple;
@@ -34,7 +34,7 @@ namespace FeatureSwitcher.Specs
         Behaves_like<EnabledInHeadquaters<Basic>> an_enabled_feature_basic_in_headquarters;
 
         Behaves_like<Enabled<Complex>> an_enabled_feature_complex;
-        Behaves_like<DisabledInDefault<Complex>> a_disabled_feature_complex_in_default;
-        Behaves_like<DisabledInHeadquaters<Complex>> a_disabled_feature_complex_in_headquarters;
+        Behaves_like<EnabledInDefault<Complex>> an_enabled_feature_complex_in_default;
+        Behaves_like<EnabledInHeadquaters<Complex>> an_enabled_feature_complex_in_headquarters;
     }
 }

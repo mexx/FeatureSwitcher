@@ -1,21 +1,11 @@
-using System;
-using FeatureSwitcher.Configuration;
-
 namespace FeatureSwitcher.Specs.Domain
 {
-    public class EnableByName<T> 
+    public static class EnableByName<T>
         where T : IFeature
     {
-        public readonly static EnableByName<T> Instance = new EnableByName<T>();
-
-        public bool? IsEnabled(string feature)
+        public static bool? IsEnabled(Feature.Name name)
         {
-            return Features.OfType<T>.EnabledByTypeName(feature);
-        }
-
-        public string For(Type featureType)
-        {
-            return Features.OfType<T>.NamedByTypeName(featureType);
+            return typeof(T).Name == name.Value ? true : (bool?)null;
         }
     }
 }

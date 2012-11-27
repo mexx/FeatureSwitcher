@@ -1,3 +1,5 @@
+using System;
+
 namespace FeatureSwitcher.Configuration
 {
     public static partial class Features
@@ -8,28 +10,45 @@ namespace FeatureSwitcher.Configuration
         public static class OfAnyType
         {
             /// <summary>
-            /// Gets the behavior which enables any feature.
+            /// Enables any feature.
             /// </summary>
-            public static Feature.Behavior Enabled { get; private set; }
-            /// <summary>
-            /// Gets the behavior which disables any feature.
-            /// </summary>
-            public static Feature.Behavior Disabled { get; private set; }
-            /// <summary>
-            /// Gets the naming convention which names any feature by name of the type.
-            /// </summary>
-            public static Feature.NameOf NamedByTypeName { get; private set; }
-            /// <summary>
-            /// Gets the naming convention which names any feature by full name of the type.
-            /// </summary>
-            public static Feature.NameOf NamedByTypeFullName { get; private set; }
-
-            static OfAnyType()
+            /// <param name="featureName">The name of the feature.</param>
+            /// <returns>always <c>true</c>.</returns>
+            public static bool? Enabled(Feature.Name featureName)
             {
-                Enabled = name => true;
-                Disabled = name => false;
-                NamedByTypeName = type => type.Name;
-                NamedByTypeFullName = type => type.FullName;
+                return true;
+            }
+
+            /// <summary>
+            /// Disables any feature.
+            /// </summary>
+            /// <param name="featureName">The name of the feature.</param>
+            /// <returns>always <c>false</c>.</returns>
+            public static bool? Disabled(Feature.Name featureName)
+            {
+                return false;
+            }
+
+            /// <summary>
+            /// Provides the name of the feature.
+            /// The value of the name is the name of <paramref name="featureType"/>.
+            /// </summary>
+            /// <param name="featureType">The type of the feature.</param>
+            /// <returns>the name of the feature.</returns>
+            public static Feature.Name NamedByTypeName(Type featureType)
+            {
+                return new Feature.Name(featureType, featureType.Name);
+            }
+
+            /// <summary>
+            /// Provides the name of the feature.
+            /// The value of the name is the full name of <paramref name="featureType"/>.
+            /// </summary>
+            /// <param name="featureType">The type of the feature.</param>
+            /// <returns>the name of the feature.</returns>
+            public static Feature.Name NamedByTypeFullName(Type featureType)
+            {
+                return new Feature.Name(featureType, featureType.FullName);
             }
         }
     }

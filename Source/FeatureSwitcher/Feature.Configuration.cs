@@ -29,7 +29,7 @@ namespace FeatureSwitcher
                 Provider = () => Default;
             }
 
-            private readonly NameOf _namingConvention;
+            private readonly NamingConvention _namingConvention;
             private readonly Behavior _behavior;
             private readonly Configuration _fallback;
 
@@ -39,7 +39,7 @@ namespace FeatureSwitcher
             /// <param name="namingConvention">The naming convention to use.</param>
             /// <param name="behavior">The behavior to use.</param>
             /// <param name="fallback">The fallback configuration to use.</param>
-            public Configuration(NameOf namingConvention, Behavior behavior, Configuration fallback)
+            public Configuration(NamingConvention namingConvention, Behavior behavior, Configuration fallback)
             {
                 _namingConvention = namingConvention;
                 _behavior = behavior;
@@ -51,7 +51,7 @@ namespace FeatureSwitcher
             /// <summary>
             /// Gets the naming convention for this configuration.
             /// </summary>
-            public NameOf NamingConvention
+            public NamingConvention NamingConvention
             {
                 get
                 {

@@ -9,8 +9,8 @@ namespace FeatureSwitcher.Specs
     public class When_using_partial_configuration : WithCleanUp
     {
         Establish ctx = () => Features.Are.
-                                  ConfiguredBy.Custom(EnableByName<Simple>.Instance.IsEnabled).And.
-                                  NamedBy.Custom(EnableByName<Simple>.Instance.For);
+                                  ConfiguredBy.Custom(EnableByName<Simple>.IsEnabled).And.
+                                  NamedBy.Custom(Features.OfType<Simple>.NamedByTypeName);
 
         Behaves_like<Disabled<Basic>> a_disabled_basic_feature;
         Behaves_like<DisabledInDefault<Basic>> a_disabled_basic_feature_in_default;

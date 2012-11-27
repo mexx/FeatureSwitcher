@@ -9,7 +9,7 @@ namespace FeatureSwitcher.Configuration
             _defaultSection = defaultSection;
         }
 
-        public bool? IsEnabled(string feature)
+        public bool? IsEnabled(Feature.Name feature)
         {
             if (_defaultSection == null)
                 return null;

@@ -13,16 +13,16 @@ namespace FeatureSwitcher.Specs
         Establish ctx = () =>
                             {
                                 Features.Are.
-                                    ConfiguredBy.Custom(EnableByName<Simple>.Instance.IsEnabled).And.
-                                    NamedBy.Custom(EnableByName<Simple>.Instance.For);
+                                    ConfiguredBy.Custom(EnableByName<Simple>.IsEnabled).And.
+                                    NamedBy.Custom(Features.OfType<Simple>.NamedByTypeName);
 
                                 In<Default>.Contexts.FeaturesAre().
-                                    ConfiguredBy.Custom(EnableByName<Basic>.Instance.IsEnabled).And.
-                                    NamedBy.Custom(EnableByName<Basic>.Instance.For);
+                                    ConfiguredBy.Custom(EnableByName<Basic>.IsEnabled).And.
+                                    NamedBy.Custom(Features.OfType<Basic>.NamedByTypeName);
 
                                 In<BusinessBranch>.Contexts.FeaturesAre().
-                                    ConfiguredBy.Custom(EnableByName<Complex>.Instance.IsEnabled).And.
-                                    NamedBy.Custom(EnableByName<Complex>.Instance.For);
+                                    ConfiguredBy.Custom(EnableByName<Complex>.IsEnabled).And.
+                                    NamedBy.Custom(Features.OfType<Complex>.NamedByTypeName);
                             };
 
         Behaves_like<Disabled<Basic>> a_disabled_feature_basic;

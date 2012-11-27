@@ -10,6 +10,6 @@ namespace FeatureSwitcher.Configuration
         /// </summary>
         /// <param name="namingConventions">The naming conventions to use.</param>
         /// <returns>the extension point for features configuration.</returns>
-        IConfigureFeatures Custom(params Feature.NameOf[] namingConventions);
+        IConfigureFeatures Custom(params Feature.NamingConvention[] namingConventions);
     }
 }

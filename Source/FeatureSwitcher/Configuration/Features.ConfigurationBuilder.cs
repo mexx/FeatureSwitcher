@@ -5,12 +5,12 @@ namespace FeatureSwitcher.Configuration
     public static partial class Features
     {
         /// <summary>
-        /// Builder for features configuration.
+        /// Builder for feature configuration.
         /// </summary>
-        public class ConfigurationBuilder : IConfigureFeatures, IConfigureNaming, IConfigureBehavior
+        private class ConfigurationBuilder : IConfigureFeatures, IConfigureNaming, IConfigureBehavior
         {
             private readonly Feature.Configuration _fallback;
-            private Feature.NameOf _namingConvention;
+            private Feature.NamingConvention _namingConvention;
             private Feature.Behavior _behavior;
 
             /// <summary>
@@ -46,7 +46,7 @@ namespace FeatureSwitcher.Configuration
                 get { return this; }
             }
 
-            IConfigureFeatures IConfigureNaming.Custom(params Feature.NameOf[] namingConventions)
+            IConfigureFeatures IConfigureNaming.Custom(params Feature.NamingConvention[] namingConventions)
             {
                 _namingConvention = null;
                 if (namingConventions != null)

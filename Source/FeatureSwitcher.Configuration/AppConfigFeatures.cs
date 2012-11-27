@@ -9,12 +9,12 @@ namespace FeatureSwitcher.Configuration
             _features = features;
         }
 
-        public bool? IsEnabled(string feature)
+        public bool? IsEnabled(Feature.Name feature)
         {
             if (_features == null)
                 return null;
 
-            var featureElement = _features.Features[feature];
+            var featureElement = _features.Features[feature.Value];
 
             if (featureElement == null)
                 return null;

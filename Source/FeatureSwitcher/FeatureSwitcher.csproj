@@ -58,7 +58,10 @@
     <Compile Include="Feature.Configuration.cs">
       <DependentUpon>Feature.cs</DependentUpon>
     </Compile>
-    <Compile Include="Feature.NameOf.cs">
+    <Compile Include="Feature.Name.cs">
+      <DependentUpon>Feature.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Feature.NamingConvention.cs">
       <DependentUpon>Feature.cs</DependentUpon>
     </Compile>
     <Compile Include="Feature.Switch.StateOf.cs">

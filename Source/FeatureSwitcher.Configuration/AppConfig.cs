@@ -63,7 +63,7 @@ namespace FeatureSwitcher.Configuration
             get { return _features ?? SectionGroup.GetFeaturesSection(_settings.SectionGroupName, _settings.IgnoreConfigurationErrors); }
         }
 
-        public bool? IsEnabled(string feature)
+        public bool? IsEnabled(Feature.Name feature)
         {
             return Features(feature).GetValueOrDefault(Default(feature).GetValueOrDefault());
         }

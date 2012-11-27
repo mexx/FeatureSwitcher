@@ -12,11 +12,11 @@ namespace FeatureSwitcher.Specs
                         Features.Are
                             .ConfiguredBy.Custom(
                                 new AppConfig(true).Features,
-                                EnableByName<Simple>.Instance.IsEnabled,
+                                EnableByName<Simple>.IsEnabled,
                                 new AppConfig(true).Default).And
                             .NamedBy.Custom(
-                                EnableByName<Simple>.Instance.For,
-                                Features.OfAnyType.NamedByTypeFullName);
+                                Features.OfType<Simple>.NamedByTypeName,
+                                Features.OfType<Complex>.NamedByTypeFullName);
 
         Behaves_like<Disabled<Basic>> a_disabled_basic_feature;
         Behaves_like<DisabledInDefault<Basic>> a_disabled_basic_feature_in_default;

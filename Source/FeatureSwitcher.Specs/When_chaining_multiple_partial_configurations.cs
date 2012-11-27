@@ -9,8 +9,8 @@ namespace FeatureSwitcher.Specs
     public class When_chaining_multiple_partial_configurations : WithCleanUp
     {
         Establish ctx = () => Features.Are.
-                                  ConfiguredBy.Custom(EnableByName<Simple>.Instance.IsEnabled, EnableByName<Complex>.Instance.IsEnabled).And.
-                                  NamedBy.Custom(EnableByName<Simple>.Instance.For, EnableByName<Complex>.Instance.For);
+                                  ConfiguredBy.Custom(EnableByName<Simple>.IsEnabled, EnableByName<Complex>.IsEnabled).And.
+                                  NamedBy.Custom(Features.OfType<Simple>.NamedByTypeName, Features.OfType<Complex>.NamedByTypeName);
 
         Behaves_like<Disabled<Basic>> a_disabled_basic_feature;
         Behaves_like<DisabledInDefault<Basic>> a_disabled_basic_feature_in_default;

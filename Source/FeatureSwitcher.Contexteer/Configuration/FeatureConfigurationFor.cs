@@ -7,10 +7,10 @@ namespace FeatureSwitcher.Configuration
     internal class FeatureConfigurationFor<TContext> : IConfigureFeaturesFor<TContext>, IConfigureBehaviorFor<TContext>, IConfigureNamingFor<TContext>
         where TContext : IContext
     {
-        private Func<TContext, Feature.NameOf[]> _nameOf;
-        private Func<TContext, Feature.NameOf[]> NameOf
+        private Func<TContext, Feature.NamingConvention[]> _namingConvention;
+        private Func<TContext, Feature.NamingConvention[]> NamingConvention
         {
-            get { return _nameOf ?? (ctx => null); }
+            get { return _namingConvention ?? (ctx => null); }
         }
         private Func<TContext, Feature.Behavior[]> _behavior;
         private Func<TContext, Feature.Behavior[]> Behavior
@@ -38,19 +38,19 @@ namespace FeatureSwitcher.Configuration
             get { return this; }
         }
 
-        public IConfigureNaming NamedBy
+        IConfigureNaming IConfigureFeatures.NamedBy
         {
             get { return this; }
         }
 
-        public IConfigureBehavior ConfiguredBy
+        IConfigureBehavior IConfigureFeatures.ConfiguredBy
         {
             get { return this; }
         }
 
-        IConfigureFeaturesFor<TContext> IConfigureNamingFor<TContext>.Custom(Func<TContext, Feature.NameOf[]> naming)
+        IConfigureFeaturesFor<TContext> IConfigureNamingFor<TContext>.Custom(Func<TContext, Feature.NamingConvention[]> namingConventions)
         {
-            _nameOf = naming;
+            _namingConvention = namingConventions;
             return this;
         }
 
@@ -60,9 +60,9 @@ namespace FeatureSwitcher.Configuration
             return this;
         }
 
-        IConfigureFeatures IConfigureNaming.Custom(params Feature.NameOf[] nameOfs)
+        IConfigureFeatures IConfigureNaming.Custom(params Feature.NamingConvention[] namingConventions)
         {
-            return (this as IConfigureNamingFor<TContext>).Custom(ctx => nameOfs);
+            return (this as IConfigureNamingFor<TContext>).Custom(ctx => namingConventions);
         }
 
         IConfigureFeatures IConfigureBehavior.Custom(params Feature.Behavior[] behaviors)
@@ -73,7 +73,7 @@ namespace FeatureSwitcher.Configuration
         public Feature.Configuration For(TContext context)
         {
             return new Feature.Configuration(
-                type => (NameOf(context) ?? new Feature.NameOf[0]).Where(x => x != null).Select(x => x(type)).FirstOrDefault(x => x != null),
+                type => (NamingConvention(context) ?? new Feature.NamingConvention[0]).Where(x => x != null).Select(x => x(type)).FirstOrDefault(x => x != null),
                 name => (Behavior(context) ?? new Feature.Behavior[0]).Select(x => x(name)).FirstOrDefault(x => x.HasValue),
                 typeof(TContext) != typeof(Default) ? FeatureConfiguration.For(Default.Context) : Feature.Configuration.Current);
         }
