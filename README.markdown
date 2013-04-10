@@ -1,6 +1,6 @@
 # What is FeatureSwitcher ?
 
-FeatureSwitcher is little framework build to support you when you want to introduce feature switches/toggles in your code.
+FeatureSwitcher is little library build to support you when you want to introduce feature switches/toggles in your code.
 
 If needed it provides multi tenancy support. [more info](#multi-tenancy--context-support)
 
