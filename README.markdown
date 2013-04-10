@@ -1,4 +1,4 @@
-# What is FeatureSwitcher ?
+# What is FeatureSwitcher?
 
 FeatureSwitcher is little library build to support you when you want to introduce feature switches/toggles in your code.
 
@@ -18,10 +18,33 @@ With an instance of your feature
 
 Ask whether `sample.Is().Enabled` or `sample.Is().Disabled`.
 
+The state of the feature is determined by applying the behavior function to the feature name retrived by applying the naming convention function to the type of the feature.
+
+### Behavior and naming convention
+
+Provided naming conventions
+
+* `Features.OfAnyType.NamedByTypeFullName`
+* `Features.OfAnyType.NamedByTypeName`
+* `Features.OfType<T>.NamedByTypeFullName`
+* `Features.OfType<T>.NamedByTypeName`
+
+You can define an own naming convention with a function assignable to the `Feature.NamingConvention` delegate.
+
+Provided behaviors
+
+* `AppConfig.IsEnabled`
+* `Features.OfAnyType.Enabled`
+* `Features.OfAnyType.Disabled`
+* `Features.OfType<T>.Enabled`
+* `Features.OfType<T>.Disabled`
+
+You can define an own behavior with a function assignable to the `Feature.Behavior` delegate.
+
 ### Configuration
 
 By default all features are disabled and named by fullname of the type.
-You can provide an own behavior or naming strategy simply by pass it into the configuration.
+You can provide an own behavior or naming convention simply by pass it into the configuration.
 
 	Features.Are
 		.ConfiguredBy.Custom(behavior).And
@@ -41,11 +64,11 @@ And for an instance of your feature
 	sample.Is().EnabledInContextOf(businessBranch)
 	sample.Is().DisabledInContextOf(businessBranch)
 
-You can provide own behavior and naming strategy for contexts also by passing it into the configuration.
+You can provide own behavior and naming convention for contexts also by passing it into the configuration.
 
 	In<BusinessBranch>.Contexts.FeaturesAre()
 		.ConfiguredBy(behavior).And
-		.NamedBy(naming);
+		.NamedBy(namingConvention);
 
 ## How to get it
 
