@@ -37,13 +37,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Contexteer.1.0.0\lib\4.0\Contexteer.dll</HintPath>
     </Reference>
-    <Reference Include="Machine.Specifications, Version=0.5.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Machine.Specifications, Version=0.5.16.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Machine.Specifications.0.5.9\lib\net40\Machine.Specifications.dll</HintPath>
+      <HintPath>..\packages\Machine.Specifications.0.5.16\lib\net40\Machine.Specifications.dll</HintPath>
     </Reference>
-    <Reference Include="Machine.Specifications.Clr4, Version=0.5.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Machine.Specifications.Clr4, Version=0.5.16.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Machine.Specifications.0.5.9\lib\net40\Machine.Specifications.Clr4.dll</HintPath>
+      <HintPath>..\packages\Machine.Specifications.0.5.16\lib\net40\Machine.Specifications.Clr4.dll</HintPath>
     </Reference>
     <Reference Include="Machine.Specifications.TDNetRunner">
       <HintPath>..\packages\Machine.Specifications.0.5.9\lib\net40\Machine.Specifications.TDNetRunner.dll</HintPath>
