@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureSwitcher", "FeatureSwitcher\FeatureSwitcher.csproj", "{3A2D3A93-5B05-4003-BBAB-13D5E20824EC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureSwitcher.Specs", "FeatureSwitcher.Specs\FeatureSwitcher.Specs.csproj", "{3B2BAC6C-FEB6-4EDF-B4DE-B7A05810C24C}"
@@ -21,7 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\build.cmd = ..\build.cmd
 		..\build.fsx = ..\build.fsx
-		..\build.NoGit.cmd = ..\build.NoGit.cmd
 		..\Licence.txt = ..\Licence.txt
 		..\README.markdown = ..\README.markdown
 	EndProjectSection
