@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Contexteer;
@@ -27,6 +26,8 @@ namespace FeatureSwitcher.Examples
     {
         static void Main(string[] args)
         {
+            Examples.Show();
+
             Features.Are.
                 AlwaysEnabled();
             In<BusinessBranch>.Contexts.FeaturesAre().

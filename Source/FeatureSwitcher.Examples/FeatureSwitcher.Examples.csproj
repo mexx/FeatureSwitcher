@@ -45,6 +45,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PreserveOutputAfterExample.cs" />
+    <Compile Include="ConsoleColors.cs" />
+    <Compile Include="DisableAll.cs" />
+    <Compile Include="EnableAll.cs" />
+    <Compile Include="Examples.cs" />
+    <Compile Include="IShowExample.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
