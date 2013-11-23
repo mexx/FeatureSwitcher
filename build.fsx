@@ -116,7 +116,7 @@ Target "BuildNuGet" (fun _ ->
         !! (projectNugetDir @@ (sprintf "%s.*.nupkg" project))
           |> CopyTo deployDir
 
-    let coreDependency = "FeatureSwitcher", RequireExactly packageVersion
+    let coreDependency = "FeatureSwitcher", packageVersion
 
     ["FeatureSwitcher", "", []
      "FeatureSwitcher.Configuration", "Configuration package.", [coreDependency]
