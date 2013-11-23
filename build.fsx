@@ -1,4 +1,4 @@
-#I @"Source\packages\Fake.1.64.10\tools"
+#I @"Source\packages\Fake\tools"
 #r "FakeLib.dll"
 
 open Fake
@@ -67,9 +67,8 @@ Target "BuildApp" (fun _ ->
 
 Target "Test" (fun _ ->
     ActivateFinalTarget "DeployTestResults"
-    !+ (testDir + "/*.Specs.dll")
+    !! (testDir + "/*.Specs.dll")
       ++ (testDir + "/*.Examples.dll")
-        |> Scan
         |> MSpec (fun p ->
                     {p with
                         ToolPath = mspecTool.Force()
@@ -77,17 +76,15 @@ Target "Test" (fun _ ->
 )
 
 FinalTarget "DeployTestResults" (fun () ->
-    !+ (testOutputDir + "\**\*.*")
-      |> Scan
+    !! (testOutputDir + "\**\*.*")
       |> Zip testOutputDir (sprintf "%sMSpecResults.zip" deployDir)
 )
 
 Target "BuildZip" (fun _ ->
-    !+ (buildDir + "/**/*.*")
+    !! (buildDir + "/**/*.*")
       -- "*.zip"
       -- "**/*.Specs.dll"
       -- "**/*.Specs.pdb"
-        |> Scan
         |> Zip buildDir (deployDir @@ sprintf "%s-%s.zip" projectName version)
 )
 
@@ -98,9 +95,8 @@ Target "BuildNuGet" (fun _ ->
 
         CleanDirs [nugetLibDir]
 
-        !+ (buildDir @@ (sprintf "%s.dll" project))
+        !! (buildDir @@ (sprintf "%s.dll" project))
           ++ (buildDir @@ (sprintf "%s.xml" project))
-            |> Scan
             |> CopyTo nugetLibDir
 
         NuGet (fun p ->
@@ -112,6 +108,7 @@ Target "BuildNuGet" (fun _ ->
                 Version = packageVersion
                 Dependencies = dependencies
                 OutputPath = projectNugetDir
+                WorkingDir = projectNugetDir
                 AccessKey = NugetKey
                 Publish = NugetKey <> "" })
             (sprintf @".\Source\%s\Package.nuspec" project)
