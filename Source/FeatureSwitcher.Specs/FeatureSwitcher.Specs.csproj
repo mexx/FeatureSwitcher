@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Contexteer, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Contexteer.1.0.0\lib\4.0\Contexteer.dll</HintPath>
-    </Reference>
     <Reference Include="Machine.Specifications, Version=0.5.16.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Machine.Specifications.0.5.16\lib\net40\Machine.Specifications.dll</HintPath>
@@ -54,52 +50,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\Disabled.cs" />
-    <Compile Include="Behaviors\DisabledInDefault.cs" />
-    <Compile Include="Behaviors\DisabledInHeadquaters.cs" />
     <Compile Include="Behaviors\Enabled.cs" />
-    <Compile Include="Behaviors\EnabledInBranchOffice.cs" />
-    <Compile Include="Behaviors\EnabledInDefault.cs" />
-    <Compile Include="Behaviors\EnabledInHeadquaters.cs" />
     <Compile Include="Domain\Complex.cs" />
     <Compile Include="Domain\IComponent.cs" />
     <Compile Include="Domain\Simple.cs" />
     <Compile Include="Domain\Basic.cs" />
     <Compile Include="When_all_features_are_disabled.cs" />
     <Compile Include="When_all_features_are_enabled.cs" />
-    <Compile Include="When_application_configuration_unchanged.cs" />
-    <Compile Include="When_behavior_is_not_configured_in_context_and_configured_general.cs" />
-    <Compile Include="When_chaining_application_configuration_and_partial_configurations.cs" />
     <Compile Include="When_chaining_multiple_partial_configurations.cs" />
-    <Compile Include="When_chaining_multiple_partial_configurations_and_contexts.cs" />
-    <Compile Include="When_features_are_disabled_by_default_section.cs" />
-    <Compile Include="When_features_are_disabled_by_default_section_and_simple_feature_explicitly_enabled_by_features_section.cs" />
-    <Compile Include="When_features_are_enabled_by_default_section.cs" />
-    <Compile Include="When_features_are_enabled_by_default_section_and_simple_feature_explicitly_disabled_by_features_section.cs" />
-    <Compile Include="When_application_configuration_ignores_errors.cs" />
-    <Compile Include="When_naming_is_not_configured_in_context_and_configured_general.cs" />
-    <Compile Include="When_application_configuration_does_not_ignore_errors.cs" />
     <Compile Include="When_using_partial_configuration.cs" />
-    <Compile Include="When_using_partial_configuration_and_contexts.cs" />
-    <Compile Include="Contexts\WithFeaturesDisabledByDefaultSection.cs" />
-    <Compile Include="Contexts\WithFeaturesEnabledByDefaultSection.cs" />
     <Compile Include="When_using_without_configuration.cs" />
     <Compile Include="When_using_syntax_sugar.cs" />
     <Compile Include="Domain\EnableByName.cs" />
-    <Compile Include="Domain\BusinessBranch.cs" />
-    <Compile Include="Behaviors\DisabledInBranchOffice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Contexts\WithApplicationConfiguration.cs" />
     <Compile Include="Contexts\WithCleanUp.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FeatureSwitcher.Configuration\FeatureSwitcher.Configuration.csproj">
-      <Project>{7622325E-609D-47F4-B7D8-E0172A1A2BDF}</Project>
-      <Name>FeatureSwitcher.Configuration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FeatureSwitcher.Contexteer\FeatureSwitcher.Contexteer.csproj">
-      <Project>{F1B48637-D35E-4CEC-9611-DB8EC36C65B1}</Project>
-      <Name>FeatureSwitcher.Contexteer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FeatureSwitcher\FeatureSwitcher.csproj">
       <Project>{3A2D3A93-5B05-4003-BBAB-13D5E20824EC}</Project>
       <Name>FeatureSwitcher</Name>

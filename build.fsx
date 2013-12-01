@@ -15,29 +15,16 @@ let packageVersion = getBuildParamOrDefault "packageVersion" version
 let NugetKey = getBuildParamOrDefault "nuget.key" ""
 
 (* Directories *)
-let targetPlatformDir = getTargetPlatformDir "v4.0.30319"
-let sourceDir = @".\Source\"
-let packagesDir = sourceDir + @"packages\"
+let sourceDir = "./Source/"
 
-let buildDir = @".\Build\"
+let buildDir = "./Build/"
 let testDir = buildDir
-let testOutputDir = buildDir + @"Specs\"
-let nugetDir = buildDir + @"NuGet\"
-let deployDir = @".\Release\"
+let testOutputDir = buildDir @@ "Specs/"
+let nugetDir = buildDir @@ "NuGet/"
+let deployDir = "./Release/"
 
 (* files *)
-let slnReferences = !! (sourceDir + @"*.sln")
-let nugetPath = sourceDir + @".nuget\NuGet.exe"
-
-let GetVersionOf package =
-    let version = lazy ( GetPackageVersion packagesDir package )
-    version.Force()
-
-let DependOn package =
-    package, GetVersionOf package
-
-(* tests *)
-let mspecTool = lazy( sprintf @"%s\Machine.Specifications.%s\tools\mspec-clr4.exe" packagesDir (GetVersionOf "Machine.Specifications") )
+let slnReferences = !! (sourceDir @@ "*.sln")
 
 (* Targets *)
 Target "Clean" (fun _ -> 
@@ -45,19 +32,13 @@ Target "Clean" (fun _ ->
 )
 
 Target "SetAssemblyInfo" (fun _ ->
-    let replaceAssemblyInfoVersions project =
-        ReplaceAssemblyInfoVersions
-            (fun p ->
-            {p with
-                AssemblyVersion = version;
-                AssemblyFileVersion = version;
-                AssemblyInformationalVersion = version;
-                OutputFileName = sprintf @".\Source\%s\Properties\AssemblyInfo.cs" project})
-
-    ["FeatureSwitcher";
-     "FeatureSwitcher.Configuration";
-     "FeatureSwitcher.Contexteer"]
-        |> Seq.iter replaceAssemblyInfoVersions
+    ReplaceAssemblyInfoVersions
+        (fun p ->
+        {p with
+            AssemblyVersion = version;
+            AssemblyFileVersion = version;
+            AssemblyInformationalVersion = version;
+            OutputFileName = sourceDir @@ projectName @@ "/Properties/AssemblyInfo.cs"})
 )
 
 Target "BuildApp" (fun _ ->
@@ -67,65 +48,50 @@ Target "BuildApp" (fun _ ->
 
 Target "Test" (fun _ ->
     ActivateFinalTarget "DeployTestResults"
-    !! (testDir + "/*.Specs.dll")
-      ++ (testDir + "/*.Examples.dll")
+    !! (testDir @@ "/*.Specs.dll")
         |> MSpec (fun p ->
-                    {p with
-                        ToolPath = mspecTool.Force()
-                        HtmlOutputDir = testOutputDir})
+            {p with
+                HtmlOutputDir = testOutputDir})
 )
 
 FinalTarget "DeployTestResults" (fun () ->
-    !! (testOutputDir + "\**\*.*")
-      |> Zip testOutputDir (sprintf "%sMSpecResults.zip" deployDir)
+    !! (testOutputDir @@ "/**/*.*")
+        |> Zip testOutputDir (deployDir @@ "MSpecResults.zip")
 )
 
 Target "BuildZip" (fun _ ->
-    !! (buildDir + "/**/*.*")
-      -- "*.zip"
-      -- "**/*.Specs.dll"
-      -- "**/*.Specs.pdb"
+    !! (buildDir @@ sprintf "/%s.*" projectName)
+      -- "**/*Specs*"
         |> Zip buildDir (deployDir @@ sprintf "%s-%s.zip" projectName version)
 )
 
 Target "BuildNuGet" (fun _ ->
-    let buildPackage (project, description, dependencies) = 
-        let projectNugetDir = nugetDir @@ project
-        let nugetLibDir = projectNugetDir @@ "lib" @@ "4.0"
+    let nugetLibDir = nugetDir @@ "lib" @@ "4.0"
 
-        CleanDirs [nugetLibDir]
+    CleanDirs [nugetLibDir]
 
-        !! (buildDir @@ (sprintf "%s.dll" project))
-          ++ (buildDir @@ (sprintf "%s.xml" project))
-            |> CopyTo nugetLibDir
+    !! (buildDir @@ (sprintf "%s.dll" projectName))
+      ++ (buildDir @@ (sprintf "%s.xml" projectName))
+        |> CopyTo nugetLibDir
 
-        NuGet (fun p ->
-            {p with
-                ToolPath = nugetPath
-                Authors = authors
-                Project = project
-                Description = description
-                Version = packageVersion
-                Dependencies = dependencies
-                OutputPath = projectNugetDir
-                WorkingDir = projectNugetDir
-                AccessKey = NugetKey
-                Publish = NugetKey <> "" })
-            (sprintf @".\Source\%s\Package.nuspec" project)
+    NuGet (fun p ->
+        {p with
+            Authors = authors
+            Project = projectName
+            Description = ""
+            Version = packageVersion
+            Dependencies = []
+            OutputPath = nugetDir
+            WorkingDir = nugetDir
+            AccessKey = NugetKey
+            Publish = NugetKey <> "" })
+        (sourceDir @@ projectName @@ "Package.nuspec")
 
-        !! (projectNugetDir @@ (sprintf "%s.*.nupkg" project))
-          |> CopyTo deployDir
-
-    let coreDependency = "FeatureSwitcher", packageVersion
-
-    ["FeatureSwitcher", "", []
-     "FeatureSwitcher.Configuration", "Configuration package.", [coreDependency]
-     "FeatureSwitcher.Contexteer", "Contexteer package.", [DependOn "Contexteer"; coreDependency]]
-        |> Seq.iter buildPackage
+    !! (nugetDir @@ (sprintf "%s.*.nupkg" projectName))
+        |> CopyTo deployDir
 )
 
 Target "Default" DoNothing
-Target "Deploy" DoNothing
 
 // Build order
 "Clean"
@@ -134,7 +100,6 @@ Target "Deploy" DoNothing
   ==> "Test"
   ==> "BuildZip"
   ==> "BuildNuGet"
-  ==> "Deploy"
   ==> "Default"
 
 // start build

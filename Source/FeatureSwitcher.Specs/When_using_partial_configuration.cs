@@ -13,15 +13,9 @@ namespace FeatureSwitcher.Specs
                                   NamedBy.Custom(Features.OfType<Simple>.NamedByTypeName);
 
         Behaves_like<Disabled<Basic>> a_disabled_basic_feature;
-        Behaves_like<DisabledInDefault<Basic>> a_disabled_basic_feature_in_default;
-        Behaves_like<DisabledInHeadquaters<Basic>> a_disabled_basic_feature_in_headquarters;
 
         Behaves_like<Enabled<Simple>> an_enabled_simple_feature;
-        Behaves_like<EnabledInDefault<Simple>> an_enabled_simple_feature_in_default;
-        Behaves_like<EnabledInHeadquaters<Simple>> an_enabled_simple_feature_in_headquarters;
 
         Behaves_like<Disabled<Complex>> a_disabled_complex_feature;
-        Behaves_like<DisabledInDefault<Complex>> a_disabled_complex_feature_in_default;
-        Behaves_like<DisabledInHeadquaters<Complex>> a_disabled_complex_feature_in_headquarters;
     }
 }
