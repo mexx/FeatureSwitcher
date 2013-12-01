@@ -12,7 +12,7 @@ namespace FeatureSwitcher.Configuration
         {
             get
             {
-                var result = new ConfigurationBuilder(Feature.Configuration.Default);
+                var result = new Builder(Feature.Configuration.Default);
                 Feature.Configuration.Provider = result.Build;
                 return result;
             }

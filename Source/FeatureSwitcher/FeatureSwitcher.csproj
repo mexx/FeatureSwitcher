@@ -40,10 +40,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\Builder.cs" />
     <Compile Include="Configuration\Features.OfAnyType.cs">
-      <DependentUpon>Features.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Configuration\Features.ConfigurationBuilder.cs">
       <DependentUpon>Features.cs</DependentUpon>
     </Compile>
     <Compile Include="Configuration\Features.cs" />
