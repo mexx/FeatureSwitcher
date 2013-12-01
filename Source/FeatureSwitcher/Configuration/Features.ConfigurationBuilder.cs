@@ -7,7 +7,7 @@ namespace FeatureSwitcher.Configuration
         /// <summary>
         /// Builder for feature configuration.
         /// </summary>
-        private class ConfigurationBuilder : IConfigureFeatures, IConfigureNaming, IConfigureBehavior
+        public class ConfigurationBuilder : IConfigureFeatures, IConfigureNaming, IConfigureBehavior
         {
             private readonly Feature.Configuration _fallback;
             private Feature.NamingConvention _namingConvention;
@@ -31,22 +31,36 @@ namespace FeatureSwitcher.Configuration
                 return new Feature.Configuration(_namingConvention, _behavior, _fallback);
             }
 
-            IConfigureFeatures IConfigureFeatures.And
+            /// <summary>
+            /// Gets the extension point for features configuration.
+            /// </summary>
+            public IConfigureFeatures And
             {
                 get { return this; }
             }
 
-            IConfigureNaming IConfigureFeatures.NamedBy
+            /// <summary>
+            /// Gets the extension point for naming configuration.
+            /// </summary>
+            public IConfigureNaming NamedBy
             {
                 get { return this; }
             }
 
-            IConfigureBehavior IConfigureFeatures.ConfiguredBy
+            /// <summary>
+            /// Gets the extension point for behavior configuration.
+            /// </summary>
+            public IConfigureBehavior ConfiguredBy
             {
                 get { return this; }
             }
 
-            IConfigureFeatures IConfigureNaming.Custom(params Feature.NamingConvention[] namingConventions)
+            /// <summary>
+            /// Sets the specified <paramref name="namingConventions"/> into the configuration.
+            /// </summary>
+            /// <param name="namingConventions">The naming conventions to use.</param>
+            /// <returns>the extension point for features configuration.</returns>
+            public IConfigureFeatures Custom(params Feature.NamingConvention[] namingConventions)
             {
                 _namingConvention = null;
                 if (namingConventions != null)
@@ -54,7 +68,12 @@ namespace FeatureSwitcher.Configuration
                 return this;
             }
 
-            IConfigureFeatures IConfigureBehavior.Custom(params Feature.Behavior[] behaviors)
+            /// <summary>
+            /// Sets the specified <paramref name="behaviors"/> into the configuration.
+            /// </summary>
+            /// <param name="behaviors">The behaviors to use.</param>
+            /// <returns>the extension point for features configuration.</returns>
+            public IConfigureFeatures Custom(params Feature.Behavior[] behaviors)
             {
                 _behavior = null;
                 if (behaviors != null)
