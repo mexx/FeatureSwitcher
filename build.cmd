@@ -4,10 +4,6 @@ SET TARGET="Default"
 
 IF NOT [%1]==[] (set TARGET="%~1")
 
-SET VERSION=
-
-IF NOT [%2]==[] (set VERSION="%~2")
-
 SET FAKE_VERSION=2.2.0
 
 :Build
@@ -16,7 +12,7 @@ cls
 echo Installing FAKE %FAKE_VERSION%
 "Source\.nuget\NuGet.exe" "install" "FAKE" "-OutputDirectory" "Source\packages" "-ExcludeVersion" "-Version" "%FAKE_VERSION%"
 
-"Source\packages\FAKE\tools\Fake.exe" "build.fsx" "target=%TARGET%" %VERSION%
+"Source\packages\FAKE\tools\Fake.exe" "build.fsx" "target=%TARGET%"
 
 rem Bail if we're running a TeamCity build.
 if defined TEAMCITY_PROJECT_NAME goto Quit
