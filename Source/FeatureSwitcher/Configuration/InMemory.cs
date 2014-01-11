@@ -1,35 +1,27 @@
 using System;
 using System.Collections.Generic;
 
-namespace FeatureSwitcher
+namespace FeatureSwitcher.Configuration
 {
 	/// <summary>
 	/// In memory behavior. 
-	/// For testing purposes, besides unit testing, this class allows you to temporarily enabled or disable features.
+	/// This class allows features to be temporarily turned on or off.
 	/// </summary>
 	public class InMemory
 	{
-		private readonly ISet<Type> _enabledTypes;
-		private readonly ISet<Type> _disabledTypes;
+		private static readonly ISet<Type> _enabledTypes = new HashSet<Type>();
+		private static readonly ISet<Type> _disabledTypes = new HashSet<Type>();
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="FeatureSwitcher.InMemory"/> class.
+		/// Determines if a feature is enabled by the specified featureName.
 		/// </summary>
-		public InMemory()
-		{
-			_enabledTypes = new HashSet<Type>();
-			_disabledTypes = new HashSet<Type>();
-		}
-
-		/// <summary>
-		/// Gets the <see cref="Feature.Behavior"/> created from this configuration
-		/// </summary>
-		public Feature.Behavior IsEnabled 
-		{
-			get  { return CheckFeatureIsEnabled; }
-		}
-
-		private bool? CheckFeatureIsEnabled(Feature.Name featureName)
+		/// <returns>
+		///     <c>true</c> if the specified featureName enabled;
+		///     <c>false</c> if the specified featureName is disabled;
+		///     <c>null</c> otherwise
+		/// </returns>
+		/// <param name="featureName">Feature name.</param>
+		public static bool? IsEnabled (Feature.Name featureName)
 		{
 			if(_enabledTypes.Contains(featureName.Type))
 			{
@@ -46,7 +38,7 @@ namespace FeatureSwitcher
 		/// Enables a feature of the given type.
 		/// </summary>
 		/// <typeparam name="TFeature">The type of the feature to enable.</typeparam>
-		public void Enable<TFeature>() where TFeature : IFeature
+		public static void Enable<TFeature>() where TFeature : IFeature
 		{
 			_enabledTypes.Add(typeof(TFeature));
 			_disabledTypes.Remove(typeof(TFeature));
@@ -56,7 +48,7 @@ namespace FeatureSwitcher
 		/// Enables a feature of the given type.
 		/// </summary>
 		/// <typeparam name="TFeature">The type of the feature to disable</typeparam>
-		public void Disable<TFeature>() where TFeature : IFeature
+		public static void Disable<TFeature>() where TFeature : IFeature
 		{
 			_enabledTypes.Remove(typeof(TFeature));
 			_disabledTypes.Add(typeof(TFeature));
@@ -66,7 +58,7 @@ namespace FeatureSwitcher
 		/// Reset the state of a feature to the default.
 		/// </summary>
 		/// <typeparam name="TFeature">The type of the feature to reset.</typeparam>
-		public void Reset<TFeature>() where TFeature : IFeature
+		public static void Reset<TFeature>() where TFeature : IFeature
 		{
 			_enabledTypes.Remove(typeof(TFeature));
 			_disabledTypes.Remove(typeof(TFeature));

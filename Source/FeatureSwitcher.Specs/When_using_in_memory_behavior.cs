@@ -9,12 +9,11 @@ namespace FeatureSwitcher.Specs
 	public class When_using_in_memory_behavior : WithCleanUp
 	{
 		Establish ctx = () => {
-			InMemory inMemory = new InMemory();
-			inMemory.Disable<Basic>();
-			inMemory.Enable<Simple>();
-			inMemory.Enable<Complex>();
-			inMemory.Reset<Complex>();
-			Features.Are.ConfiguredBy.Custom(inMemory.IsEnabled);
+			InMemory.Disable<Basic>();
+			InMemory.Enable<Simple>();
+			InMemory.Enable<Complex>();
+			InMemory.Reset<Complex>();
+			Features.Are.ConfiguredBy.Custom(InMemory.IsEnabled);
 		};
 
 		Behaves_like<Disabled<Basic>> a_disabled_basic_feature;
