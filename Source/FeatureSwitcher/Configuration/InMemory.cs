@@ -9,8 +9,8 @@ namespace FeatureSwitcher.Configuration
 	/// </summary>
 	public class InMemory
 	{
-		private static readonly ISet<Type> _enabledTypes = new HashSet<Type>();
-		private static readonly ISet<Type> _disabledTypes = new HashSet<Type>();
+		private readonly ISet<Type> _enabledTypes = new HashSet<Type>();
+		private readonly ISet<Type> _disabledTypes = new HashSet<Type>();
 
 		/// <summary>
 		/// Determines if a feature is enabled by the specified featureName.
@@ -21,7 +21,7 @@ namespace FeatureSwitcher.Configuration
 		///     <c>null</c> otherwise
 		/// </returns>
 		/// <param name="featureName">Feature name.</param>
-		public static bool? IsEnabled (Feature.Name featureName)
+		public bool? IsEnabled (Feature.Name featureName)
 		{
 			if(_enabledTypes.Contains(featureName.Type))
 			{
@@ -38,7 +38,7 @@ namespace FeatureSwitcher.Configuration
 		/// Enables a feature of the given type.
 		/// </summary>
 		/// <typeparam name="TFeature">The type of the feature to enable.</typeparam>
-		public static void Enable<TFeature>() where TFeature : IFeature
+		public void Enable<TFeature>() where TFeature : IFeature
 		{
 			_enabledTypes.Add(typeof(TFeature));
 			_disabledTypes.Remove(typeof(TFeature));
@@ -48,7 +48,7 @@ namespace FeatureSwitcher.Configuration
 		/// Enables a feature of the given type.
 		/// </summary>
 		/// <typeparam name="TFeature">The type of the feature to disable</typeparam>
-		public static void Disable<TFeature>() where TFeature : IFeature
+		public void Disable<TFeature>() where TFeature : IFeature
 		{
 			_enabledTypes.Remove(typeof(TFeature));
 			_disabledTypes.Add(typeof(TFeature));
@@ -58,7 +58,7 @@ namespace FeatureSwitcher.Configuration
 		/// Reset the state of a feature to the default.
 		/// </summary>
 		/// <typeparam name="TFeature">The type of the feature to reset.</typeparam>
-		public static void Reset<TFeature>() where TFeature : IFeature
+		public void Reset<TFeature>() where TFeature : IFeature
 		{
 			_enabledTypes.Remove(typeof(TFeature));
 			_disabledTypes.Remove(typeof(TFeature));
