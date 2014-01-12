@@ -58,6 +58,7 @@
     <Compile Include="Domain\EnableByName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Contexts\WithCleanUp.cs" />
+    <Compile Include="When_using_in_memory_behavior.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FeatureSwitcher\FeatureSwitcher.csproj">

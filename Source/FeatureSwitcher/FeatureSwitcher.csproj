@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Core" />
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Builder.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="IFeature.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Configuration\InMemory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.nuspec" />
