@@ -13,15 +13,15 @@ namespace FeatureSwitcher.Configuration
 		private readonly ISet<Type> _disabledTypes = new HashSet<Type>();
 
 		/// <summary>
-		/// Determines if a feature is enabled by the specified featureName.
+		/// Determines if a feature is enabled by the specified <paramref name="featureName"/>.
 		/// </summary>
 		/// <returns>
 		///     <c>true</c> if the specified featureName enabled;
 		///     <c>false</c> if the specified featureName is disabled;
-		///     <c>null</c> otherwise
+		///     <c>null</c> otherwise.
 		/// </returns>
 		/// <param name="featureName">Feature name.</param>
-		public bool? IsEnabled (Feature.Name featureName)
+		public bool? IsEnabled(Feature.Name featureName)
 		{
 			if(_enabledTypes.Contains(featureName.Type))
 			{
@@ -47,7 +47,7 @@ namespace FeatureSwitcher.Configuration
 		/// <summary>
 		/// Enables a feature of the given type.
 		/// </summary>
-		/// <typeparam name="TFeature">The type of the feature to disable</typeparam>
+		/// <typeparam name="TFeature">The type of the feature to disable.</typeparam>
 		public void Disable<TFeature>() where TFeature : IFeature
 		{
 			_enabledTypes.Remove(typeof(TFeature));
