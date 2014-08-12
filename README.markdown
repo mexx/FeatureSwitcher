@@ -94,3 +94,54 @@ There are three packages
 ## Versioning
 
 Versioning follows the [Semantic Versioning Specification](http://semver.org/).
+
+## Some arguments for feature toggles
+
+* [Experience Report: Feature Toggling - Sarah Taraporewalla's Technical Ramblings](http://sarahtaraporewalla.com/design/experience-report-feature-toggling/)
+* [Jay Fields' Thoughts: Experience Report: Feature Toggle over Feature Branch](http://blog.jayfields.com/2010/10/experience-report-feature-toggle-over.html)
+* [Feature Toggle](http://martinfowler.com/bliki/FeatureToggle.html)
+
+## Alternatives?
+
+* [nToggle](https://github.com/SteveMoyer/nToggle) found in 06/12
+* [FeatureToggle](https://github.com/jason-roberts/FeatureToggle) found in 06/12
+* [NFeature](https://github.com/benaston/NFeature) found in 06/12
+* [Toggler](https://github.com/manojlds/Toggler) found at 12/12/12
+* [Flipper](https://msarchet.github.com/Flipper) found at 01/01/13
+* [Switcheroo](https://github.com/rhanekom/Switcheroo) found at 01/13/13
+* [FlipIt](https://github.com/timscott/flipit) found at 01/13/13
+* [c24.FeatureSwitcher](https://github.com/CHECK24/c24.FeatureSwitcher) found at 12/07/13
+* [OnOff](https://github.com/larsw/OnOff) found at 01/12/14
+* [FeatureToggler](https://github.com/hamidshahid/FeatureToggler) found at 08/12/14
+
+## Why this library?
+
+Before this library was born, the existed alternatives (nToggle, FeatureToggle and NFeature) was tested.
+
+The API of the first two is toggle centric it meens you have to decide while you coding how a feature is later controlled in production ex. using date range or database entry. Although the API of the last one is feature centric a feature must be defined as enum value what makes it complex for configuration.
+
+A new library with a better feature centric API is needed, the FeatureSwitcher is born.
+
+### Background infos about API design
+
+Why is a feature not<br/>
+* a `string` like by nToggle<br/>
+   This is really simple -> MagicString
+* an `enum` value like by NFeature<br/>
+   All features are defined in one place. At the first look it is cool, you can find all features easily, but you can't easily modularize the code ex. provide new features as addins.
+* a `class` like by FeatureToggle<br/>
+   Actually there is no notion of a feature only of a toggle in FeatureToggle. A concrete feature toggle is defined by inheritance of a particular base type what defines how the feature is controlled in the future. The flexibility of this decision is lost. In addition the requirement of inheritance prevents the application in existing class hierarchies.
+
+Decision: A feature must implement a marker interface! `IFeature`<br/>
+Actually, the API could get along without this marker interface, the only reason for the interface is that you can, if it will be necessary, identify all the features by reflection or IDE.
+
+Decision: A static generic class! `Feature<>`<br/>
+Somehow you have to get from the feature to the state of the switch controlling it. Syntactic sugar.
+
+## Mentions
+
+* [David Gardiner - Dave's Daydreams: Feature Toggle libraries for .NET](http://david.gardiner.net.au/2012/07/feature-toggle-libraries-for-net.html)
+* [Phil Hale - Stuff that interests me: A brief look at some feature toggle tools](http://www.philjhale.com/2012/07/a-brief-look-at-some-feature-toggle.html)
+* [Patrice Lamarche - Gestion des évolutions grâce aux Feature Flags](http://patricelamarche.net/2013/03/11/gestion-des-volutions-grce-aux-feature-flags)
+* [Jan Vandenbussche: Feature Toggle libraries for .NET](http://blog.janvandenbussche.be/2013/10/feature-toggle-libraries-for-net.html)
+* [Slides](https://slid.es/mexx/featureswitcher) from short talk at [ALT.NET Berlin UG](http://www.altnetberlin.de)
