@@ -113,6 +113,7 @@ Versioning follows the [Semantic Versioning Specification](http://semver.org/).
 * [c24.FeatureSwitcher](https://github.com/CHECK24/c24.FeatureSwitcher) found at 12/07/13
 * [OnOff](https://github.com/larsw/OnOff) found at 01/12/14
 * [FeatureToggler](https://github.com/hamidshahid/FeatureToggler) found at 08/12/14
+* [Moon.Features](http://git.mooncode.net/moon.features) found at 09/14/14
 
 ## Why this library?
 
