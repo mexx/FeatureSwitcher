@@ -114,6 +114,13 @@ Versioning follows the [Semantic Versioning Specification](http://semver.org/).
 * [OnOff](https://github.com/larsw/OnOff) found at 01/12/14
 * [FeatureToggler](https://github.com/hamidshahid/FeatureToggler) found at 08/12/14
 * [Moon.Features](http://git.mooncode.net/moon.features) found at 09/14/14
+* [FeatureSwitch](https://github.com/valdisiljuconoks/FeatureSwitch) found at 09/14/14
+* [FeatureFlipper](https://github.com/ycrumeyrolle/FeatureFlipper) found at 09/14/14
+* [ReallySimpleFeatureToggle](https://github.com/davidwhitney/ReallySimpleFeatureToggle) found at 09/14/14
+* [FeatureBee](https://github.com/autoscout24/featurebee) found at 09/14/14
+* [Togglr](https://github.com/jensandresen/togglr) found at 09/14/14
+* [toggler.net](https://github.com/garfieldmoore/Feature-Toggle) found at 09/14/14
+* [Ensign](https://github.com/sddaniels/Ensign) found at 09/14/14
 
 ## Why this library?
 
