@@ -154,3 +154,4 @@ Somehow you have to get from the feature to the state of the switch controlling 
 * [Patrice Lamarche - Gestion des évolutions grâce aux Feature Flags](http://patricelamarche.net/2013/03/11/gestion-des-volutions-grce-aux-feature-flags)
 * [Jan Vandenbussche: Feature Toggle libraries for .NET](http://blog.janvandenbussche.be/2013/10/feature-toggle-libraries-for-net.html)
 * [Slides](https://slid.es/mexx/featureswitcher) from short talk at [ALT.NET Berlin UG](http://www.altnetberlin.de)
+* [Ob du Rechte hast oder nicht ...](http://www.dotnetpro.de/A1501Frameworks) article from [dotnetpro](http://www.dotnetpro.de/) magazine in German
