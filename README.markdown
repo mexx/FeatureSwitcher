@@ -100,6 +100,7 @@ Versioning follows the [Semantic Versioning Specification](http://semver.org/).
 * [Experience Report: Feature Toggling - Sarah Taraporewalla's Technical Ramblings](http://sarahtaraporewalla.com/design/experience-report-feature-toggling/)
 * [Jay Fields' Thoughts: Experience Report: Feature Toggle over Feature Branch](http://blog.jayfields.com/2010/10/experience-report-feature-toggle-over.html)
 * [Feature Toggle](http://martinfowler.com/bliki/FeatureToggle.html)
+* [Process Automation and Continuous Delivery at OTTO.de](http://dev.otto.de/2015/11/24/process-automation-and-continuous-delivery-at-otto-de/)
 
 ## Alternatives?
 
