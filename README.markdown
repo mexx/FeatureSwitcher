@@ -70,6 +70,15 @@ You can provide own behavior and naming convention for contexts also by passing 
 		.ConfiguredBy(behavior).And
 		.NamedBy(namingConvention);
 
+### Third party plugins
+ 
+ * [FeatureSwitcher.DebugConsole](https://github.com/queueit/FeatureSwitcher.DebugConsole)<br/>
+    A debug console for web applications that allows you to easily turn on and off features in MVC applications.
+ * [FeatureSwitcher.AwsConfiguration](https://github.com/queueit/FeatureSwitcher.AwsConfiguration)<br/>
+    Configuration plugin based on AWS services.
+ * [FeatureSwitcher.Windsor](https://github.com/queueit/FeatureSwitcher.Windsor)<br/>
+    Castle Windsor IoC plugin.
+
 ### Examples
 
 Some [examples](https://github.com/mexx/FeatureSwitcher.Examples) of possible usage.
