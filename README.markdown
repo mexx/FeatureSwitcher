@@ -133,6 +133,7 @@ Versioning follows the [Semantic Versioning Specification](http://semver.org/).
 * [Ensign](https://github.com/sddaniels/Ensign) found at 09/14/14
 * [Fooidity](https://github.com/phatboyg/Fooidity) found at 11/06/14
 * [FeatureSwitch](https://github.com/valdisiljuconoks/FeatureSwitch) found at 12/25/14
+* [DevCookie](https://github.com/cottsak/DevCookie) found at 7/1/16
 
 ## Why this library?
 
