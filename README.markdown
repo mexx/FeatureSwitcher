@@ -78,6 +78,8 @@ You can provide own behavior and naming convention for contexts also by passing 
     Configuration plugin based on AWS services.
  * [FeatureSwitcher.Windsor](https://github.com/queueit/FeatureSwitcher.Windsor)<br/>
     Castle Windsor IoC plugin.
+ * [FeatureSwitcher.Script](https://github.com/xunilrj/FeatureSwitcher.Script)<br/>
+    Configure FeatureSwitcher features using scripts (javascript using jint).
 
 ### Examples
 
