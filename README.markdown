@@ -85,6 +85,8 @@ You can provide own behavior and naming convention for contexts also by passing 
 
 Some [examples](https://github.com/mexx/FeatureSwitcher.Examples) of possible usage.
 
+Please as well have a look on the [demo](https://github.com/emardini/FeatureSwitcherDemo) project by [emardini](https://github.com/emardini).
+
 ## How to get it
 
 ### NuGet package manager
