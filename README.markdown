@@ -80,6 +80,8 @@ You can provide own behavior and naming convention for contexts also by passing 
     Castle Windsor IoC plugin.
  * [FeatureSwitcher.Script](https://github.com/xunilrj/FeatureSwitcher.Script)<br/>
     Configure FeatureSwitcher features using scripts (javascript using jint).
+ * [FeatureSwitcher.VstsConfiguration](https://github.com/AlegriGroup/FeatureSwitcher.VstsConfiguration)<br/>
+    Configure FeatureSwitcher features using WorkItems in VSTS.
 
 ### Examples
 
