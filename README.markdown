@@ -138,8 +138,10 @@ Versioning follows the [Semantic Versioning Specification](http://semver.org/).
 * [toggler.net](https://github.com/garfieldmoore/Feature-Toggle) found at 09/14/14
 * [Ensign](https://github.com/sddaniels/Ensign) found at 09/14/14
 * [Fooidity](https://github.com/phatboyg/Fooidity) found at 11/06/14
-* [FeatureSwitch](https://github.com/valdisiljuconoks/FeatureSwitch) found at 12/25/14
 * [DevCookie](https://github.com/cottsak/DevCookie) found at 7/1/16
+* [Collector.Common.FeatureFlags](https://github.com/collector-bank/common-featureflags) found at 11/24/17
+* [LaazyFeatureToggle](https://github.com/laazyj/LaazyFeatureToggle) found at 11/24/17
+* [FeatureFlags.Abstractions](https://github.com/sragu/FeatureFlags.Abstractions.git) found at 11/24/17
 
 ## Why this library?
 
