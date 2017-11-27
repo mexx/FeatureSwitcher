@@ -106,6 +106,12 @@ There are three packages
 * Push your changes to your GitHub repository
 * Send a pull request
 
+## .NetCore Build instruction
+
+* Change from CLI to command line to "/Source/FeatureSwitcher" path
+* call "dotnet build -c release" & "dotnet pack -c release" 
+* After this you'll find the nuget package files ready for upload in "/bin/Releases" path 
+
 ## Versioning
 
 Versioning follows the [Semantic Versioning Specification](http://semver.org/).
