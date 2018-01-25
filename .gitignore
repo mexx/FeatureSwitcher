@@ -10,3 +10,4 @@
 release.cmd
 release.sh
 .vs/
+.fake
