@@ -12,10 +12,19 @@ namespace FeatureSwitcher.Specs
                                   ConfiguredBy.Custom(EnableByName<Simple>.IsEnabled).And.
                                   NamedBy.Custom(Features.OfType<Simple>.NamedByTypeName);
 
-        Behaves_like<Disabled<Basic>> a_disabled_basic_feature;
+        class when_using_basic
+        {
+            Behaves_like<Disabled<Basic>> a_disabled_basic_feature;
+        }
 
-        Behaves_like<Enabled<Simple>> an_enabled_simple_feature;
+        class when_using_simple
+        {
+            Behaves_like<Enabled<Simple>> an_enabled_simple_feature;
+        }
 
-        Behaves_like<Disabled<Complex>> a_disabled_complex_feature;
+        class when_using_complex
+        {
+            Behaves_like<Disabled<Complex>> a_disabled_complex_feature;
+        }
     }
 }

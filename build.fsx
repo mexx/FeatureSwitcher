@@ -1,28 +1,25 @@
-#I @"Source\packages\Fake\tools"
-#r "FakeLib.dll"
+#r "Source/packages/FAKE/tools/FakeLib.dll"
 
+open System
 open Fake
+open Fake.DotNetCli
+open Fake.DotNet.NuGet.NuGet
 
 (* properties *)
 let authors = ["Max Malook, Marco Rasp, Stefan Senff"]
 let projectName = "FeatureSwitcher"
 
-TraceEnvironmentVariables()
-
 let ReleaseCandidate = getBuildParamOrDefault "releaseCandidate" (System.DateTime.Now.ToString("yyyyMMddHHmmss"))
 let NugetKey = getBuildParamOrDefault "nuget.key" ""
 
 (* Directories *)
-let sourceDir = "./Source/"
+let sourceDir = "Source"
 
-let buildDir = "./Build/"
+let buildDir = "Build"
 let testDir = buildDir
 let testOutputDir = buildDir @@ "Specs/"
 let nugetDir = buildDir @@ "NuGet/"
 let deployDir = "./Release/"
-
-(* files *)
-let slnReferences = !! (sourceDir @@ "*.sln")
 
 (* helper functions *)
 let packageVersion() =
@@ -38,61 +35,59 @@ let packageVersion() =
         sprintf "%s-rc%s" version ReleaseCandidate
 
 (* Targets *)
-Target "Clean" (fun _ -> 
+Target "Clean" <| fun _ -> 
     CleanDirs [buildDir; testDir; testOutputDir; nugetDir; deployDir]
-)
 
-Target "BuildApp" (fun _ ->
-    MSBuildRelease buildDir "Build" slnReferences
-        |> Log "AppBuild-Output: "
-)
+Target "BuildApp" <| fun _ ->
+     DotNetCli.Restore (fun p -> 
+        { p with WorkingDir = sourceDir } )
+     DotNetCli.Build (fun p -> 
+        { p with 
+            WorkingDir = sourceDir
+            Output = "../../" ^ buildDir } )
 
-Target "Test" (fun _ ->
+Target "Test" <| fun _ ->
     ActivateFinalTarget "DeployTestResults"
-    !! (testDir @@ "/*.Specs.dll")
-        |> MSpec (fun p ->
-            {p with
-                HtmlOutputDir = testOutputDir})
-)
+    !! "Source/**/*.Specs.csproj"
+    |> Seq.iter (fun proj ->
+        DotNetCli.Test <| fun p ->
+            { p with
+                Configuration = "Release"
+                Project = proj } )
 
-FinalTarget "DeployTestResults" (fun () ->
+FinalTarget "DeployTestResults" <| fun () ->
     !! (testOutputDir @@ "/**/*.*")
         |> Zip testOutputDir (deployDir @@ "MSpecResults.zip")
-)
 
-Target "BuildZip" (fun _ ->
+Target "BuildZip" <| fun _ ->
     !! (buildDir @@ sprintf "/%s.*" projectName)
       -- "**/*Specs*"
+      -- "**/*.json"
         |> Zip buildDir (deployDir @@ sprintf "%s-%s.zip" projectName (packageVersion()))
-)
 
-Target "BuildNuGet" (fun _ ->
-    let nugetLibDir = nugetDir @@ "lib" @@ "4.0"
-
-    CleanDirs [nugetLibDir]
-
-    !! (buildDir @@ (sprintf "%s.dll" projectName))
-      ++ (buildDir @@ (sprintf "%s.xml" projectName))
-        |> CopyTo nugetLibDir
-
-    NuGet (fun p ->
-        {p with
-            Authors = authors
-            Project = projectName
-            Description = ""
-            Version = packageVersion()
-            Dependencies = []
-            OutputPath = nugetDir
-            WorkingDir = nugetDir
-            AccessKey = NugetKey
-            Publish = NugetKey <> "" })
-        (sourceDir @@ projectName @@ "Package.nuspec")
+Target "BuildNuGet" <| fun _ ->
+    DotNetCli.Pack
+      (fun p -> 
+         { p with 
+            Configuration = "Release"
+            OutputPath = "../../" ^ nugetDir
+            WorkingDir = sourceDir
+            AdditionalArgs=[String.Format("/p:PackageVersion={0}", packageVersion())] } )
 
     !! (nugetDir @@ (sprintf "%s.*.nupkg" projectName))
         |> CopyTo deployDir
-)
 
-Target "NotifyTeamCity" (fun _ ->
+    if NugetKey <> ""
+    then
+        NuGetPublish (fun p ->
+            { p with
+                Project = projectName
+                Version = packageVersion()
+                OutputPath = nugetDir
+                WorkingDir = nugetDir
+                AccessKey = NugetKey } )
+
+Target "NotifyTeamCity" <| fun _ ->
     let setParameter name value =
         sprintf "##teamcity[setParameter name='%s' value='%s']"
             (EncapsulateSpecialChars name)
@@ -100,7 +95,6 @@ Target "NotifyTeamCity" (fun _ ->
         |> sendStrToTeamCity
 
     setParameter "env.packageVersion" (packageVersion())
-)
 
 Target "Default" DoNothing
 
@@ -114,4 +108,4 @@ Target "Default" DoNothing
   ==> "Default"
 
 // start build
-RunParameterTargetOrDefault  "target" "Default"
+RunTargetOrDefault "Default"

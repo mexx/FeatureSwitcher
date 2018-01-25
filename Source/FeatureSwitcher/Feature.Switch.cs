@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace FeatureSwitcher
@@ -14,7 +15,10 @@ namespace FeatureSwitcher
 
             static Switch()
             {
-                ForMethod = typeof(Switch).GetMethod("For", new Type[0]);
+                ForMethod = typeof(Switch)
+                    .GetTypeInfo()
+                    .DeclaredMethods
+                    .First(x => x.Name == "For" && !x.GetParameters().Any());
             }
 
             /// <summary>

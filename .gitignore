@@ -7,3 +7,5 @@
 *.user
 *.ncrunch*
 *.cache
+.vs/
+.fake
