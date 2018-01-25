@@ -8,3 +8,4 @@
 *.ncrunch*
 *.cache
 .vs/
+.fake
