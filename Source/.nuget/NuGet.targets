@@ -3,10 +3,16 @@
     <PropertyGroup>
         <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildProjectDirectory)\..\</SolutionDir>
         <NuGetToolsPath>$([System.IO.Path]::Combine($(SolutionDir), ".nuget"))</NuGetToolsPath>
-        <NuGetExePath>$(NuGetToolsPath)\nuget.exe</NuGetExePath>
+        <NuGetExePath>$(NuGetToolsPath)\NuGet.exe</NuGetExePath>
         <PackagesConfig>$([System.IO.Path]::Combine($(ProjectDir), "packages.config"))</PackagesConfig>
         <PackagesDir>$([System.IO.Path]::Combine($(SolutionDir), "packages"))</PackagesDir>
         <PackageOutputDir Condition="$(PackageOutputDir) == ''">$(TargetDir.Trim('\\'))</PackageOutputDir>
+
+        <MonoPath Condition="'$(MonoPath)' == '' And Exists('/Library/Frameworks/Mono.framework/Commands/mono')">/Library/Frameworks/Mono.framework/Commands/mono</MonoPath>
+        <MonoPath Condition="'$(MonoPath)' == ''">mono</MonoPath>
+
+        <NuGetCommand Condition=" '$(OS)' == 'Windows_NT'">"$(NuGetExePath)"</NuGetCommand>
+        <NuGetCommand Condition=" '$(OS)' != 'Windows_NT' ">$(MonoPath) "$(NuGetExePath)"</NuGetCommand>
 
         <!-- Package sources used to restore packages. By default will used the registered sources under %APPDATA%\NuGet\NuGet.Config -->
         <PackageSources>""</PackageSources>
@@ -18,8 +24,8 @@
         <BuildPackage Condition="$(BuildPackage) == ''">false</BuildPackage>
 
         <!-- Commands -->
-        <RestoreCommand>"$(NuGetExePath)" install "$(PackagesConfig)" -source $(PackageSources) -o "$(PackagesDir)"</RestoreCommand>
-        <BuildCommand>"$(NuGetExePath)" pack "$(ProjectPath)" -p Configuration=$(Configuration) -o "$(PackageOutputDir)" -symbols</BuildCommand>
+        <RestoreCommand>$(NuGetCommand) install "$(PackagesConfig)" -source $(PackageSources) -o "$(PackagesDir)"</RestoreCommand>
+        <BuildCommand>$(NuGetCommand) pack "$(ProjectPath)" -p Configuration=$(Configuration) -o "$(PackageOutputDir)" -symbols</BuildCommand>
 
         <!-- Make the build depend on restore packages -->
         <BuildDependsOn Condition="$(RestorePackages) == 'true'">
