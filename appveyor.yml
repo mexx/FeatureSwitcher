@@ -3,3 +3,5 @@ init:
 build_script:
   - cmd: build.cmd Default
 test: off
+artifacts:
+  - path: Release
