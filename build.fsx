@@ -43,6 +43,7 @@ Target "BuildApp" <| fun _ ->
      DotNetCli.Build (fun p ->
         { p with
             WorkingDir = sourceDir
+            Configuration = "Release"
             Output = "../../" ^ buildDir } )
 
 Target "Test" <| fun _ ->
