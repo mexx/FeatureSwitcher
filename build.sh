@@ -11,7 +11,7 @@ then
 fi
 
 NUGET_EXE=Source/.nuget/NuGet.exe
-FAKE_VERSION=2.2.0
+FAKE_VERSION=5.0.0-beta010
 FAKE_EXE=Source/packages/FAKE/tools/FAKE.exe
 
 FSIARGS=""
