@@ -7,7 +7,6 @@ open Fake.DotNetCli
 open Fake.DotNet.NuGet.NuGet
 
 (* properties *)
-let authors = ["Max Malook, Marco Rasp, Stefan Senff"]
 let projectName = "FeatureSwitcher"
 
 let ReleaseCandidate = getBuildParamOrDefault "releaseCandidate" (System.DateTime.Now.ToString("yyyyMMddHHmmss"))
@@ -18,7 +17,6 @@ let sourceDir = "Source"
 
 let buildDir = "Build"
 let testDir = buildDir
-let testOutputDir = buildDir @@ "Specs/"
 let nugetDir = buildDir @@ "NuGet/"
 let deployDir = "./Release/"
 
@@ -37,7 +35,7 @@ let packageVersion() =
 
 (* Targets *)
 Target "Clean" <| fun _ ->
-    CleanDirs [buildDir; testDir; testOutputDir; nugetDir; deployDir]
+    CleanDirs [buildDir; testDir; nugetDir; deployDir]
 
 Target "BuildApp" <| fun _ ->
      DotNetCli.Restore (fun p ->
@@ -48,23 +46,12 @@ Target "BuildApp" <| fun _ ->
             Output = "../../" ^ buildDir } )
 
 Target "Test" <| fun _ ->
-    ActivateFinalTarget "DeployTestResults"
     !! "Source/**/*.Specs.csproj"
     |> Seq.iter (fun proj ->
         DotNetCli.Test <| fun p ->
             { p with
                 Configuration = "Release"
                 Project = proj } )
-
-FinalTarget "DeployTestResults" <| fun () ->
-    !! (testOutputDir @@ "/**/*.*")
-        |> Zip testOutputDir (deployDir @@ "MSpecResults.zip")
-
-Target "BuildZip" <| fun _ ->
-    !! (buildDir @@ sprintf "/%s.*" projectName)
-      -- "**/*Specs*"
-      -- "**/*.json"
-        |> Zip buildDir (deployDir @@ sprintf "%s-%s.zip" projectName (packageVersion()))
 
 Target "BuildNuGet" <| fun _ ->
     DotNetCli.Pack
@@ -88,24 +75,13 @@ Target "BuildNuGet" <| fun _ ->
                 WorkingDir = nugetDir
                 AccessKey = NugetKey } )
 
-Target "NotifyTeamCity" <| fun _ ->
-    let setParameter name value =
-        sprintf "##teamcity[setParameter name='%s' value='%s']"
-            (EncapsulateSpecialChars name)
-            (EncapsulateSpecialChars value)
-        |> sendStrToTeamCity
-
-    setParameter "env.packageVersion" (packageVersion())
-
 Target "Default" DoNothing
 
 // Build order
 "Clean"
   ==> "BuildApp"
   ==> "Test"
-  ==> "BuildZip"
   ==> "BuildNuGet"
-  =?> ("NotifyTeamCity", TeamCity = buildServer)
   ==> "Default"
 
 // start build
