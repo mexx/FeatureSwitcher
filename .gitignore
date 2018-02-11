@@ -9,3 +9,5 @@
 *.cache
 release.cmd
 release.sh
+.vs/
+.fake

@@ -10,10 +10,19 @@ namespace FeatureSwitcher.Specs
     {
         Because of = () => Features.Are.AlwaysEnabled();
 
-        Behaves_like<Enabled<Basic>> an_enabled_basic_feature;
+        class when_using_basic
+        {
+            Behaves_like<Enabled<Basic>> an_enabled_basic_feature;
+        }
 
-        Behaves_like<Enabled<Simple>> an_enabled_simple_feature;
-
-        Behaves_like<Enabled<Complex>> an_enabled_complex_feature;
+        class when_using_simple
+        {
+            Behaves_like<Enabled<Simple>> an_enabled_simple_feature;
+        }
+        
+        class when_using_complex
+        {
+            Behaves_like<Enabled<Complex>> an_enabled_complex_feature;
+        }
     }
 }
