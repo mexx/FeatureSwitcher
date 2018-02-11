@@ -1,4 +1,4 @@
-#I @"Source\packages\Fake\tools"
+#I @"Source/packages/FAKE/tools"
 #r "FakeLib.dll"
 
 open Fake
@@ -82,8 +82,9 @@ Target "BuildNuGet" (fun _ ->
             Description = ""
             Version = packageVersion()
             Dependencies = []
-            OutputPath = nugetDir
-            WorkingDir = nugetDir
+            ToolPath = sourceDir @@ ".nuget" @@ "NuGet.exe" |> FullName
+            OutputPath = nugetDir |> FullName
+            WorkingDir = nugetDir |> FullName
             AccessKey = NugetKey
             Publish = NugetKey <> "" })
         (sourceDir @@ projectName @@ "Package.nuspec")
