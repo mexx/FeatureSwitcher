@@ -7,3 +7,5 @@
 *.user
 *.ncrunch*
 *.cache
+release.cmd
+release.sh
