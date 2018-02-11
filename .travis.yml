@@ -1,9 +1,11 @@
 language: csharp
 
-sudo: false  # use the new container-based Travis infrastructure 
+sudo: false  # use the new container-based Travis infrastructure
+
+dotnet: 2.1.4
 
 before_install:
   - chmod +x build.sh
- 
-script: 
+
+script:
   - ./build.sh Default
