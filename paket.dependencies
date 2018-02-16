@@ -1,0 +1,13 @@
+source https://api.nuget.org/v3/index.json
+storage: none
+
+nuget Machine.Specifications 0.12.0
+nuget Machine.Specifications.Runner.VisualStudio 2.6.1
+nuget Machine.Specifications.Should 0.11.0
+nuget Microsoft.NET.Test.Sdk 15.5.0
+
+group Build
+  framework: net47
+  source https://api.nuget.org/v3/index.json
+
+  nuget FAKE ~> 5 beta

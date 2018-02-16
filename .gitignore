@@ -2,7 +2,6 @@
 /Release
 /Source/*/bin
 /Source/*/obj
-/Source/packages
 *.suo
 *.user
 *.ncrunch*
@@ -11,3 +10,5 @@ release.cmd
 release.sh
 .vs/
 .fake
+packages
+paket-files

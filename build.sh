@@ -10,9 +10,8 @@ then
   TARGET="$1"
 fi
 
-NUGET_EXE=Source/.nuget/NuGet.exe
-FAKE_VERSION=5.0.0-beta010
-FAKE_EXE=Source/packages/FAKE/tools/FAKE.exe
+PAKET_EXE=.paket/paket.exe
+FAKE_EXE=packages/build/FAKE/tools/FAKE.exe
 
 FSIARGS=""
 FSIARGS2=""
@@ -35,5 +34,5 @@ run() {
   fi
 }
 
-run $NUGET_EXE install FAKE -OutputDirectory Source/packages -ExcludeVersion -Version $FAKE_VERSION -Verbosity detailed
+run $PAKET_EXE restore
 run $FAKE_EXE "target=$TARGET" $FSIARGS $FSIARGS2 build.fsx

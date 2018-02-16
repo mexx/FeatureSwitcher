@@ -1,4 +1,4 @@
-#I @"Source/packages/FAKE/tools"
+#I @"packages/build/FAKE/tools"
 #r "FakeLib.dll"
 
 open System
@@ -16,7 +16,6 @@ let NugetKey = getBuildParamOrDefault "nuget.key" ""
 let sourceDir = "Source"
 
 let buildDir = "Build"
-let testDir = buildDir
 let nugetDir = buildDir @@ "NuGet/"
 let deployDir = "./Release/"
 
@@ -35,7 +34,9 @@ let packageVersion() =
 
 (* Targets *)
 Target "Clean" <| fun _ ->
-    CleanDirs [buildDir; testDir; nugetDir; deployDir]
+    CleanDirs [buildDir; nugetDir; deployDir]
+    !! "Source/**/bin" |> CleanDirs
+    !! "Source/**/obj" |> CleanDirs
 
 Target "BuildApp" <| fun _ ->
      DotNetCli.Restore (fun p ->
@@ -44,7 +45,8 @@ Target "BuildApp" <| fun _ ->
         { p with
             WorkingDir = sourceDir
             Configuration = "Release"
-            Output = "../../" ^ buildDir } )
+            Output = "../../" ^ buildDir
+            AdditionalArgs = [ "--no-restore" ] } )
 
 Target "Test" <| fun _ ->
     !! "Source/**/*.Specs.csproj"
@@ -52,7 +54,8 @@ Target "Test" <| fun _ ->
         DotNetCli.Test <| fun p ->
             { p with
                 Configuration = "Release"
-                Project = proj } )
+                Project = proj
+                AdditionalArgs = [ "--no-restore" ] } )
 
 Target "BuildNuGet" <| fun _ ->
     DotNetCli.Pack
@@ -61,7 +64,7 @@ Target "BuildNuGet" <| fun _ ->
             Configuration = "Release"
             OutputPath = "../../" ^ nugetDir
             WorkingDir = sourceDir
-            AdditionalArgs=[String.Format("/p:PackageVersion={0}", packageVersion())] } )
+            AdditionalArgs = [ String.Format("/p:PackageVersion={0}", packageVersion()); "--no-restore" ] } )
 
     !! (nugetDir @@ (sprintf "%s.*.nupkg" projectName))
         |> CopyTo deployDir
